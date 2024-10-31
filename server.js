@@ -19,6 +19,7 @@ client.connect().then(() => {
 
 app.get('/', (req, res) => {
     res.render('index.ejs');
+    //hello
 });
 
 app.get('/logout', (req, res) => {

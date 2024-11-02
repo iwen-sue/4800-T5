@@ -19,6 +19,14 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.set('view engine', 'ejs');
 
+const isAuthenticated = (req, res, next) => {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.redirect('/login');
+};
+
+
 // Session
 app.use(session({
     secret: process.env.SESSION_SECRET,
@@ -89,6 +97,7 @@ passport.use(new GoogleStrategy({
     }
 }));
 
+// Routes
 app.get('/', (req, res) => {
     res.render('index.ejs');
 });

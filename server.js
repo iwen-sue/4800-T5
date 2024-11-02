@@ -26,7 +26,6 @@ const isAuthenticated = (req, res, next) => {
     res.redirect('/login');
 };
 
-
 // Session
 app.use(session({
     secret: process.env.SESSION_SECRET,

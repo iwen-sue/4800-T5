@@ -1,0 +1,33 @@
+<%- contentFor('body') %>
+<div class="container">
+    <h2 style="text-align: center;">Register</h2>
+    
+    <form action="/register" method="POST" onsubmit="return validateForm()">
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="confirmPassword">Confirm Password:</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" required>
+        </div>
+        
+        <div id="error-message" class="error-message"></div>
+        
+        <button type="submit" class="btn btn-success">Register</button>
+    </form>
+    
+    <a href="/auth/google">
+        <button type="button" class="btn btn-google">Register with Google</button>
+    </a>
+    
+    <div class="auth-link">
+        <p>Already have an account? <a href="/login">Login here</a></p>
+    </div>
+</div>

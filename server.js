@@ -1,4 +1,5 @@
 const express = require('express');
+const expressLayouts = require('express-ejs-layouts');
 const env = require('dotenv').config();
 const { MongoClient, ObjectId } = require('mongodb');
 const bcrypt = require('bcrypt');
@@ -15,7 +16,9 @@ const PORT = 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
+app.use(expressLayouts);
 app.set('view engine', 'ejs');
+app.set('layout', 'layouts/main');
 
 const isAuthenticated = (req, res, next) => {
     if (req.isAuthenticated()) {

@@ -69,6 +69,26 @@ passport.use(new LocalStrategy({
     }
 }));
 
+// Google Strategy
+passport.use(new GoogleStrategy({
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: process.env.GOOGLE_CALLBACK_URL
+}, async (accessToken, refreshToken, profile, done) => {
+    try {
+        let user = await db.collection('users').findOne({ email: profile.emails[0].value });
+        if (!user) {
+            user = await db.collection('users').insertOne({
+                email: profile.emails[0].value,
+                password: null
+            });
+        }
+        done(null, user);
+    } catch (err) {
+        done(err);
+    }
+}));
+
 app.get('/', (req, res) => {
     res.render('index.ejs');
 });

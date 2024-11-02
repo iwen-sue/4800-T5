@@ -1,0 +1,43 @@
+/* variables.css */
+
+:root {
+    /* Color Palette */
+    --color-primary: #007bff;
+    --color-secondary: #6c757d;
+    --color-success: #28a745;
+    --color-warning: #ffc107;
+    --color-danger: #dc3545;
+    --color-light: #f8f9fa;
+    --color-dark: #343a40;
+  
+    /* Typography */
+    --font-family-primary: 'Arial, sans-serif';
+    --font-size-base: 1rem;
+    --font-size-small: 0.875rem;
+    --font-size-large: 1.25rem;
+    --font-weight-normal: 400;
+    --font-weight-bold: 700;
+  
+    /* Spacing */
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+  
+    /* Border Radius */
+    --border-radius-small: 4px;
+    --border-radius-default: 8px;
+    --border-radius-large: 12px;
+  
+    /* Shadows */
+    --box-shadow-light: 0 1px 3px rgba(0, 0, 0, 0.12);
+    --box-shadow-medium: 0 4px 6px rgba(0, 0, 0, 0.16);
+    --box-shadow-heavy: 0 10px 15px rgba(0, 0, 0, 0.2);
+  
+    /* Layout Dimensions */
+    --max-width: 1200px;
+    --header-height: 60px;
+    --footer-height: 40px;
+  }
+  

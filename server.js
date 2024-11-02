@@ -15,6 +15,8 @@ const PORT = 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
+app.use(passport.initialize());
+app.use(passport.session());
 app.set('view engine', 'ejs');
 
 // Session
@@ -24,10 +26,13 @@ app.use(session({
     saveUninitialized: true
 }))
 
+// MongoDB
 const uri = `mongodb+srv://${process.env.DB_NAME}:${process.env.DB_PASSWORD}@${process.env.DB_CLUSTER}/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri);
+let db = null;
 client.connect().then(() => {
     console.log('Connected to MongoDB');
+    db = client.db('4800');
 }).catch(err => {
     console.error(err);
 });

@@ -177,6 +177,122 @@ app.get('/profile', isAuthenticated, (req, res) => {
     res.render('profile.ejs', { user: req.user });
 });
 
+
+app.post('/profile/update-info', async (req, res) => {
+    if (!req.isAuthenticated()) return res.redirect('/login');
+
+    const { name, email } = req.body;
+    const updateFields = { name, email };
+
+
+    try {
+        await db.collection('users').updateOne(
+            { _id: req.user._id },
+            { $set: updateFields }
+        );
+        
+        res.redirect('/profile');
+    } catch (error) {
+        console.error('Error updating profile:', error);
+        res.status(500).send('Error updating profile');
+    }
+});
+
+
+app.post('/profile/update-password', async (req, res) => {
+    if (!req.isAuthenticated()) return res.redirect('/login');
+
+    const { password, confirmPassword } = req.body;
+
+    // Check if passwords match
+    if (password !== confirmPassword) {
+        return res.status(400).send('Passwords do not match');
+    }
+
+    // Check for minimum password length
+    if (password.length < 8) {
+        return res.status(400).send('Password must be at least 8 characters long');
+    }
+
+    try {
+        const hashedPassword = await bcrypt.hash(password, 10);
+        await db.collection('users').updateOne(
+            { _id: req.user._id },
+            { $set: { password: hashedPassword } }
+        );
+
+        res.redirect('/profile');
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error updating password');
+    }
+});
+
+
+app.post('/profile/unlink-google', async (req, res) => {
+    if (!req.isAuthenticated()) return res.redirect('/login');
+
+    try {
+        // Retrieve the user's record from the database
+        const user = await db.collection('users').findOne({ _id: req.user._id });
+
+        // Check if the password field exists
+        if (!user.password) {
+            // If no password is set, redirect to profile with a query parameter to show an alert
+            return res.redirect('/profile?error=missing-password');
+        }
+
+        // Proceed with unlinking Google account if password exists
+        await db.collection('users').updateOne(
+            { _id: req.user._id },
+            {
+                $unset: { googleId: "" }, // Removes Google ID field
+                $set: {
+                    authType: "local", // Set authType to "local"
+                    createdAt: new Date() // Set createdAt to the current time
+                }
+            }
+        );
+
+        res.redirect('/profile');
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error unlinking Google account');
+    }
+});
+
+
+
+app.post('/profile/delete', async (req, res) => {
+    if (!req.isAuthenticated()) return res.redirect('/login');
+
+    try {
+        // Delete the user's account from the database
+        const result = await db.collection('users').deleteOne({ _id: req.user._id });
+
+        if (result.deletedCount === 1) {
+            // Log the user out after deleting the account
+            req.logout((err) => {
+                if (err) {
+                    console.error('Error logging out after account deletion:', err);
+                    return res.status(500).send('Error logging out');
+                }
+                // Redirect to the home page after successful account deletion and logout
+                res.redirect('/');
+            });
+        } else {
+            console.log('User not found or deletion failed');
+            res.status(500).send('Account deletion failed');
+        }
+    } catch (error) {
+        console.error('Error deleting account:', error);
+        res.status(500).send('Error deleting account');
+    }
+});
+
+
+
+
 app.get('/logout', (req, res) => {
     req.logout((err) => {
         if (err) {

@@ -295,6 +295,13 @@ app.post('/profile/delete', async (req, res) => {
 });
 
 
+app.get('/upload', (req, res) => {
+    if (!req.isAuthenticated()) {  
+        res.render('upload_guest'); // Serve the guest upload page
+    } else {
+        res.render('upload');  // Serve the standard upload page for logged-in users
+    }
+});
 
 
 app.get('/logout', (req, res) => {

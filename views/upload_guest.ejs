@@ -1,0 +1,25 @@
+<%- contentFor('body') %>
+
+<!-- Centered bold, large "Send Content" -->
+<h1 style="text-align: center; font-weight: bold; font-size: 36px; margin-bottom: 0;">Send Content</h1>
+
+<!-- Container centered and with padding at the top -->
+<div style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding-top: 50px;">
+
+    <!-- Text area for description -->
+    <textarea placeholder="Enter description" rows="10" cols="50" style="margin-top: 10px; margin-bottom: 20px;"></textarea>
+
+    <!-- Buttons in a row, centered -->
+    <div style="display: flex; gap: 10px;">
+        <!-- Upload Button with working file input -->
+        <label class="upload-btn" style="padding: 10px 20px; border-radius: 5px;  border: 2px solid #040404;">
+            <i class="fas fa-upload"></i> + Upload
+            <input type="file" name="file" style="display: none;">
+        </label>
+        
+        <!-- Send Button with icon -->
+        <button class="send-btn" style="padding: 10px 20px; border-radius: 5px;">
+            <i class="fas fa-paper-plane"></i> Send
+        </button>
+    </div>
+</div>

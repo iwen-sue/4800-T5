@@ -9,12 +9,10 @@
     <link rel="stylesheet" href="/css/button.css">
 </head>
 <body>
-    <%- include('../partials/header') %>
-    
+    <% if (locals.user && !locals.isLandingPage) { %>
+        <%- include('../partials/header') %>
+    <% } %>
     <%- body %>
-    
-    <%- include('../partials/footer') %>
-
     <!-- scripts -->
     <script src="/js/auth.js"></script>
 </body>

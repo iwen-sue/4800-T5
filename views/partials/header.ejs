@@ -1,8 +1,13 @@
 <header>
-    <% if (locals.user) { %>
-        <nav>
-            <a href="/profile">Profile</a>
-            <a href="/logout">Logout</a>
-        </nav>
-    <% } %>
+    <nav class="main-nav">
+        <a href="/" class="logo-link">
+            <img src="/images/logo.png" class="logo" alt="Clippio">
+        </a>
+        <div class="nav-links">
+            <% if (locals.user) { %>
+                <a href="/profile">Profile</a>
+                <a href="/logout">Logout</a>
+            <% } %>
+        </div>
+    </nav>
 </header>

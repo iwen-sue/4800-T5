@@ -21,3 +21,25 @@
     background-color: var(--color-dark);
   }
   
+  .btn {
+    background: linear-gradient(#43c6ac, #191654);
+    color: #bbdede;
+    font-size: 16px;
+    padding: 16px 30px;
+    border-radius: 30px;
+    border: 0;
+    outline: 0;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.btn:hover {
+  background: linear-gradient(#4ddbc0, #1c1b6e);
+}
+
+form .btn {
+    padding: 0;
+    width: 150px;
+    height: 65px;
+    border-radius: 31px;
+}

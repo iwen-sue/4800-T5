@@ -109,7 +109,11 @@ passport.use(new GoogleStrategy({
 
 // Routes
 app.get('/', (req, res) => {
-    res.render('index.ejs', { user: req.user });
+    res.render("index", {
+      isLandingPage: true,
+      hideFooter: true,
+      user: req.user,
+    });
 });
 
 app.get('/login', (req, res) => {

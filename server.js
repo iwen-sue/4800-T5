@@ -7,6 +7,7 @@ const { connectDB } = require('./config/database');
 const initializePassport = require('./config/passport');
 const authController = require('./controllers/authController');
 const profileController = require('./controllers/profileController');
+const tokenController = require('./controllers/tokenController');
 
 const app = express();
 const PORT = 3000;
@@ -82,6 +83,9 @@ app.post('/profile/update-info', isAuthenticated, profileController.updateInfo);
 app.post('/profile/update-password', isAuthenticated, profileController.updatePassword);
 app.post('/profile/unlink-google', isAuthenticated, profileController.unlinkGoogle);
 app.post('/profile/delete', isAuthenticated, profileController.deleteAccount);
+
+// Token routes
+app.post('/generateToken', isAuthenticated, tokenController.generateToken);
 
 // Upload routes
 app.get('/upload', (req, res) => {

@@ -86,7 +86,7 @@ app.post('/profile/delete', isAuthenticated, profileController.deleteAccount);
 // Upload routes
 app.get('/upload', (req, res) => {
     if (req.isAuthenticated()) {  
-        res.render('upload');
+        res.render('upload', { user: req.user });
     } else {
         res.render('upload_guest');
     }

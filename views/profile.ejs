@@ -56,6 +56,19 @@
                 <% } %>
     </div>
 
+    <!-- Generate Passcode Section -->
+    <div class="generate-passcode">
+        <h3>Generate Passcode</h3>
+        
+        <% if (passcode) { %>
+            <div>Your passcode is: <%= passcode %></div>
+        <% } else { %>
+            <form action="/generatePasscode" method="POST">
+                <button type="submit">generate passcode</button>
+            </form>
+        <% } %>
+    </div>
+
 
     <!-- Logout Button -->
     <div class="logout">
@@ -81,6 +94,8 @@
         color: #7a7a7a;
     }
 </style>
+
+<script src="/js/getPasscode.js"></script>
 
 <script>
     function confirmGoogleLink() {

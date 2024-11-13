@@ -7,7 +7,8 @@ const { connectDB } = require('./config/database');
 const initializePassport = require('./config/passport');
 const authController = require('./controllers/authController');
 const profileController = require('./controllers/profileController');
-const tokenController = require('./controllers/tokenController');
+const passcodeController = require('./controllers/passcodeController');
+const MongoDBStore = require('connect-mongodb-session')(session);
 
 const app = express();
 const PORT = 3000;
@@ -27,11 +28,22 @@ const isAuthenticated = (req, res, next) => {
     res.redirect('/login');
 };
 
+const dbStore = new MongoDBStore({
+    uri: 'mongodb://127.0.0.1:27017/connect_mongodb_session_test',
+    collection: 'mySessions'
+});
+
 // Session configuration
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: true,
+    store: dbStore,
+    cookie: {
+        httpOnly: true,
+        secure: false, // Set to true if using HTTPS
+        maxAge: 3600000 // last for 1 hour
+    }
 }));
 
 // Initialize Passport and restore authentication state from session
@@ -85,7 +97,8 @@ app.post('/profile/unlink-google', isAuthenticated, profileController.unlinkGoog
 app.post('/profile/delete', isAuthenticated, profileController.deleteAccount);
 
 // Token routes
-app.post('/generateToken', isAuthenticated, tokenController.generateToken);
+app.get('/getPasscode', isAuthenticated, passcodeController.getPasscode);
+app.post('/generatePasscode', isAuthenticated, passcodeController.generatePasscode);
 
 // Upload routes
 app.get('/upload', (req, res) => {

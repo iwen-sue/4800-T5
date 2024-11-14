@@ -38,7 +38,8 @@
             const result = await response.json();
             if (response.ok) {
                 alert(result.message);
-                window.location.href = '/upload-guest';
+                // window.location.href = '/upload-guest';
+                window.location.href = result.redirectUrl; // Redirect to the download page
             } else {
                 alert(result.error);
             }

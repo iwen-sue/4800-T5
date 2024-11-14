@@ -13,6 +13,7 @@ const downloadController = require('./controllers/downloadController');
 const authenticateJWT = require('./middleware/authJWT');
 const cookieParser = require('cookie-parser');
 const MongoDBStore = require('connect-mongodb-session')(session);
+const jwt = require('jsonwebtoken');
 
 const app = express();
 const PORT = 3000;
@@ -127,10 +128,37 @@ app.post('/upload/file', uploadController.upload.single('file'), uploadControlle
 app.get('/upload-guest', authenticateJWT, uploadController.uploadGuest);
 
 
+
+const conditionalAuth = (req, res, next) => {
+    // Check session-based authentication
+    if (req.isAuthenticated && req.isAuthenticated()) {
+        req.user = req.user || { email: req.user.email }; // Ensure req.user is defined
+        return next();
+    }
+    
+    // Check JWT-based authentication
+    const token = req.cookies.token;
+    if (token) {
+        jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+            if (err) {
+                return res.redirect('/login'); // Redirect to login if token is invalid
+            }
+            req.user = decoded; // Set user info in the request from JWT payload
+            return next();
+        });
+    } else {
+        // If neither authentication is valid, redirect to login
+        res.redirect('/login');
+    }
+};
+
 // Route to view the download page with uploaded texts and files
-// Route to view the download page with uploaded texts and files
-app.get('/download', isAuthenticated, async (req, res) => {
+app.get('/download', conditionalAuth, async (req, res) => {
     try {
+        if (!req.user || !req.user.email) {
+            return res.status(403).send('User not authenticated');
+        }
+
         const texts = await downloadController.listTexts(req.user.email);
         const files = await downloadController.listFiles(req.user.email);
         res.render('download', { texts, files });
@@ -139,6 +167,10 @@ app.get('/download', isAuthenticated, async (req, res) => {
         res.status(500).send('Failed to load content');
     }
 });
+
+
+
+
 
 // Route to handle file download by ID
 app.get('/download/file/:id', isAuthenticated, downloadController.downloadFile);

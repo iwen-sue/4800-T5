@@ -63,7 +63,8 @@ const verifyPasscode = async (req, res) => {
             secure: true,      // Use HTTPS in production
             sameSite: 'strict' // Protect against CSRF
         });
-        res.status(200).json({ message: "Passcode verified." });
+        // res.status(200).json({ message: "Passcode verified." });
+        res.status(200).json({ message: "Passcode verified. Redirecting...", redirectUrl: "/download" });
     } catch (error) {
         console.error("Error during verification:", error);
         res.status(500).json({ error: "Internal Server Error." });

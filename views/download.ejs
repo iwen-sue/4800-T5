@@ -1,0 +1,28 @@
+<%- contentFor('body') %>
+
+<h1 style="text-align: center; font-weight: bold; font-size: 36px; margin-bottom: 20px;">My Uploaded Content</h1>
+
+<div style="padding-top: 20px;">
+    <h2>Uploaded Texts</h2>
+    <ul>
+        <% texts.forEach(text => { %>
+            <li>
+                <p><%= text.text %></p>
+                <small>Uploaded on: <%= text.uploadDate.toDateString() %></small>
+            </li>
+        <% }) %>
+    </ul>
+</div>
+
+<div style="padding-top: 20px;">
+    <h2>Uploaded Files</h2>
+    <ul>
+        <% files.forEach(file => { %>
+            <li>
+                <a href="/preview/file/<%= file._id %>"><%= file.filename %></a>
+                <small> (Type: <%= file.metadata.category %>)</small>
+            </li>
+        <% }) %>
+    </ul>
+    
+</div>

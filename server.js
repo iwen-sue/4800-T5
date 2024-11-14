@@ -3,16 +3,18 @@ const expressLayouts = require('express-ejs-layouts');
 const env = require('dotenv').config();
 const session = require('express-session');
 const passport = require('passport');
+const jwt = require('jsonwebtoken');
 const { connectDB } = require('./config/database');
 const initializePassport = require('./config/passport');
 const authController = require('./controllers/authController');
 const profileController = require('./controllers/profileController');
 const passcodeController = require('./controllers/passcodeController');
 const uploadController = require('./controllers/uploadController');
+const downloadController = require('./controllers/downloadController');
 const authenticateJWT = require('./middleware/authJWT');
+const conditionalAuth = require('./middleware/authMiddleware');
 const cookieParser = require('cookie-parser');
 const MongoDBStore = require('connect-mongodb-session')(session);
-
 
 
 const app = express();
@@ -125,10 +127,16 @@ app.post('/upload/text', isAuthenticated, uploadController.uploadText);
 // Route to handle file uploads
 app.post('/upload/file', uploadController.upload.single('file'), uploadController.uploadFile);
 
-
-
-
 app.get('/upload-guest', authenticateJWT, uploadController.uploadGuest);
+
+
+// Route to view the download page with uploaded texts and files
+app.get('/download', conditionalAuth, downloadController.renderDownloadPage);
+// Route to handle file download by ID
+app.get('/download/file/:id', conditionalAuth, downloadController.downloadFile);
+// Route to preview file content by ID
+app.get('/preview/file/:id', conditionalAuth, downloadController.previewFile);
+
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

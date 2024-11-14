@@ -8,6 +8,9 @@ const initializePassport = require('./config/passport');
 const authController = require('./controllers/authController');
 const profileController = require('./controllers/profileController');
 const passcodeController = require('./controllers/passcodeController');
+const uploadController = require('./controllers/uploadController');
+const authenticateJWT = require('./middleware/authJWT');
+const cookieParser = require('cookie-parser');
 const MongoDBStore = require('connect-mongodb-session')(session);
 
 const app = express();
@@ -15,6 +18,7 @@ const PORT = 3000;
 
 // Middleware
 app.use(express.json());
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.use(expressLayouts);
@@ -42,7 +46,7 @@ app.use(session({
     cookie: {
         httpOnly: true,
         secure: false, // Set to true if using HTTPS
-        maxAge: 3600000 // last for 1 hour
+        maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
     }
 }));
 
@@ -63,10 +67,13 @@ connectDB().then(() => {
 
 // Routes
 app.get('/', (req, res) => {
+    if (req.isAuthenticated()) {
+        res.redirect('/profile');
+        return;
+    }
     res.render("index", {
         isLandingPage: true,
         hideFooter: true,
-        user: req.user,
     });
 });
 
@@ -99,6 +106,7 @@ app.post('/profile/delete', isAuthenticated, profileController.deleteAccount);
 // Token routes
 app.get('/getPasscode', isAuthenticated, passcodeController.getPasscode);
 app.post('/generatePasscode', isAuthenticated, passcodeController.generatePasscode);
+app.post('/verifyPasscode', passcodeController.verifyPasscode);
 
 // Upload routes
 app.get('/upload', (req, res) => {
@@ -108,6 +116,8 @@ app.get('/upload', (req, res) => {
         res.render('upload_guest');
     }
 });
+
+app.get('/upload-guest', authenticateJWT, uploadController.uploadGuest);
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

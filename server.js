@@ -11,8 +11,7 @@ const passcodeController = require('./controllers/passcodeController');
 const uploadController = require('./controllers/uploadController');
 const MongoDBStore = require('connect-mongodb-session')(session);
 
-//const storage = multer.memoryStorage();
-//const upload = multer({ storage });
+
 
 const app = express();
 const PORT = 3000;
@@ -118,6 +117,7 @@ app.post('/upload/text', isAuthenticated, uploadController.uploadText);
 
 // Route to handle file uploads
 app.post('/upload/file', uploadController.upload.single('file'), uploadController.uploadFile);
+
 
 
 

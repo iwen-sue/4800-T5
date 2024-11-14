@@ -1,126 +1,83 @@
-/* variables.css */
+* {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  box-sizing: border-box;
+}
 
-:root {
-    /* Color Palette */
-    --color-primary: #007bff;
-    --color-secondary: #6c757d;
-    --color-success: #28a745;
-    --color-warning: #ffc107;
-    --color-danger: #dc3545;
-    --color-light: #f8f9fa;
-    --color-dark: #343a40;
-  
-    /* Typography */
-    --font-family-primary: 'Arial, sans-serif';
-    --font-size-base: 1rem;
-    --font-size-small: 0.875rem;
-    --font-size-large: 1.25rem;
-    --font-weight-normal: 400;
-    --font-weight-bold: 700;
-  
-    /* Spacing */
-    --spacing-xs: 4px;
-    --spacing-sm: 8px;
-    --spacing-md: 16px;
-    --spacing-lg: 24px;
-    --spacing-xl: 32px;
-  
-    /* Border Radius */
-    --border-radius-small: 4px;
-    --border-radius-default: 8px;
-    --border-radius-large: 12px;
-  
-    /* Shadows */
-    --box-shadow-light: 0 1px 3px rgba(0, 0, 0, 0.12);
-    --box-shadow-medium: 0 4px 6px rgba(0, 0, 0, 0.16);
-    --box-shadow-heavy: 0 10px 15px rgba(0, 0, 0, 0.2);
-  
-    /* Layout Dimensions */
-    --max-width: 1200px;
-    --header-height: 60px;
-    --footer-height: 40px;
-  }
-  
-    * {
-      margin: 0;
-      padding: 0;
-      font-family: 'Poppins', sans-serif;
-      box-sizing: border-box;
-    }
+.hero {
+  width: 100%;
+  min-height: 100vh;
+  background-image: url(/images/background.png);
+  background-position: center;
+  background-size: cover;
+  /* padding: 10px 8%;
+  text-align: center;
+  position: relative; */
+  color: #fff;
+}
 
-    .hero {
-      width: 100%;
-      min-height: 100vh;
-      background-image: url(/images/background.png);
-      background-position: center;
-      background-size: cover;
-      padding: 10px 8%;
-      text-align: center;
-      color: #fff;
-      position: relative;
-    }
+/* nav {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+} */
 
-    nav {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
+/* .logo {
+  width: 80px;
+  cursor: pointer;
+} */
 
-    .logo {
-      width: 80px;
-      cursor: pointer;
-    }
+/* .content {
+  margin: 15% auto 0;
+}
 
-    .content {
-      margin: 15% auto 0;
-    }
+.content h1 {
+  font-size: 65px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: 400;
+  color: #bbdede;
+}
 
-    .content h1 {
-      font-size: 65px;
-      font-family: Verdana, Geneva, Tahoma, sans-serif;
-      font-weight: 400;
-      color: #bbdede;
-    }
+.content h1 span {
+  font-weight: 900;
+  background: linear-gradient(to right, #185a9d, #43c6ac);
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  -webkit-text-stroke: 1px #bbdede;
+}
 
-    .content h1 span {
-      font-weight: 900;
-      background: linear-gradient(to right, #185a9d, #43c6ac);
-      -webkit-text-fill-color: transparent;
-      -webkit-background-clip: text;
-      -webkit-text-stroke: 1px #bbdede;
-    }
+form {
+  width: 90%;
+  max-width: 600px;
+  height: 65px;
+  background: #fff;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  border-radius: 40px;
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
 
-    form {
-      width: 90%;
-      max-width: 600px;
-      height: 65px;
-      background: #fff;
-      margin: auto;
-      display: flex;
-      align-items: center;
-      border-radius: 40px;
-      margin-top: 40px;
-      margin-bottom: 20px;
-    }
+form input {
+  flex: 1;
+  padding: 20px 30px;
+  font-size: 16px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+}
 
-    form input {
-      flex: 1;
-      padding: 20px 30px;
-      font-size: 16px;
-      border: 0;
-      outline: 0;
-      background: transparent;
-    }
+form input::placeholder {
+  font-size: 16px;
+}
 
-    form input::placeholder {
-      font-size: 16px;
-    }
-
-  .landing-footer {
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
-    font-size: 14px;
-    color: #bbdede;
-  }
+.landing-footer {
+position: absolute;
+bottom: 20px;
+left: 20px;
+font-size: 14px;
+color: #bbdede;
+} */

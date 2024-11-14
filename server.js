@@ -8,7 +8,11 @@ const initializePassport = require('./config/passport');
 const authController = require('./controllers/authController');
 const profileController = require('./controllers/profileController');
 const passcodeController = require('./controllers/passcodeController');
+const uploadController = require('./controllers/uploadController');
 const MongoDBStore = require('connect-mongodb-session')(session);
+
+//const storage = multer.memoryStorage();
+//const upload = multer({ storage });
 
 const app = express();
 const PORT = 3000;
@@ -108,6 +112,14 @@ app.get('/upload', (req, res) => {
         res.render('upload_guest');
     }
 });
+
+// Route for uploading text
+app.post('/upload/text', isAuthenticated, uploadController.uploadText);
+
+// Route to handle file uploads
+app.post('/upload/file', uploadController.upload.single('file'), uploadController.uploadFile);
+
+
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

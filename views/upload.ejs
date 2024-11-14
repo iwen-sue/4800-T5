@@ -1,45 +1,21 @@
 <%- contentFor('body') %>
 
 <!-- Centered bold, large "Send Content" -->
-<h1 style="text-align: center; font-weight: bold; font-size: 36px; margin-bottom: 0;">Send Content</h1>
+<h1 style="text-align: center; font-weight: bold; font-size: 36px; margin-bottom: 20px;">Send Content</h1>
 
 <!-- Container centered and with padding at the top -->
-<div style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding-top: 50px;">
+<div style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding-top: 20px;">
 
-    <!-- Text area for description -->
-    <textarea placeholder="Enter description" rows="10" cols="50" style="margin-top: 10px; margin-bottom: 20px;"></textarea>
+    <!-- Form to upload text -->
+    <form action="/upload/text" method="POST" style="margin-bottom: 30px;">
+        <textarea name="text" placeholder="Enter description" rows="5" cols="50" required></textarea>
+        <button type="submit" style="padding: 10px 20px; margin-top: 10px;">Upload Text</button>
+    </form>
 
-    <!-- Buttons in a row, centered -->
-    <div style="display: flex; gap: 10px;">
-        <!-- Upload Button with working file input -->
-        <label class="upload-btn" style="padding: 10px 20px; border-radius: 5px; border: 2px solid #040404;">
-            <i class="fas fa-upload"></i> + Upload
-            <input type="file" name="file" style="display: none;">
-        </label>
 
-        <!-- Send Button with icon -->
-        <button class="send-btn" style="padding: 10px 20px; border-radius: 5px;">
-            <i class="fas fa-paper-plane"></i> Send
-        </button>
-    </div>
-
-    <!-- Cards Section -->
-    <div style="display: flex; flex-direction: column; gap: 20px; margin-top: 30px; width: 80%;">
-        <!-- First Card -->
-        <div class="card" style="display: flex; justify-content: space-between; align-items: center; padding: 15px; border: 1px solid #ccc; border-radius: 10px;">
-            <p style="margin: 0;">Text uploaded from the past by user which can be copied</p>
-            <button class="copy-btn" style="padding: 8px 12px; border: none; border-radius: 5px; cursor: pointer;">
-                <i class="fas fa-copy"></i> Copy
-            </button>
-        </div>
-
-        <!-- Second Card with Download Icon -->
-        <div class="card" style="display: flex; justify-content: space-between; align-items: center; padding: 15px; border: 1px solid #ccc; border-radius: 10px;">
-            <p style="margin: 0;">File or image uploaded in the past & user can download.</p>
-            <button class="download-btn" style="padding: 8px 12px; border: none;  border-radius: 5px; cursor: pointer;">
-                <i class="fas fa-download"></i> Download
-            </button>
-        </div>
-    </div>
-</div>
-
+<!-- Form to upload files -->
+<form action="/upload/file" method="POST" enctype="multipart/form-data" style="display: flex; flex-direction: column; align-items: center; gap: 10px; margin-top: 20px;">
+    <input type="file" name="file" style="display: block; margin-bottom: 10px;" required>
+    <button type="submit" style="padding: 10px 20px;">Upload File</button>
+</form>
+  

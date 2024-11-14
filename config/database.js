@@ -1,7 +1,8 @@
 // config/database.js
-const { MongoClient } = require('mongodb');
+const { MongoClient, GridFSBucket } = require('mongodb');
 
 let db = null;
+let gfs = null;
 
 const connectDB = async () => {
     try {
@@ -10,7 +11,8 @@ const connectDB = async () => {
         await client.connect();
         console.log('Connected to MongoDB');
         db = client.db('4800');
-        return db;
+        gfs = new GridFSBucket(db, { bucketName: 'fs' });
+        return { db, gfs };
     } catch (error) {
         console.error('MongoDB connection error:', error);
         process.exit(1);
@@ -24,7 +26,13 @@ const getDB = () => {
     return db;
 };
 
+const getGFS = () => {
+    if (!gfs) throw new Error('GridFS not initialized');
+    return gfs;
+};
+
 module.exports = {
     connectDB,
-    getDB
+    getDB,
+    getGFS
 };

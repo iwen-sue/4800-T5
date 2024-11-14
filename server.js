@@ -116,7 +116,7 @@ app.get('/upload', (req, res) => {
     if (req.isAuthenticated()) {  
         res.render('upload', { user: req.user });
     } else {
-        res.render('upload_guest');
+        res.render('upload-guest');
     }
 });
 

@@ -9,11 +9,10 @@ const authController = require('./controllers/authController');
 const profileController = require('./controllers/profileController');
 const passcodeController = require('./controllers/passcodeController');
 const uploadController = require('./controllers/uploadController');
+const downloadController = require('./controllers/downloadController');
 const authenticateJWT = require('./middleware/authJWT');
 const cookieParser = require('cookie-parser');
 const MongoDBStore = require('connect-mongodb-session')(session);
-
-
 
 const app = express();
 const PORT = 3000;
@@ -125,10 +124,28 @@ app.post('/upload/text', isAuthenticated, uploadController.uploadText);
 // Route to handle file uploads
 app.post('/upload/file', uploadController.upload.single('file'), uploadController.uploadFile);
 
-
-
-
 app.get('/upload-guest', authenticateJWT, uploadController.uploadGuest);
+
+
+// Route to view the download page with uploaded texts and files
+// Route to view the download page with uploaded texts and files
+app.get('/download', isAuthenticated, async (req, res) => {
+    try {
+        const texts = await downloadController.listTexts(req.user.email);
+        const files = await downloadController.listFiles(req.user.email);
+        res.render('download', { texts, files });
+    } catch (error) {
+        console.error('Error loading content:', error);
+        res.status(500).send('Failed to load content');
+    }
+});
+
+// Route to handle file download by ID
+app.get('/download/file/:id', isAuthenticated, downloadController.downloadFile);
+
+// Route to preview file content by ID
+app.get('/preview/file/:id', isAuthenticated, downloadController.previewFile);
+
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

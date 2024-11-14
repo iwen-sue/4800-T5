@@ -1,0 +1,11 @@
+<%- contentFor('body') %>
+
+<h1>File Preview</h1>
+
+<% if (fileType.startsWith('text')) { %>
+    <pre style="white-space: pre-wrap; word-wrap: break-word;"><%= content %></pre>
+<% } else { %>
+    <p>This file type is displayed directly or not supported for inline preview.</p>
+<% } %>
+
+<a href="/download/file/<%= file._id %>">Download</a>

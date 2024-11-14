@@ -80,7 +80,6 @@ app.get('/', (req, res) => {
         hideFooter: true,
     });
 });
-
 // Auth routes
 app.get('/login', authController.login);
 app.post('/login', authController.loginPost);

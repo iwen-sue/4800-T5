@@ -1,42 +1,53 @@
 <%- contentFor('body') %>
-<div class="container">
-    <h2>Profile</h2>
+<link rel="stylesheet" href="/css/profile.css">
+<div class="wrapper">
+    <h1>Profile</h1>
 
     <!-- Profile Picture Section -->
     <div class="profile-picture">
-        <img src="<%= user.profilePicture || '/images/default-profile.png' %>" alt="Profile Picture" width="100"
-            height="100">
+        <img src="<%= user.profilePicture || '/images/icon.png' %>" alt="Profile Picture">
         <form action="/profile/upload" method="POST" enctype="multipart/form-data">
-            <label for="profilePicture">Change Profile Picture:</label>
+            <label for="profilePicture" class="upload-btn">Change Profile Picture:</label>
             <input type="file" id="profilePicture" name="profilePicture" accept="image/*">
             <button type="submit">Upload</button>
         </form>
     </div>
 
+
     <!-- User Info Section -->
     <div class="user-info">
         <form id="profileForm" action="/profile/update-info" method="POST">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" value="<%= user.name %>" disabled class="editable-field">
-
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" value="<%= user.email %>" disabled class="editable-field">
-
-            <!-- Edit, Submit, and Cancel Buttons -->
+            <div>
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" value="<%= user.name %>" disabled class="editable-field">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" value="<%= user.email %>" disabled class="editable-field">
+            </div>
+            <div>
+                            <!-- Edit, Submit, and Cancel Buttons -->
             <button type="button" id="editButton" onclick="enableEditing()">Edit</button>
             <button type="submit" id="submitButton" style="display: none;">Submit</button>
             <button type="button" id="cancelButton" style="display: none;" onclick="cancelEditing()">Cancel</button>
+            </div>
         </form>
+    </div>
 
-        <!-- Password Update Section -->
+    <div class="user-password">
+                <!-- Password Update Section -->
         <form id="passwordForm" action="/profile/update-password" method="POST" onsubmit="return validatePassword()">
-            <label for="password">New Password:</label>
-            <input type="password" id="password" name="password" required>
+            <div>
+                <label for="password">New Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
 
-            <label for="confirmPassword">Confirm New Password:</label>
-            <input type="password" id="confirmPassword" name="confirmPassword" required>
+            <div>
+                <label for="confirmPassword">Confirm New Password:</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required>
+            </div>
 
-            <button type="submit">Update Password</button>
+            <div>
+                <button type="submit">Update Password</button>
+            </div>
         </form>
     </div>
 
@@ -72,16 +83,10 @@
     </div>
 
 
-    <!-- Logout Button -->
-    <div class="logout">
-        <form action="/logout" method="GET">
-            <button type="submit">Logout</button>
-        </form>
-    </div>
+<div class="logout-delete">
 
     <!-- Delete Account Section -->
     <div class="delete-account">
-        <h3>Delete Account</h3>
         <form action="/profile/delete" method="POST">
             <button type="submit"
                 onclick="return confirm('Are you sure you want to delete your account? This action cannot be undone.')">Delete
@@ -89,13 +94,7 @@
         </form>
     </div>
 </div>
-
-<style>
-    .editable-field:disabled {
-        background-color: #f0f0f0;
-        color: #7a7a7a;
-    }
-</style>
+</div>
 
 <script src="/js/getPasscode.js"></script>
 

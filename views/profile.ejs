@@ -59,14 +59,16 @@
     <!-- Generate Passcode Section -->
     <div class="generate-passcode">
         <h3>Generate Passcode</h3>
+        <div class="passcode">
+            <% if (passcode) { %>
+                Your passcode is: <%= passcode %>
+            <% } else { %>
+                <form action="/generatePasscode" method="POST">
+                    <button type="submit">generate passcode</button>
+                </form>
+            <% } %>
+        </div>
         
-        <% if (passcode) { %>
-            <div>Your passcode is: <%= passcode %></div>
-        <% } else { %>
-            <form action="/generatePasscode" method="POST">
-                <button type="submit">generate passcode</button>
-            </form>
-        <% } %>
     </div>
 
 

@@ -12,7 +12,7 @@
 
 </head>
 <body>
-    <% if (locals.user && !locals.isLandingPage) { %>
+    <% if (!locals.isLandingPage) { %>
         <%- include('../partials/header') %>
     <% } %>
     <%- body %>

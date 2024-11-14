@@ -1,4 +1,7 @@
+// for profile.ejs
+
 const generatePasscodeForm = document.querySelector('.generate-passcode form');
+const passcode = document.querySelector('.passcode');
 if (generatePasscodeForm) {
     generatePasscodeForm.addEventListener('submit', async function (e) {
         e.preventDefault();
@@ -31,7 +34,7 @@ if (generatePasscodeForm) {
                 alert(`Error: ${data.error}`);
             } else {
                 alert(`Passcode generated: ${data.passcode}`);
-                window.location.reload();
+                passcode.textContent = `Your passcode is: ${data.passcode}`;
             }
         } catch (error) {
             console.error('Error during passcode generation:', error);

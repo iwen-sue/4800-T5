@@ -97,8 +97,16 @@ const uploadFile = async (req, res) => {
     }
 };
 
+
+
+
+const uploadGuest = async (req, res) => {
+    res.render("upload-guest.ejs");
+}
+
 module.exports = {
     upload,
     uploadFile,
-    uploadText
+    uploadText,
+    uploadGuest
 };

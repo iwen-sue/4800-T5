@@ -8,7 +8,9 @@ const login = (req, res) => {
     if (req.isAuthenticated()) {
         return res.redirect('/profile');
     }
-    res.render('login.ejs');
+    res.render("login.ejs", {
+      page: "login",
+    });
 };
 
 const loginPost = passport.authenticate('local', {

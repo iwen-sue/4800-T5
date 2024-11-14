@@ -57,7 +57,6 @@ app.get('/', (req, res) => {
         user: req.user,
     });
 });
-
 // Auth routes
 app.get('/login', authController.login);
 app.post('/login', authController.loginPost);

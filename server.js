@@ -3,6 +3,7 @@ const expressLayouts = require('express-ejs-layouts');
 const env = require('dotenv').config();
 const session = require('express-session');
 const passport = require('passport');
+const jwt = require('jsonwebtoken');
 const { connectDB } = require('./config/database');
 const initializePassport = require('./config/passport');
 const authController = require('./controllers/authController');
@@ -11,9 +12,10 @@ const passcodeController = require('./controllers/passcodeController');
 const uploadController = require('./controllers/uploadController');
 const downloadController = require('./controllers/downloadController');
 const authenticateJWT = require('./middleware/authJWT');
+const conditionalAuth = require('./middleware/authMiddleware');
 const cookieParser = require('cookie-parser');
 const MongoDBStore = require('connect-mongodb-session')(session);
-const jwt = require('jsonwebtoken');
+
 
 const app = express();
 const PORT = 3000;
@@ -128,55 +130,12 @@ app.post('/upload/file', uploadController.upload.single('file'), uploadControlle
 app.get('/upload-guest', authenticateJWT, uploadController.uploadGuest);
 
 
-
-const conditionalAuth = (req, res, next) => {
-    // Check session-based authentication
-    if (req.isAuthenticated && req.isAuthenticated()) {
-        req.user = req.user || { email: req.user.email }; // Ensure req.user is defined
-        return next();
-    }
-    
-    // Check JWT-based authentication
-    const token = req.cookies.token;
-    if (token) {
-        jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-            if (err) {
-                return res.redirect('/login'); // Redirect to login if token is invalid
-            }
-            req.user = decoded; // Set user info in the request from JWT payload
-            return next();
-        });
-    } else {
-        // If neither authentication is valid, redirect to login
-        res.redirect('/login');
-    }
-};
-
 // Route to view the download page with uploaded texts and files
-app.get('/download', conditionalAuth, async (req, res) => {
-    try {
-        if (!req.user || !req.user.email) {
-            return res.status(403).send('User not authenticated');
-        }
-
-        const texts = await downloadController.listTexts(req.user.email);
-        const files = await downloadController.listFiles(req.user.email);
-        res.render('download', { texts, files });
-    } catch (error) {
-        console.error('Error loading content:', error);
-        res.status(500).send('Failed to load content');
-    }
-});
-
-
-
-
-
+app.get('/download', conditionalAuth, downloadController.renderDownloadPage);
 // Route to handle file download by ID
-app.get('/download/file/:id', isAuthenticated, downloadController.downloadFile);
-
+app.get('/download/file/:id', conditionalAuth, downloadController.downloadFile);
 // Route to preview file content by ID
-app.get('/preview/file/:id', isAuthenticated, downloadController.previewFile);
+app.get('/preview/file/:id', conditionalAuth, downloadController.previewFile);
 
 
 app.listen(PORT, () => {

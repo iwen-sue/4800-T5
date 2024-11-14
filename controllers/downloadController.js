@@ -102,9 +102,26 @@ const previewFile = async (req, res) => {
     }
 };
 
+const renderDownloadPage = async (req, res) => {
+    try {
+        if (!req.user || !req.user.email) {
+            return res.status(403).send('User not authenticated');
+        }
+
+        const texts = await listTexts(req.user.email);
+        const files = await listFiles(req.user.email);
+        res.render('download', { texts, files });
+    } catch (error) {
+        console.error('Error loading content:', error);
+        res.status(500).send('Failed to load content');
+    }
+};
+
 module.exports = {
     listTexts,
     listFiles,
     downloadFile,
-    previewFile
+    previewFile,
+    renderDownloadPage,
 };
+

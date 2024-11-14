@@ -23,6 +23,12 @@ const generatePasscode = async (req, res) => {
   // get 4 digit random number
   const passcode = Math.floor(1000 + Math.random() * 9000);
 
+  // retry if passcode already exists
+    const passcodeExists = await db.collection("passcodes").findOne({ passcode: passcode });
+    if (passcodeExists) {
+        generatePasscode(req, res);  // TODO need to change this to avoid infinite loop
+        return;
+    }
   // save passcode to database
   try {
     await db.collection("passcodes").insertOne({
@@ -51,7 +57,7 @@ const verifyPasscode = async (req, res) => {
         const email = passcodeExists.email;
 
         // Sign jwt token
-        const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '1h' }); // expires in 1h
         res.cookie('token', token, {
             httpOnly: true,    // Prevents access by JavaScript
             secure: true,      // Use HTTPS in production

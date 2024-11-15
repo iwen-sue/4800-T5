@@ -23,7 +23,9 @@ const register = (req, res) => {
     if (req.isAuthenticated()) {
         return res.redirect('/profile');
     }
-    res.render('register.ejs');
+    res.render('register.ejs', {
+        page: 'register',
+    });
 };
 
 const registerPost = async (req, res) => {

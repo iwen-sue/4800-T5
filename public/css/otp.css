@@ -1,0 +1,64 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.otp-form {
+    padding: 2rem;
+    border-radius: 8px;
+}
+
+.otp-inputs {
+    display: flex;
+    gap: 15px;
+    margin-top: 1rem;
+}
+
+.otp-inputs input {
+    color: white;
+    width: 70px;
+    height: 100px;
+    text-align: center;
+    font-size: 2rem;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(20px);
+    border-radius: 4px;
+    outline: none;
+    text-transform: uppercase;
+}
+
+.otp-inputs input:focus {
+    border-color: #73e6e6;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.otp-inputs.success input {
+    color: white;
+    border-color: #bbdede;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.otp-inputs.error input {
+    border-color: #dc3545;
+    background-color: #fff5f5;
+    color: #dc3545;
+    background: transparent;
+}
+
+.status-message {
+    margin-top: 1rem;
+    text-align: center;
+    font-weight: 500;
+    min-height: 24px;
+}
+
+.success-message {
+    color: #bbdede;
+}
+
+.error-message {
+    color: #dc3545;
+}

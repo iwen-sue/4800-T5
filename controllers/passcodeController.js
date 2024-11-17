@@ -20,16 +20,10 @@ const generatePasscode = async (req, res) => {
   const user = req.user;
   const db = getDB();
 
-  // get 4 digit random number
-  const passcode = Math.floor(1000 + Math.random() * 9000);
+  // get random 6-digit passcode alphanumeric
+  const passcode = Math.random().toString(36).slice(2, 8).toUpperCase();
+  console.log("Generated passcode:", passcode);
 
-  // retry if passcode already exists
-    const passcodeExists = await db.collection("passcodes").findOne({ passcode: passcode });
-    if (passcodeExists) {
-        generatePasscode(req, res);  // TODO need to change this to avoid infinite loop
-        return;
-    }
-  // save passcode to database
   try {
     await db.collection("passcodes").insertOne({
       email: user.email,
@@ -49,7 +43,7 @@ const verifyPasscode = async (req, res) => {
     const db = getDB();
     try {
         // Check if passcode exists
-        const passcodeExists = await db.collection("passcodes").findOne({ passcode: parseInt(passcode) });
+        const passcodeExists = await db.collection("passcodes").findOne({ passcode: passcode });
         if (!passcodeExists) {
             res.status(404).send({ error: "Passcode not found." });
             return;
@@ -63,7 +57,6 @@ const verifyPasscode = async (req, res) => {
             secure: true,      // Use HTTPS in production
             sameSite: 'strict' // Protect against CSRF
         });
-        // res.status(200).json({ message: "Passcode verified." });
         res.status(200).json({ message: "Passcode verified. Redirecting...", redirectUrl: "/download" });
     } catch (error) {
         console.error("Error during verification:", error);

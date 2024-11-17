@@ -1,5 +1,6 @@
 <%- contentFor('body') %>
 <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/otp.css">
 <link rel="stylesheet" href="/css/button.css">
 
 <div class="hero">
@@ -11,45 +12,26 @@
         <a href="/login" class="btn">Login</a>
     </nav>
     <div class="content">
-        <h1><b>Transfer your files with <span>CLIPPIO</span></b></h1>
-        <form>
-            <input type="text" placeholder="Enter your 6 digit code">
-            <button type="submit" class="btn">Submit</button>
-        </form>
+        <h1><b>Transfer your files with <span>Clippio</span></b></h1>
+
+        <!-- OTP form -->
+        <div class="container">
+            <div class="otp-form">
+                <div class="otp-inputs">
+                    <input type="text" maxlength="1">
+                    <input type="text" maxlength="1">
+                    <input type="text" maxlength="1">
+                    <input type="text" maxlength="1">
+                    <input type="text" maxlength="1">
+                    <input type="text" maxlength="1">
+                </div>
+                <div class="status-message"></div>
+            </div>
+        </div>
+
     </div>
     <p class="landing-footer">&copy; <%= new Date().getFullYear() %> Clippio</p>
 </div>
 
-<script>
-    document.querySelector('form').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const passcode = e.target[0].value;
-
-        if (passcode.length !== 4 || isNaN(passcode)) {
-            alert('Please enter a valid 6-digit code');
-            return;
-        }
-
-        try {
-            const response = await fetch('/verifyPasscode', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ passcode })
-            });
-
-            const result = await response.json();
-            if (response.ok) {
-                alert(result.message);
-                // window.location.href = '/upload-guest';
-                window.location.href = result.redirectUrl; // Redirect to the download page
-            } else {
-                alert(result.error);
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            alert('An unexpected error occurred. Please try again later.');
-        }
-    });
-</script>
+<!-- script -->
+<script src="/js/verifyPasscode.js"></script>

@@ -24,6 +24,19 @@
       align-items: center;
       justify-content: space-between;
     }
+    .logo-container {
+      display: flex;
+      align-items: center;
+    }
+
+    .logo-text {
+      font-size:xx-large;
+      font-weight: 900;
+      background: linear-gradient(to right, #185a9d, #43c6ac);
+      -webkit-text-fill-color: transparent;
+      -webkit-background-clip: text;
+      -webkit-text-stroke: 1px #bbdede;
+    }
 
     .logo {
       width: 80px;

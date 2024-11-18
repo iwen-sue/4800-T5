@@ -1,115 +1,170 @@
 body {
-    min-height: 100vh;
-    align-items:center;
-    padding: 20px;
+    font-family: "Poppins", sans-serif;
     background-image: url(/images/profile.png);
     background-size: cover;
     background-position: center;
+    line-height: 1.6;
 }
 
 .wrapper {
-    margin: auto;
-    margin-bottom: 100px;
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    max-width: 600px;
-    min-height: 800px;
+    max-width: 700px;
     background: transparent;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(20px);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    color: #191654;
-    border-radius: 10px;
+    margin: 0 auto;
     padding: 30px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    color: #bbdede;
+    border-radius: 10px;
 }
 
-.wrapper h1 {
+h1 {
     text-align: center;
-    margin-bottom: 20px;
+    color: #bbdede;
+    margin-bottom: 30px;
 }
 
 .profile-picture {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
+    text-align: center;
+    margin-bottom: 30px;
 }
 
 .profile-picture img {
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
     object-fit: cover;
+
 }
 
-.profile-picture form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
+.upload-btn {
+    /* margin: auto;
+    width: 50%; */
+    display: inline-block;
+    background-color: #2e4d8f;
+    color: #bbdede;
+    padding: 8px 15px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.upload-btn:hover {
+    background-color: #2980b9;
+}
+
+input[type="file"] {
+    display: none;
 }
 
 .user-info,
-.user-password {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
+.user-password,
+.linked-accounts,
+.generate-passcode,
+.logout-delete {
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
 }
 
-.user-info form,
-.user-password form {
-    width: 100%;
+form {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 15px;
 }
 
-.user-info form>div,
-.user-password form>div {
+label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #bdc3c7;
+    border-radius: 3px;
 }
 
-.wrapper input {
-    width: 80%;
-    height: 45px;
-    background: transparent;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    border-radius: 40px;
+button {
+    /* margin:auto;
+    width: 50%; */
     font-size: 16px;
-    color: #fff;
-    padding: 0 20px;
-}
-
-.wrapper button {
-    width: 180px;
-    height: 40px;
-    background: linear-gradient(#43c6ac, #191654);
-    border: none;
-    outline: none;
-    border-radius: 40px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    font-size: 16px;
-    color: #bbdede;
     font-weight: 600;
-    margin: 10px 0;
+    background-color: #69e0c8;
+    color: #191654;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
-.editable-field:disabled {
-    background-color: #bbdede;
-    color: #7a7a7a;
-} 
+button:hover {
+    background-color: #34bd99;
+}
+
+#editButton {
+    background-color: #2e4d8f;
+    color: #bbdede;
+}
+
+#editButton:hover {
+    background-color: #2980b9;
+}
+
+#cancelButton {
+    background-color: #e74c3c;
+}
+
+#cancelButton:hover {
+    background-color: #c0392b;
+}
+
+.linked-accounts,
+.generate-passcode {
+    text-align: center;
+}
+
+.linked-accounts h3,
+.generate-passcode h3 {
+    margin-bottom: 15px;
+    color: #2c3e50;
+    font-size: 20px;
+}
+
+.passcode {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.delete-account {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.delete-account button {
+    background-color: #e74c3c;
+}
+
+.delete-account button:hover {
+    background-color: #c0392b;
+}
+
+@media (max-width: 600px) {
+    .wrapper {
+        padding: 10px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+        font-size: 14px;
+    }
+
+    button {
+        font-size: 14px;
+    }
+}

@@ -2,6 +2,7 @@
 const bcrypt = require("bcrypt");
 const { getDB } = require("../config/database");
 
+
 const getProfile = async (req, res) => {
   try {
     const db = getDB();
@@ -110,10 +111,37 @@ const deleteAccount = async (req, res) => {
   }
 };
 
+
+
+const uploadProfilePicture = async (req, res) => {
+  try {
+      if (!req.file) {
+          return res.status(400).send("No file uploaded");
+      }
+
+      const db = getDB();
+      const profileImgBuffer = req.file.buffer; // Get the file buffer
+      const profileImgBase64 = profileImgBuffer.toString("base64"); // Convert to Base64
+
+      // Update the user's profile_img field in the database
+      await db.collection("users").updateOne(
+          { _id: req.user._id },
+          { $set: { profile_img: profileImgBase64 } }
+      );
+
+      res.redirect("/profile");
+  } catch (error) {
+      console.error("Error uploading profile picture:", error);
+      res.status(500).send("Error uploading profile picture");
+  }
+};
+
+
 module.exports = {
   getProfile,
   updateInfo,
   updatePassword,
   unlinkGoogle,
   deleteAccount,
+  uploadProfilePicture,
 };

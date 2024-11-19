@@ -6,6 +6,7 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const { connectDB } = require('./config/database');
 const initializePassport = require('./config/passport');
+const upload = require("./config/multer");
 const authController = require('./controllers/authController');
 const profileController = require('./controllers/profileController');
 const passcodeController = require('./controllers/passcodeController');
@@ -16,6 +17,8 @@ const conditionalAuth = require('./middleware/authMiddleware');
 const cookieParser = require('cookie-parser');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const browserSync = require("browser-sync").create();
+
+
 
 const app = express();
 const PORT = 3000;
@@ -107,12 +110,14 @@ app.get('/auth/google/callback',
     })
 );
 
+
 // Profile routes
 app.get('/profile', isAuthenticated, profileController.getProfile);
 app.post('/profile/update-info', isAuthenticated, profileController.updateInfo);
 app.post('/profile/update-password', isAuthenticated, profileController.updatePassword);
 app.post('/profile/unlink-google', isAuthenticated, profileController.unlinkGoogle);
 app.post('/profile/delete', isAuthenticated, profileController.deleteAccount);
+app.post("/profile/upload", isAuthenticated, upload.single("profilePicture"), profileController.uploadProfilePicture);
 
 // Token routes
 app.get('/getPasscode', isAuthenticated, passcodeController.getPasscode);
@@ -143,6 +148,10 @@ app.get('/download', conditionalAuth, downloadController.renderDownloadPage);
 app.get('/download/file/:id', conditionalAuth, downloadController.downloadFile);
 // Route to preview file content by ID
 app.get('/preview/file/:id', conditionalAuth, downloadController.previewFile);
+
+
+
+
 
 
 app.listen(PORT, () => {

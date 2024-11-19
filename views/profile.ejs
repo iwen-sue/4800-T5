@@ -5,7 +5,11 @@
 
     <!-- Profile Picture Section -->
     <div class="profile-picture">
-        <img src="<%= user.profilePicture || '/images/icon.png' %>" alt="Profile Picture">
+        <% if (user.profile_img) { %>
+            <img src="data:image/jpeg;base64,<%= user.profile_img %>" alt="Profile Picture">
+        <% } else { %>
+            <img src="./images/icon.png" alt="Default Profile Picture">
+        <% } %>
         <form action="/profile/upload" method="POST" enctype="multipart/form-data">
             <label for="profilePicture" class="upload-btn">Change Profile Picture:</label>
             <input type="file" id="profilePicture" name="profilePicture" accept="image/*">

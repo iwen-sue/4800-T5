@@ -124,6 +124,7 @@ app.get('/getPasscode', isAuthenticated, passcodeController.getPasscode);
 app.post('/generatePasscode', isAuthenticated, passcodeController.generatePasscode);
 app.post('/verifyPasscode', passcodeController.verifyPasscode);
 
+
 // Upload routes
 app.get('/upload', (req, res) => {
     if (req.isAuthenticated()) {  
@@ -133,11 +134,12 @@ app.get('/upload', (req, res) => {
     }
 });
 
+
 // Route for uploading text
 app.post('/upload/text', isAuthenticated, uploadController.uploadText);
 
 // Route to handle file uploads
-app.post('/upload/file', uploadController.upload.single('file'), uploadController.uploadFile);
+app.post('/upload/file', isAuthenticated, uploadController.upload.single('file'), uploadController.uploadFile);
 
 app.get('/upload-guest', authenticateJWT, uploadController.uploadGuest);
 

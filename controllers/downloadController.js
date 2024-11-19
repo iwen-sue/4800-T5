@@ -68,11 +68,11 @@ const previewFile = async (req, res) => {
             return res.status(404).send('File not found');
         }
 
-        // Set up headers and handle content display based on file type
+        // Get file type
         const fileType = file[0].contentType;
-        
+
         // Render text files directly
-        if (fileType.startsWith('text')) {
+        if (fileType.startsWith("text/")) {
             let fileContent = '';
             gfs.openDownloadStream(new ObjectId(fileId))
                 .on('data', (chunk) => {
@@ -81,26 +81,30 @@ const previewFile = async (req, res) => {
                 .on('end', () => {
                     res.render('preview', { content: fileContent, fileType });
                 });
-        
+
         // Display image files inline
-        } else if (fileType.startsWith('image')) {
+        } else if (fileType.startsWith("image/")) {
             res.set('Content-Type', fileType);
             gfs.openDownloadStream(new ObjectId(fileId)).pipe(res);
-        
-        // For PDF or other non-text/image types, offer download or inline display
-        } else if (fileType === 'application/pdf') {
+
+        // For PDF files, display inline
+        } else if (fileType === "application/pdf") {
             res.set('Content-Type', fileType);
             res.set('Content-Disposition', 'inline');
             gfs.openDownloadStream(new ObjectId(fileId)).pipe(res);
-        
+
+        // Unsupported types: download fallback
         } else {
-            res.status(415).send('File type not supported for preview');
+            res.set('Content-Type', 'application/octet-stream');
+            res.set('Content-Disposition', `attachment; filename="${file[0].filename}"`);
+            gfs.openDownloadStream(new ObjectId(fileId)).pipe(res);
         }
     } catch (error) {
         console.error('Error previewing file:', error);
         res.status(500).send('Preview failed');
     }
 };
+
 
 const renderDownloadPage = async (req, res) => {
     try {

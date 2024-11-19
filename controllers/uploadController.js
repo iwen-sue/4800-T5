@@ -1,10 +1,6 @@
 const multer = require('multer');
 const { getDB, getGFS } = require('../config/database');
-// const sharp = require('sharp');
-
-// Multer setup to store files in memory
-const storage = multer.memoryStorage();
-const upload = multer({ storage });
+const upload = require("../config/multer"); 
 
 
 // Function to upload text to the texts collection
@@ -45,59 +41,60 @@ const uploadFile = async (req, res) => {
     const gfs = getGFS();
     const db = getDB();
     const email = req.user.email; // Ensure the user is authenticated
-  
 
     if (!req.file) {
-        return res.status(400).send('No file uploaded');
+        return res.status(400).send("No file uploaded");
     }
 
-    // Initialize variables
-    let description = req.body.description || '';
-    let category = '';
-
-    // Automatically set category based on the file type
+    // Determine the category based on file MIME type
     const fileType = req.file.mimetype;
-    if (fileType.startsWith('image/')) {
-        category = 'image';
-    } else if (fileType === 'application/pdf') {
-        category = 'document';
+
+    if (fileType.startsWith("image/")) {
+        category = "image";
+    } else if (fileType === "application/pdf") {
+        category = "document";
+    } else if (fileType.startsWith("application/vnd.openxmlformats-officedocument")) {
+        category = "office-document";
+    } else if (fileType === "application/vnd.ms-excel" || fileType === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") {
+        category = "spreadsheet"; // Excel files
+    } else if (fileType.startsWith("text/")) {
+        category = "text-file";
+    } else if (fileType.startsWith("application/zip") || fileType === "application/x-rar-compressed") {
+        category = "archive"; // Zip, RAR, etc.
+    } else if (fileType === "application/json") {
+        category = "json-file";
+    } else if (fileType.startsWith("application/xml")) {
+        category = "xml-file";
     } else {
-        return res.status(400).send('Unsupported file type');
+        category = "other"; // Default fallback
     }
-
-
-  
 
     try {
         const fileStream = gfs.openUploadStream(req.file.originalname, {
             contentType: req.file.mimetype,
             metadata: {
                 email,
-                description,
-                category
-            }
+                category, 
+            },
         });
 
         // Write the file buffer to GridFS
         fileStream.end(req.file.buffer);
 
-        fileStream.on('finish', () => {
-            console.log("successfully uploaded")
-            res.redirect('/upload');
-
+        fileStream.on("finish", () => {
+            console.log("Successfully uploaded file with category:", category);
+            res.redirect("/upload");
         });
 
-        fileStream.on('error', (err) => {
-            console.error('Error uploading file:', err);
-            res.status(500).send('Failed to upload file');
+        fileStream.on("error", (err) => {
+            console.error("Error uploading file:", err);
+            res.status(500).send("Failed to upload file");
         });
     } catch (error) {
-        console.error('Error uploading to GridFS:', error);
-        res.status(500).send('Upload failed');
+        console.error("Error uploading to GridFS:", error);
+        res.status(500).send("Upload failed");
     }
 };
-
-
 
 
 const uploadGuest = async (req, res) => {

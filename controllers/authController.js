@@ -6,7 +6,7 @@ const passport = require('passport');
 
 const login = (req, res) => {
     if (req.isAuthenticated()) {
-        return res.redirect('/profile');
+        return res.redirect('/download');
     }
     res.render("login.ejs", {
       page: "login",
@@ -14,14 +14,14 @@ const login = (req, res) => {
 };
 
 const loginPost = passport.authenticate('local', {
-    successRedirect: '/profile',
+    successRedirect: '/download',
     failureRedirect: '/login',
     failureFlash: false
 });
 
 const register = (req, res) => {
     if (req.isAuthenticated()) {
-        return res.redirect('/profile');
+        return res.redirect('/download');
     }
     res.render('register.ejs', {
         page: 'register',

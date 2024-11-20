@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="/css/style.css">
 <link rel="stylesheet" href="/css/button.css">
-<header>
+<header class="main-header">
     <nav class="main-nav">
     <% if (locals.user) { %>
         <a href="/" class="logo-link">
@@ -9,7 +9,7 @@
         <div class="nav-links">
             <a href="/profile" class="nav-right"><img src="/images/person.png" alt=""></a>
             <a href="/upload" class="nav-right"><img src="/images/upload.png" alt=""></a>
-            <a href="/download" class="nav-right">download</a>
+            <a href="/download" class="nav-right"><img src="/images/download.png" alt=""></a>
             <a href="/logout" class="btn">Logout</a>
         </div>
     <% } else if (locals.page !== 'login' && locals.page !== 'register') { %>
@@ -18,7 +18,8 @@
         </a>
         <div class="nav-links">
             <a href="/upload-guest" class="nav-right"><img src="/images/upload.png" alt=""></a>
-            <a href="/login">Login</a>
+            <a href="/download" class="nav-right"><img src="/images/download.png" alt=""></a>
+            <a href="/login" class="btn">Login</a>
         </div>
     <% } %>
     </nav>

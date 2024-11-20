@@ -14,6 +14,8 @@
 
 .btn:hover {
   background: linear-gradient(#4ddbc0, #164354);
+  color: #bbdede;
+  text-decoration: none;
 }
 
 /* form .btn {

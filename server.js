@@ -83,7 +83,7 @@ connectDB().then(() => {
 // Routes
 app.get('/', (req, res) => {
     if (req.isAuthenticated()) {
-        res.redirect('/profile');
+        res.redirect('/download');
         return;
     }
     res.render("index", {
@@ -105,7 +105,7 @@ app.get('/auth/google',
 
 app.get('/auth/google/callback',
     passport.authenticate('google', {
-        successRedirect: '/profile',
+        successRedirect: '/download',
         failureRedirect: '/login'
     })
 );

@@ -111,10 +111,15 @@ const renderDownloadPage = async (req, res) => {
         if (!req.user || !req.user.email) {
             return res.status(403).send('User not authenticated');
         }
-
         const texts = await listTexts(req.user.email);
         const files = await listFiles(req.user.email);
-        res.render('download', { texts, files });
+
+        if (req.user._id) {
+            res.render('download', { texts, files, user: req.user });
+        } else {
+            res.render('download', { texts, files });
+        }
+
     } catch (error) {
         console.error('Error loading content:', error);
         res.status(500).send('Failed to load content');

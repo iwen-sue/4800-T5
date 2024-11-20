@@ -9,6 +9,7 @@
         <div class="nav-links">
             <a href="/profile" class="nav-right"><img src="/images/person.png" alt=""></a>
             <a href="/upload" class="nav-right"><img src="/images/upload.png" alt=""></a>
+            <a href="/download" class="nav-right">download</a>
             <a href="/logout" class="btn">Logout</a>
         </div>
     <% } else if (locals.page !== 'login' && locals.page !== 'register') { %>
@@ -16,6 +17,7 @@
             <img src="/images/logo.png" class="logo" alt="Clippio">
         </a>
         <div class="nav-links">
+            <a href="/upload-guest" class="nav-right"><img src="/images/upload.png" alt=""></a>
             <a href="/login">Login</a>
         </div>
     <% } %>

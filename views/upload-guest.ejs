@@ -1,25 +1,18 @@
 <%- contentFor('body') %>
+<link rel="stylesheet" href="/css/upload.css">
+<h1>Send Content</h1>
 
-<!-- Centered bold, large "Send Content" -->
-<h1 style="text-align: center; font-weight: bold; font-size: 36px; margin-bottom: 0;">Send Content</h1>
+<div class="upload-container">
+    <!-- Form to upload text -->
+    <form action="/upload/text" method="POST">
+        <textarea name="text" placeholder="Enter description" rows="5" required></textarea>
+        <button type="submit">Upload Text</button>
+    </form>
 
-<!-- Container centered and with padding at the top -->
-<div style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding-top: 50px;">
-
-    <!-- Text area for description -->
-    <textarea placeholder="Enter description" rows="10" cols="50" style="margin-top: 10px; margin-bottom: 20px;"></textarea>
-
-    <!-- Buttons in a row, centered -->
-    <div style="display: flex; gap: 10px;">
-        <!-- Upload Button with working file input -->
-        <label class="upload-btn" style="padding: 10px 20px; border-radius: 5px;  border: 2px solid #040404;">
-            <i class="fas fa-upload"></i> + Upload
-            <input type="file" name="file" style="display: none;">
-        </label>
-        
-        <!-- Send Button with icon -->
-        <button class="send-btn" style="padding: 10px 20px; border-radius: 5px;">
-            <i class="fas fa-paper-plane"></i> Send
-        </button>
-    </div>
+    <!-- Form to upload files -->
+    <form action="/upload/file" method="POST" enctype="multipart/form-data">
+        <input type="file" name="file" id="file" required>
+        <label for="file">Choose a file</label>
+        <button type="submit">Upload File</button>
+    </form>
 </div>

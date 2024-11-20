@@ -79,7 +79,7 @@ input[type="file"]+label {
     color: #bbdede;
     border-radius: 30px;
     cursor: pointer;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
     transition: all 0.3s ease;
     font-weight: 600;
     text-align: center;
@@ -103,12 +103,14 @@ button {
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
+    margin-top: 1.5rem; /* Increase spacing between buttons */
 }
 
 button:hover {
     background: linear-gradient(135deg, #4ddbc0, #1d5469);
     transform: translateY(-2px);
 }
+
 
 @media (max-width: 768px) {
     .upload-container {
@@ -124,4 +126,35 @@ button:hover {
     input[type="file"]+label {
         padding: 0.8rem 1.5rem;
     }
+}
+
+#drop-zone {
+    border: 3px dashed #ccc;
+    padding: 50px; /* Increase padding to make it larger */
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    font-size: 18px; /* Larger font for better visibility */
+    width: 100%; /* Full width of the container */
+    max-width: 600px; /* Optional: Set a max width */
+    margin: 20px auto; /* Center the drop zone */
+}
+
+#drop-zone.dragover {
+    background-color: #f0f8ff;
+    border-color: #007bff;
+}
+
+
+.messages {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.alert.success {
+    color: #155724;
+}
+.alert.error {
+    color: #721c24;
+
 }

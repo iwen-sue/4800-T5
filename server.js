@@ -127,10 +127,20 @@ app.post('/verifyPasscode', passcodeController.verifyPasscode);
 
 // Upload routes
 app.get('/upload', (req, res) => {
-    if (req.isAuthenticated()) {  
-        res.render('upload', { user: req.user });
+    const successMessage = req.query.successMessage || null;
+    const errorMessage = req.query.errorMessage || null;
+
+    if (req.isAuthenticated()) {
+        res.render('upload', { 
+            user: req.user, 
+            successMessage, 
+            errorMessage 
+        });
     } else {
-        res.render('upload-guest');
+        res.render('upload-guest', { 
+            successMessage,
+            errorMessage
+        });
     }
 });
 

@@ -2,6 +2,17 @@
 <link rel="stylesheet" href="/css/upload.css">
 <h1 style="margin-top: 90px;">Send Content</h1>
 
+<!-- Success and error messages -->
+<div class="messages">
+    <% if (successMessage) { %>
+        <div class="alert success"><%= successMessage %></div>
+    <% } %>
+    <% if (errorMessage) { %>
+        <div class="alert error"><%= errorMessage %></div>
+    <% } %>
+</div>
+
+
 <div class="upload-container">
     <!-- Form to upload text -->
     <form action="/upload/text" method="POST">
@@ -9,10 +20,70 @@
         <button type="submit">Upload Text</button>
     </form>
 
-    <!-- Form to upload files -->
-    <form action="/upload/file" method="POST" enctype="multipart/form-data">
-        <input type="file" name="file" id="file" required>
-        <label for="file">Choose a file</label>
+    <!-- Drag-and-drop or file input upload area -->
+    <form action="/upload/file" method="POST" enctype="multipart/form-data" id="file-upload-form">
+        <div id="drop-zone">
+            <p>Drag files here or click to upload</p>
+            <input type="file" name="file" id="file-input" hidden>
+        </div>
+        <div id="file-list"></div>
+        <button type="button" id="select-file-button">Select File</button> 
         <button type="submit">Upload File</button>
     </form>
 </div>
+
+
+
+
+
+<script>
+const dropZone = document.getElementById('drop-zone');
+const fileInput = document.getElementById('file-input');
+const selectFileButton = document.getElementById('select-file-button'); // Button to trigger file input
+const fileList = document.getElementById('file-list'); // File list container
+
+// Highlight drop area on dragover
+dropZone.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    dropZone.classList.add('dragover');
+});
+
+// Remove highlight on dragleave
+dropZone.addEventListener('dragleave', () => {
+    dropZone.classList.remove('dragover');
+});
+
+// Handle file drop
+dropZone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dropZone.classList.remove('dragover');
+
+    const files = e.dataTransfer.files;
+    if (files.length > 0) {
+        fileInput.files = files;
+        updateFileList(files); // Update file list when files are dropped
+    }
+});
+
+// Handle file selection via "Select File" button
+selectFileButton.addEventListener('click', () => {
+    fileInput.click(); // Trigger file input dialog
+});
+
+// Handle file selection via file input dialog
+fileInput.addEventListener('change', () => {
+    updateFileList(fileInput.files); // Update file list when files are selected
+});
+
+// Function to display the file names
+function updateFileList(files) {
+    fileList.innerHTML = ''; // Clear existing list
+    Array.from(files).forEach(file => {
+        const listItem = document.createElement('p');
+        listItem.textContent = file.name; // Display file name
+        fileList.appendChild(listItem); // Add file name to the file list container
+    });
+}
+
+
+</script>

@@ -28,10 +28,10 @@ const uploadText = async (req, res) => {
             uploadDate: new Date()
         });
         console.log("successfully uploaded text")
-        res.redirect('/upload');
+        res.redirect('/upload?successMessage=Text uploaded successfully!');
     } catch (error) {
         console.error('Error uploading text:', error);
-        res.status(500).send('Failed to upload text.');
+        res.redirect('/upload?errorMessage=Failed to upload text.');
     }
 };
 
@@ -82,13 +82,12 @@ const uploadFile = async (req, res) => {
         fileStream.end(req.file.buffer);
 
         fileStream.on("finish", () => {
-            console.log("Successfully uploaded file with category:", category);
-            res.redirect("/upload");
+            res.redirect('/upload?successMessage=File uploaded successfully!');
         });
 
         fileStream.on("error", (err) => {
-            console.error("Error uploading file:", err);
-            res.status(500).send("Failed to upload file");
+            console.error('Error uploading file:', err);
+            res.redirect('/upload?errorMessage=Failed to upload file.');
         });
     } catch (error) {
         console.error("Error uploading to GridFS:", error);

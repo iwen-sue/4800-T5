@@ -1,4 +1,3 @@
-/* variables.css */
     * {
       margin: 0;
       padding: 0;
@@ -13,6 +12,13 @@
       z-index: 1000;
     }
 
+        .main-header nav a {
+          text-decoration: none;
+        }
+    
+        .main-header .logo-link {
+          text-decoration: none;
+        }
     .hero {
       width: 100%;
       min-height: 100vh;
@@ -33,6 +39,8 @@
       align-items: center;
       justify-content: space-between;
       padding: 10px 3%;
+      background-color: transparent;
+      backdrop-filter: blur(100px);
     }
 
     .nav-links {
@@ -54,6 +62,7 @@
     .logo-container {
       display: flex;
       align-items: center;
+
     }
 
     .logo-text {
@@ -70,16 +79,18 @@
       cursor: pointer;
     }
 
-    .content {
-      margin: 16% auto 0;
-    }
+.content {
+  margin: 16% auto 0;
+  padding: 0 20px;
+  /* Add padding for mobile */
+}
 
-    .content h1 {
-      font-size: 65px;
-      font-family: Verdana, Geneva, Tahoma, sans-serif;
-      font-weight: 400;
-      color: #bbdede;
-    }
+.content h1 {
+  font-size: 64px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: 400;
+  color: #bbdede;
+}
 
     .content h1 span {
       font-weight: 900;
@@ -122,3 +133,128 @@
     font-size: 14px;
     color: #bbdede;
   }
+
+    /* Hamburger menu styles */
+    .hamburger {
+      display: none;
+      cursor: pointer;
+      padding: 10px;
+    }
+  
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background-color: #bbdede;
+      margin: 5px 0;
+      transition: 0.4s;
+    }
+  
+    /* Media queries for responsive design */
+    @media (max-width: 768px) {
+        .logo-text {
+            display: none;
+
+          }
+      .content {
+        margin-top: 60%;
+      }
+  
+      .content h1 {
+        font-size: 36px;
+        /* Smaller font size for mobile */
+        line-height: 1.4;
+      }
+  
+      .nav-links {
+        display: none;
+        /* Hide navigation links by default */
+        position: fixed;
+        top: 70px;
+        right: 0;
+        background: rgba(22, 67, 84, 0.95);
+        backdrop-filter: blur(10px);
+        width: 140px;
+        flex-direction: column;
+        padding: 10px;
+        border-radius: 10px 0 0 10px;
+        z-index: 1000;
+      }
+  
+      .nav-links.active {
+        display: flex;
+      }
+
+  
+      .hamburger {
+        display: block;
+        z-index: 1001;
+      }
+  
+      /* Rotate hamburger menu lines when active */
+      .hamburger.active div:nth-child(1) {
+        transform: rotate(-45deg) translate(-5px, 6px);
+      }
+  
+      .hamburger.active div:nth-child(2) {
+        opacity: 0;
+      }
+  
+      .hamburger.active div:nth-child(3) {
+        transform: rotate(45deg) translate(-5px, -6px);
+      }
+  
+      .btn {
+        width: 80%;
+        text-align: center;
+        padding: 8px 16px;
+
+          font-size: 14px;
+      }
+  
+      nav .btn {
+        width: auto;
+        font-size: 14px;
+      }
+
+      .logo {
+        width: 70px;
+
+      }
+ 
+    
+  
+      .main-header {
+        background: rgba(22, 67, 84, 0.95);
+        backdrop-filter: blur(10px);
+      }
+    }
+
+        /* Login status message */
+        .login-status {
+          position: fixed;
+          top: 80px;
+          right: 20px;
+          background: rgba(67, 198, 172, 0.9);
+          color: #fff;
+          padding: 10px 20px;
+          border-radius: 5px;
+          z-index: 1000;
+          display: none;
+        }
+    
+        .login-status.active {
+          display: block;
+          animation: fadeIn 0.3s ease-in;
+        }
+    
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(-10px);
+          }
+    
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }

@@ -111,3 +111,55 @@ body {
     width: 20px;
     margin-right: 10px;
 }
+
+/* Existing styles remain the same until media queries */
+
+@media (max-width: 768px) {
+    .wrapper {
+        width: 90%;
+        max-width: 420px;
+        margin: 20px auto;
+        padding: 20px;
+    }
+
+    .wrapper h1 {
+        font-size: 28px;
+    }
+
+    .input-box {
+        margin: 20px 0;
+    }
+
+    .input-box input {
+        font-size: 14px;
+        padding: 15px 35px 15px 15px;
+    }
+
+    .btn {
+        height: 40px;
+        font-size: 14px;
+    }
+
+    .login-box button {
+        padding: 8px 0;
+        font-size: 14px;
+    }
+
+    .register-link {
+        font-size: 13px;
+    }
+}
+
+/* Fix for header overlap */
+body {
+    min-height: 100vh;
+    padding-top: 70px;
+    /* Add padding to prevent header overlap */
+}
+
+@media (max-height: 600px) {
+    .wrapper {
+        margin: 10px auto;
+        padding: 15px;
+    }
+}

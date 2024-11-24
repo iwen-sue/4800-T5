@@ -2,25 +2,74 @@
 <link rel="stylesheet" href="/css/button.css">
 <header class="main-header">
     <nav class="main-nav">
-    <% if (locals.user) { %>
         <a href="/" class="logo-link">
-            <img src="/images/logo.png" class="logo" alt="Clippio">
+            <div class="logo-container">
+                <img src="/images/logo.png" class="logo" alt="Clippio">
+                <div class="logo-text">CLIPPIO</div>
+            </div>
         </a>
-        <div class="nav-links">
-            <a href="/profile" class="nav-right"><img src="/images/person.png" alt=""></a>
-            <a href="/upload" class="nav-right"><img src="/images/upload.png" alt=""></a>
-            <a href="/download" class="nav-right"><img src="/images/download.png" alt=""></a>
-            <a href="/logout" class="btn">Logout</a>
+
+        <!-- Hamburger Menu -->
+        <div class="hamburger">
+            <div></div>
+            <div></div>
+            <div></div>
         </div>
-    <% } else if (locals.page !== 'login' && locals.page !== 'register') { %>
-        <a href="/" class="logo-link">
-            <img src="/images/logo.png" class="logo" alt="Clippio">
-        </a>
-        <div class="nav-links">
-            <a href="/upload-guest" class="nav-right"><img src="/images/upload.png" alt=""></a>
-            <a href="/download" class="nav-right"><img src="/images/download.png" alt=""></a>
-            <a href="/login" class="btn">Login</a>
-        </div>
-    <% } %>
+
+        <% if (locals.user) { %>
+            <div class="nav-links">
+                <a href="/profile" class="nav-right"><img src="/images/person.png" alt="Profile"></a>
+                <a href="/upload" class="nav-right"><img src="/images/upload.png" alt="Upload"></a>
+                <a href="/download" class="nav-right"><img src="/images/download.png" alt="Download"></a>
+                <a href="/logout" class="btn">Logout</a>
+            </div>
+            <div class="login-status">Logged in as <%= locals.user.email %></div>
+        <% } else if (locals.page !== 'login' && locals.page !== 'register') { %>
+            <div class="nav-links">
+                <a href="/upload-guest" class="nav-right"><img src="/images/upload.png" alt="Upload"></a>
+                <a href="/download" class="nav-right"><img src="/images/download.png" alt="Download"></a>
+                <a href="/login" class="btn">Login</a>
+            </div>
+            <div class="login-status">Not logged in</div>
+        <% } %>
     </nav>
 </header>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
+    const loginStatus = document.querySelector('.login-status');
+    const logoText = document.querySelector('.logo-text');
+
+    // 检查窗口大小并设置 logo-text 的显示状态
+    function checkWindowSize() {
+        if (window.innerWidth <= 768) {
+            logoText.style.display = 'none';
+        } else {
+            logoText.style.display = 'block';
+        }
+    }
+
+    // 页面加载时检查
+    checkWindowSize();
+
+    // 窗口大小改变时检查
+    window.addEventListener('resize', checkWindowSize);
+
+    if (hamburger) {
+        hamburger.addEventListener('click', function() {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+    }
+
+    // Show login status briefly
+    if (loginStatus) {
+        loginStatus.classList.add('active');
+        setTimeout(() => {
+            loginStatus.classList.remove('active');
+        }, 3000);
+    }
+});
+</script>

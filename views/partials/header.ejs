@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const loginStatus = document.querySelector('.login-status');
     const logoText = document.querySelector('.logo-text');
 
-    // 检查窗口大小并设置 logo-text 的显示状态
+
     function checkWindowSize() {
         if (window.innerWidth <= 768) {
             logoText.style.display = 'none';
@@ -51,10 +51,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // 页面加载时检查
+
     checkWindowSize();
 
-    // 窗口大小改变时检查
+
     window.addEventListener('resize', checkWindowSize);
 
     if (hamburger) {

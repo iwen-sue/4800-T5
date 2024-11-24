@@ -112,7 +112,6 @@ body {
     margin-right: 10px;
 }
 
-/* Existing styles remain the same until media queries */
 
 @media (max-width: 768px) {
     .wrapper {
@@ -150,7 +149,7 @@ body {
     }
 }
 
-/* Fix for header overlap */
+
 body {
     min-height: 100vh;
     padding-top: 70px;

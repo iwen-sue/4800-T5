@@ -63,7 +63,7 @@
     color: #dc3545;
 }
 
-/* 响应式设计 */
+
 @media (max-width: 768px) {
     .otp-form {
         padding: 0.5rem;
@@ -71,14 +71,11 @@
 
     .otp-inputs {
         gap: 6px;
-        /* 在手机上进一步减小间距 */
     }
 
     .otp-inputs input {
         width: 56px;
-        /* 在手机上进一步减小输入框宽度 */
         height: 72px;
-        /* 在手机上进一步减小输入框高度 */
         font-size: 1rem;
     }
 

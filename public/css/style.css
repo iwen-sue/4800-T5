@@ -220,12 +220,15 @@
         width: 70px;
 
       }
- 
-    
-  
+
+      nav {
+      background-color: transparent;
+      backdrop-filter: blur(100px);
+      }
+
+      
       .main-header {
-        background: rgba(22, 67, 84, 0.95);
-        backdrop-filter: blur(10px);
+        background: transparent;
       }
     }
 

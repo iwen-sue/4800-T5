@@ -3,14 +3,34 @@
 <h1 style="margin-top: 90px;">My Uploaded Content</h1>
 
 <div class="content-container">
+
     <div class="content-section">
         <h2>Uploaded Texts</h2>
         <ul>
             <% if (texts.length > 0) { %>
                 <% texts.forEach(text => { %>
                     <li>
-                        <p><%= text.text %></p>
-                        <small>Uploaded on: <%= text.uploadDate.toDateString() %></small>
+                        <div class="copy-container">
+
+                            <!-- Text Block -->
+                            <div class="text-block-container">
+                                <i class="fa fa-copy copy-icon" data-copy="<%= text.text %>"></i>
+                                <div class="text-block" readonly><%= text.text %></div>
+                            </div>
+                            
+                            <small>Uploaded on: <%= text.uploadDate.toDateString() %></small>
+                            <% if (text.expireAt) { %>
+                                <small>Expires on: <%= new Date(text.expireAt).toLocaleString() %></small>
+                            <% } %>
+                        </div>
+
+                        <!-- Trash Icon for Deleting -->
+                        <form action="/delete/text/<%= text._id %>" method="POST" class="delete-form">
+                            <button type="submit" class="delete-icon-button">
+                                <i class="fa fa-trash delete-icon"></i>
+                            </button>
+                        </form>
+                        
                     </li>
                 <% }) %>
             <% } else { %>
@@ -18,6 +38,7 @@
             <% } %>
         </ul>
     </div>
+    
 
     <div class="content-section">
         <h2>Uploaded Files</h2>
@@ -25,11 +46,23 @@
             <% if (files.length > 0) { %>
                 <% files.forEach(file => { %>
                     <li>
+                        <!-- <img src="<%= file.thumbnailUrl %>" alt="Thumbnail" class="thumbnail" /> -->
+                        
                         <a href="/preview/file/<%= file._id %>"><%= file.filename %></a>
                         <small data-type="<%= file.metadata.category %>">
                             Type: <%= file.metadata.category %>
                         </small>
                         <small>Uploaded on: <%= file.uploadDate.toDateString() %></small>
+                        <% if (file.metadata.expireAt) { %>
+                            <small>Expires on: <%= new Date(file.metadata.expireAt).toLocaleString() %></small>
+                        <% } %>
+
+                        <!-- Trash Icon for Deleting -->
+                        <form action="/delete/file/<%= file._id %>" method="POST" class="delete-form">
+                            <button type="submit" class="delete-icon-button">
+                                <i class="fa fa-trash delete-icon"></i>
+                            </button>
+                        </form>
                     </li>
                 <% }) %>
             <% } else { %>
@@ -37,4 +70,10 @@
             <% } %>
         </ul>
     </div>
+    
 </div>
+
+<script src="/js/download.js"></script>
+    
+
+

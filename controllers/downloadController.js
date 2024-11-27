@@ -126,11 +126,41 @@ const renderDownloadPage = async (req, res) => {
     }
 };
 
+const deleteText = async (req, res) => {
+    const db = getDB();
+    const textId = req.params.id;
+
+    try {
+        await db.collection('texts').deleteOne({ _id: new ObjectId(textId) });
+        res.redirect('/download'); // Redirect back to download page
+    } catch (error) {
+        console.error('Error deleting text:', error);
+        res.status(500).send('Failed to delete text');
+    }
+};
+
+const deleteFile = async (req, res) => {
+    const gfs = getGFS();
+    const fileId = req.params.id;
+
+    try {
+        // Remove file metadata and chunks from GridFS
+        await gfs.delete(new ObjectId(fileId));
+        res.redirect('/download'); // Redirect back to download page
+    } catch (error) {
+        console.error('Error deleting file:', error);
+        res.status(500).send('Failed to delete file');
+    }
+};
+
+
 module.exports = {
     listTexts,
     listFiles,
     downloadFile,
     previewFile,
     renderDownloadPage,
+    deleteText,
+    deleteFile
 };
 

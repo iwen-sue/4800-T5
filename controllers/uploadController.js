@@ -1,6 +1,6 @@
 const multer = require('multer');
 const { getDB, getGFS } = require('../config/database');
-const upload = require("../config/multer"); 
+const upload = require("../config/multer");
 
 
 // Function to upload text to the texts collection
@@ -25,7 +25,9 @@ const uploadText = async (req, res) => {
         await db.collection('texts').insertOne({
             email,
             text,
-            uploadDate: new Date()
+            uploadDate: new Date(),
+            // Set the expiration
+            expireAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // 7 days TTL
         });
         console.log("successfully uploaded text")
         res.redirect('/upload?successMessage=Text uploaded successfully!');
@@ -47,9 +49,9 @@ const uploadFiles = async (req, res) => {
     }
 
     try {
-        // Process each file
-        req.files.forEach((file) => {
+        const uploadPromises = req.files.map((file) => {
             const fileType = file.mimetype;
+
 
             // Determine the category based on file MIME type
             let category;
@@ -73,23 +75,29 @@ const uploadFiles = async (req, res) => {
                 category = "other"; // Default fallback
             }
 
-            // Create upload stream for each file
-            const fileStream = gfs.openUploadStream(file.originalname, {
-                contentType: file.mimetype,
-                metadata: {
-                    email,
-                    category,
-                },
-            });
+             // Create an upload stream for each file
+             return new Promise((resolve, reject) => {
+                const fileStream = gfs.openUploadStream(file.originalname, {
+                    contentType: file.mimetype,
+                    metadata: {
+                        email,
+                        category,
+                        // Set the expiration
+                        expireAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // 7 days TTL
+                    },
+                });
 
-            fileStream.end(file.buffer);
-
-            fileStream.on("error", (err) => {
-                console.error('Error uploading file:', err);
+                fileStream.end(file.buffer);
+                fileStream.on("finish", resolve);
+                fileStream.on("error", reject);
             });
         });
 
+        // Wait for all files to be uploaded
+        await Promise.all(uploadPromises);
+
         res.redirect('/upload?successMessage=Files uploaded successfully!');
+
     } catch (error) {
         console.error("Error uploading files to GridFS:", error);
         res.status(500).send("Upload failed");

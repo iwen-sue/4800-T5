@@ -118,6 +118,91 @@ small[data-type] {
     margin-left: 0.5rem;
 }
 
+
+/* Text block styling */
+.text-block-container {
+    position: relative;
+    width: 100%;
+    max-height: 150px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #cfd0cfb1;
+    padding: 0px 10px 10px 10px;
+    overflow-y: auto;
+    font-size: 14px;
+    line-height: 1.5;
+    display: flex;
+    flex-direction: column; 
+}
+
+.text-block {
+    width: 100%;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    font-family: inherit;
+    color: #333;
+}
+
+/* copy icon */
+.copy-icon {
+    position: sticky;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+    color: #555;
+    margin-left: auto;
+}
+
+.copy-icon:hover {
+    color: #007bff;
+}
+
+
+/* Container Styling */
+.copy-container {
+    position: relative; 
+}
+
+/* Text Block Styling */
+.text-block-container {
+    position: relative;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #cfd0cfb1;
+    overflow-y: auto;
+    max-height: 150px;
+}
+
+/* Trash Icon Button Styling */
+.delete-icon-button {
+    position: absolute;
+    bottom: 10px; /* Align to bottom */
+    right: 10px; /* Align to right */
+    background: none; /* Remove default button background */
+    border: none; /* Remove button border */
+    cursor: pointer; /* Pointer cursor for better UX */
+    font-size: 18px; /* Icon size */
+    color: #d9aeae; /* Red for delete action */
+    transition: color 0.3s ease; /* Smooth hover effect */
+}
+
+.delete-icon-button:hover i {
+    color: #d9363e; /* Darker red on hover */
+}
+
+/* .thumbnail {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+} */
+
+
+
+
 /* Responsive design */
 @media (max-width: 768px) {
     .content-container {

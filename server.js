@@ -148,8 +148,8 @@ app.get('/upload', (req, res) => {
 // Route for uploading text
 app.post('/upload/text', isAuthenticated, uploadController.uploadText);
 
-// Route to handle file uploads
-app.post('/upload/file', isAuthenticated, uploadController.upload.single('file'), uploadController.uploadFile);
+// Route to handle multiple file uploads
+app.post('/upload/file', isAuthenticated, upload.array('files'), uploadController.uploadFiles);
 
 app.get('/upload-guest', authenticateJWT, uploadController.uploadGuest);
 

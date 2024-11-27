@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Replace the copy icon with a check icon
                     item.classList.remove('fa-copy');
                     item.classList.add('fa-check');
-                    item.style.color = '#90ee90'; // Optional: Change the color to green for success feedback
+                    item.style.color = '#007bff'; // Optional: Change the color to green for success feedback
 
                     // Revert back to the copy icon after a short delay
                     setTimeout(() => {
@@ -25,3 +25,20 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+// Function to adjust the height of a textarea
+function autoResizeTextareas() {
+    const textareas = document.querySelectorAll('.text-block');
+    textareas.forEach(textarea => {
+        // Reset the height to shrink the textarea if text was deleted
+        textarea.style.height = 'auto';
+
+        // Adjust the height based on the scrollHeight, respecting the max-height
+        const newHeight = Math.min(textarea.scrollHeight, 200); // max-height
+        textarea.style.height = `${newHeight}px`;
+    });
+}
+
+// Call the function on page load
+document.addEventListener('DOMContentLoaded', autoResizeTextareas);
+

@@ -11,8 +11,13 @@
                 <% texts.forEach(text => { %>
                     <li class="clickable-copy">
                         <div class="copy-container">
-                            <i class="fa fa-copy copy-icon" data-copy="<%= text.text %>"></i>
-                            <p><%= text.text %></p>
+
+                            <!-- Text Block -->
+                            <div class="text-block-container">
+                                <i class="fa fa-copy copy-icon" data-copy="<%= text.text %>"></i>
+                                <div class="text-block" readonly><%= text.text %></div>
+                            </div>
+                            
                             <small>Uploaded on: <%= text.uploadDate.toDateString() %></small>
                             <% if (text.expireAt) { %>
                                 <small>Expires on: <%= new Date(text.expireAt).toLocaleString() %></small>
@@ -22,14 +27,13 @@
                             <button type="submit" class="delete-button">Delete</button>
                         </form>
                     </li>
-                    
-                    
                 <% }) %>
             <% } else { %>
                 <li class="empty-state">No texts uploaded yet</li>
             <% } %>
         </ul>
     </div>
+    
 
     <div class="content-section">
         <h2>Uploaded Files</h2>

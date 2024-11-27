@@ -1,6 +1,6 @@
 const multer = require('multer');
 const { getDB, getGFS } = require('../config/database');
-const upload = require("../config/multer"); 
+const upload = require("../config/multer");
 
 
 // Function to upload text to the texts collection
@@ -25,7 +25,10 @@ const uploadText = async (req, res) => {
         await db.collection('texts').insertOne({
             email,
             text,
-            uploadDate: new Date()
+            uploadDate: new Date(),
+            // Set the expiration date to 1 min from now
+            expireAt: new Date(Date.now() + 60 * 1000)
+            // expireAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // 7 days TTL
         });
         console.log("successfully uploaded text")
         res.redirect('/upload?successMessage=Text uploaded successfully!');
@@ -74,7 +77,10 @@ const uploadFile = async (req, res) => {
             contentType: req.file.mimetype,
             metadata: {
                 email,
-                category, 
+                category,
+                // Set the expiration date to 1 min from now
+                expireAt: new Date(Date.now() + 60 * 1000)
+                // expireAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // 7 days TTL
             },
         });
 

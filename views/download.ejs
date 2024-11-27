@@ -11,12 +11,16 @@
                     <li>
                         <p><%= text.text %></p>
                         <small>Uploaded on: <%= text.uploadDate.toDateString() %></small>
+                        <form action="/delete/text/<%= text._id %>" method="POST" style="display:inline;">
+                            <button type="submit" class="delete-button">Delete</button>
+                        </form>
                     </li>
                 <% }) %>
             <% } else { %>
                 <li class="empty-state">No texts uploaded yet</li>
             <% } %>
         </ul>
+        
     </div>
 
     <div class="content-section">
@@ -30,11 +34,15 @@
                             Type: <%= file.metadata.category %>
                         </small>
                         <small>Uploaded on: <%= file.uploadDate.toDateString() %></small>
+                        <form action="/delete/file/<%= file._id %>" method="POST" style="display:inline;">
+                            <button type="submit" class="delete-button">Delete</button>
+                        </form>
                     </li>
                 <% }) %>
             <% } else { %>
                 <li class="empty-state">No files uploaded yet</li>
             <% } %>
         </ul>
+        
     </div>
 </div>

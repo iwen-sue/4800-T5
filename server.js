@@ -160,7 +160,10 @@ app.get('/download', conditionalAuth, downloadController.renderDownloadPage);
 app.get('/download/file/:id', conditionalAuth, downloadController.downloadFile);
 // Route to preview file content by ID
 app.get('/preview/file/:id', conditionalAuth, downloadController.previewFile);
-
+// Delete text route
+app.post('/delete/text/:id', conditionalAuth, downloadController.deleteText);
+// Delete file route
+app.post('/delete/file/:id', conditionalAuth, downloadController.deleteFile);
 
 
 

@@ -11,6 +11,9 @@
                     <li>
                         <p><%= text.text %></p>
                         <small>Uploaded on: <%= text.uploadDate.toDateString() %></small>
+                        <% if (text.expireAt) { %>
+                            <small>Expires on: <%= new Date(text.expireAt).toLocaleString() %></small>
+                        <% } %>
                         <form action="/delete/text/<%= text._id %>" method="POST" style="display:inline;">
                             <button type="submit" class="delete-button">Delete</button>
                         </form>
@@ -34,6 +37,9 @@
                             Type: <%= file.metadata.category %>
                         </small>
                         <small>Uploaded on: <%= file.uploadDate.toDateString() %></small>
+                        <% if (file.metadata.expireAt) { %>
+                            <small>Expires on: <%= new Date(file.metadata.expireAt).toLocaleString() %></small>
+                        <% } %>
                         <form action="/delete/file/<%= file._id %>" method="POST" style="display:inline;">
                             <button type="submit" class="delete-button">Delete</button>
                         </form>

@@ -3,27 +3,32 @@
 <h1 style="margin-top: 90px;">My Uploaded Content</h1>
 
 <div class="content-container">
+
     <div class="content-section">
         <h2>Uploaded Texts</h2>
         <ul>
             <% if (texts.length > 0) { %>
                 <% texts.forEach(text => { %>
-                    <li>
-                        <p><%= text.text %></p>
-                        <small>Uploaded on: <%= text.uploadDate.toDateString() %></small>
-                        <% if (text.expireAt) { %>
-                            <small>Expires on: <%= new Date(text.expireAt).toLocaleString() %></small>
-                        <% } %>
+                    <li class="clickable-copy">
+                        <div class="copy-container">
+                            <i class="fa fa-copy copy-icon" data-copy="<%= text.text %>"></i>
+                            <p><%= text.text %></p>
+                            <small>Uploaded on: <%= text.uploadDate.toDateString() %></small>
+                            <% if (text.expireAt) { %>
+                                <small>Expires on: <%= new Date(text.expireAt).toLocaleString() %></small>
+                            <% } %>
+                        </div>
                         <form action="/delete/text/<%= text._id %>" method="POST" style="display:inline;">
                             <button type="submit" class="delete-button">Delete</button>
                         </form>
                     </li>
+                    
+                    
                 <% }) %>
             <% } else { %>
                 <li class="empty-state">No texts uploaded yet</li>
             <% } %>
         </ul>
-        
     </div>
 
     <div class="content-section">
@@ -52,3 +57,8 @@
         
     </div>
 </div>
+
+<script src="/js/download.js"></script>
+    
+
+

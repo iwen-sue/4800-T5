@@ -164,6 +164,9 @@ app.get('/preview/file/:id', conditionalAuth, downloadController.previewFile);
 app.post('/delete/text/:id', conditionalAuth, downloadController.deleteText);
 // Delete file route
 app.post('/delete/file/:id', conditionalAuth, downloadController.deleteFile);
+// Route to serve file/image thumbnails
+// app.get('/thumbnail/file/:id', conditionalAuth, downloadController.generateThumbnail);
+
 
 
 

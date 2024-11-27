@@ -26,9 +26,8 @@ const uploadText = async (req, res) => {
             email,
             text,
             uploadDate: new Date(),
-            // Set the expiration date to 100 min from now
-            expireAt: new Date(Date.now() + 100 * 60 * 1000)
-            // expireAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // 7 days TTL
+            // Set the expiration
+            expireAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // 7 days TTL
         });
         console.log("successfully uploaded text")
         res.redirect('/upload?successMessage=Text uploaded successfully!');
@@ -78,9 +77,8 @@ const uploadFile = async (req, res) => {
             metadata: {
                 email,
                 category,
-                // Set the expiration date to 100 min from now
-                expireAt: new Date(Date.now() + 100 * 60 * 1000)
-                // expireAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // 7 days TTL
+                // Set the expiration
+                expireAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // 7 days TTL
             },
         });
 

@@ -46,6 +46,8 @@
             <% if (files.length > 0) { %>
                 <% files.forEach(file => { %>
                     <li>
+                        <!-- <img src="<%= file.thumbnailUrl %>" alt="Thumbnail" class="thumbnail" /> -->
+                        
                         <a href="/preview/file/<%= file._id %>"><%= file.filename %></a>
                         <small data-type="<%= file.metadata.category %>">
                             Type: <%= file.metadata.category %>
@@ -67,8 +69,8 @@
                 <li class="empty-state">No files uploaded yet</li>
             <% } %>
         </ul>
-        
     </div>
+    
 </div>
 
 <script src="/js/download.js"></script>

@@ -9,7 +9,7 @@
         <ul>
             <% if (texts.length > 0) { %>
                 <% texts.forEach(text => { %>
-                    <li class="clickable-copy">
+                    <li>
                         <div class="copy-container">
 
                             <!-- Text Block -->
@@ -23,9 +23,14 @@
                                 <small>Expires on: <%= new Date(text.expireAt).toLocaleString() %></small>
                             <% } %>
                         </div>
-                        <form action="/delete/text/<%= text._id %>" method="POST" style="display:inline;">
-                            <button type="submit" class="delete-button">Delete</button>
+
+                        <!-- Trash Icon for Deleting -->
+                        <form action="/delete/text/<%= text._id %>" method="POST" class="delete-form">
+                            <button type="submit" class="delete-icon-button">
+                                <i class="fa fa-trash delete-icon"></i>
+                            </button>
                         </form>
+                        
                     </li>
                 <% }) %>
             <% } else { %>
@@ -49,8 +54,12 @@
                         <% if (file.metadata.expireAt) { %>
                             <small>Expires on: <%= new Date(file.metadata.expireAt).toLocaleString() %></small>
                         <% } %>
-                        <form action="/delete/file/<%= file._id %>" method="POST" style="display:inline;">
-                            <button type="submit" class="delete-button">Delete</button>
+
+                        <!-- Trash Icon for Deleting -->
+                        <form action="/delete/file/<%= file._id %>" method="POST" class="delete-form">
+                            <button type="submit" class="delete-icon-button">
+                                <i class="fa fa-trash delete-icon"></i>
+                            </button>
                         </form>
                     </li>
                 <% }) %>

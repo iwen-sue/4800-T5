@@ -143,6 +143,7 @@ small[data-type] {
     color: #333;
 }
 
+/* copy icon */
 .copy-icon {
     position: sticky;
     right: 10px;
@@ -155,6 +156,41 @@ small[data-type] {
 .copy-icon:hover {
     color: #007bff;
 }
+
+
+/* Container Styling */
+.copy-container {
+    position: relative; 
+}
+
+/* Text Block Styling */
+.text-block-container {
+    position: relative;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #cfd0cfb1;
+    overflow-y: auto;
+    max-height: 150px;
+}
+
+/* Trash Icon Button Styling */
+.delete-icon-button {
+    position: absolute;
+    bottom: 10px; /* Align to bottom */
+    right: 10px; /* Align to right */
+    background: none; /* Remove default button background */
+    border: none; /* Remove button border */
+    cursor: pointer; /* Pointer cursor for better UX */
+    font-size: 18px; /* Icon size */
+    color: #d9aeae; /* Red for delete action */
+    transition: color 0.3s ease; /* Smooth hover effect */
+}
+
+.delete-icon-button:hover i {
+    color: #d9363e; /* Darker red on hover */
+}
+
 
 
 /* Responsive design */

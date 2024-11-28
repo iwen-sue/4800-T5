@@ -120,28 +120,26 @@ app.post('/profile/delete', isAuthenticated, profileController.deleteAccount);
 app.post("/profile/upload", isAuthenticated, upload.single("profilePicture"), profileController.uploadProfilePicture);
 
 // Token routes
-app.get('/getPasscode', isAuthenticated, passcodeController.getPasscode);
 app.post('/generatePasscode', isAuthenticated, passcodeController.generatePasscode);
 app.post('/verifyPasscode', passcodeController.verifyPasscode);
 
 
 // Upload routes
-app.get('/upload', (req, res) => {
+app.get('/upload', conditionalAuth, (req, res) => {
     const successMessage = req.query.successMessage || null;
     const errorMessage = req.query.errorMessage || null;
 
-    if (req.isAuthenticated()) {
-        res.render('upload', { 
-            user: req.user, 
-            successMessage, 
-            errorMessage 
-        });
-    } else {
-        res.render('upload-guest', { 
-            successMessage,
-            errorMessage
-        });
-    }
+    res.render('upload', { 
+        user: req.user, 
+        successMessage, 
+        errorMessage 
+    });
+});
+
+app.get('/upload-guest', (req, res) => {
+    res.render('upload-guest', {
+        page: 'upload-guest'
+    });
 });
 
 
@@ -150,9 +148,6 @@ app.post('/upload/text', isAuthenticated, uploadController.uploadText);
 
 // Route to handle file uploads
 app.post('/upload/file', isAuthenticated, uploadController.upload.single('file'), uploadController.uploadFile);
-
-app.get('/upload-guest', authenticateJWT, uploadController.uploadGuest);
-
 
 // Route to view the download page with uploaded texts and files
 app.get('/download', conditionalAuth, downloadController.renderDownloadPage);

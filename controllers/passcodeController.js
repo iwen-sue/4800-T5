@@ -2,20 +2,6 @@
 const { getDB } = require("../config/database");
 const jwt = require("jsonwebtoken");
 
-const getPasscode = async (req, res) => {
-    try {
-        const db = getDB();
-        const isGenerated = await db.collection("passcodes").findOne({ email: req.user.email });
-        if (!isGenerated) {
-            res.status(404).send({ error: "You don't have passcode yet." });
-            return;
-        }
-        res.status(200).send({ passcode: isGenerated.passcode });
-    } catch (err) {
-        res.status(500).send({ error: "Failed to get passcode" }); 
-    }
-};
-
 const generatePasscode = async (req, res) => {
   const user = req.user;
   const db = getDB();
@@ -66,7 +52,6 @@ const verifyPasscode = async (req, res) => {
 
 
 module.exports = {
-  getPasscode,
   generatePasscode,
   verifyPasscode,
 };

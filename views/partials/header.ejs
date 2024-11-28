@@ -24,9 +24,14 @@
                 <a href="/logout" class="btn">Logout</a>
             </div>
             <div class="login-status">Logged in as <%= locals.user.email %></div>
+        <% } else if ( locals.page === 'upload-guest') { %>
+            <div class="nav-links">
+                <a href="/login" class="btn">Login</a>
+            </div>
+            <div class="login-status">Not logged in</div>
         <% } else if (locals.page !== 'login' && locals.page !== 'register') { %>
             <div class="nav-links">
-                <a href="/upload-guest" class="nav-right"><img src="/images/upload.png" alt="Upload"></a>
+                <a href="/upload" class="nav-right"><img src="/images/upload.png" alt="Upload"></a>
                 <a href="/download" class="nav-right"><img src="/images/download.png" alt="Download"></a>
                 <a href="/login" class="btn">Login</a>
             </div>

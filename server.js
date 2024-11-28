@@ -1,3 +1,4 @@
+// server.js
 const express = require('express');
 const expressLayouts = require('express-ejs-layouts');
 const env = require('dotenv').config();
@@ -17,7 +18,6 @@ const conditionalAuth = require('./middleware/authMiddleware');
 const cookieParser = require('cookie-parser');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const browserSync = require("browser-sync").create();
-
 
 
 const app = express();
@@ -165,8 +165,7 @@ app.post('/delete/text/:id', conditionalAuth, downloadController.deleteText);
 // Delete file route
 app.post('/delete/file/:id', conditionalAuth, downloadController.deleteFile);
 // Route to serve file/image thumbnails
-// app.get('/thumbnail/file/:id', conditionalAuth, downloadController.generateThumbnail);
-
+app.get('/thumbnail/:id', conditionalAuth, downloadController.getThumbnail);
 
 
 

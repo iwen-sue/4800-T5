@@ -191,14 +191,46 @@ small[data-type] {
     color: #d9363e; /* Darker red on hover */
 }
 
-/* .thumbnail {
+
+/* thumbnail styling */
+.files-list {
+    list-style: none;
+    padding: 0;
+}
+
+.file-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+.file-preview {
+    margin-right: 1rem;
+}
+
+.file-thumbnail {
     width: 100px;
     height: 100px;
-    object-fit: cover;
-    margin-right: 10px;
-    border: 1px solid #ccc;
+    object-fit: contain;
+    border: 1px solid #ddd;
     border-radius: 4px;
-} */
+    background-color: #f8f9fa;
+}
+
+.file-info {
+    flex-grow: 1;
+}
+
+.file-link {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+.delete-form {
+    margin-left: 1rem;
+}
 
 
 

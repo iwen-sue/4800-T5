@@ -10,6 +10,13 @@ const generatePasscode = async (req, res) => {
   const passcode = Math.random().toString(36).slice(2, 8).toUpperCase();
   console.log("Generated passcode:", passcode);
 
+  // check if database already has the same passcode
+  const passcodeExists = await db.collection("passcodes").findOne({ passcode: passcode });
+  if (passcodeExists) {
+    generatePasscode(req, res);
+    return;
+  }
+
   try {
     await db.collection("passcodes").insertOne({
       email: user.email,

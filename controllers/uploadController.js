@@ -43,7 +43,7 @@ const uploadFiles = async (req, res) => {
     const gfs = getGFS();
     const db = getDB();
     const email = req.user.email; // Ensure the user is authenticated
-
+    console.log("Uploaded files:", req.files); // Debugging
     if (!req.files || req.files.length === 0) {
         return res.status(400).send("No files uploaded");
     }
@@ -88,8 +88,14 @@ const uploadFiles = async (req, res) => {
                 });
 
                 fileStream.end(file.buffer);
-                fileStream.on("finish", resolve);
-                fileStream.on("error", reject);
+                fileStream.on("finish", () => {
+                    console.log(`Uploaded file: ${file.originalname}`);
+                    resolve();
+                });
+                fileStream.on("error", (err) => {
+                    console.error(`Error uploading file: ${file.originalname}`, err);
+                    reject(err);
+                });
             });
         });
 

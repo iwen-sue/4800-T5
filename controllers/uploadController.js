@@ -14,6 +14,10 @@ const uploadText = async (req, res) => {
 
     const { text } = req.body;
     const email = req.user.email;
+    // Set expiration based on authentication status
+    const expireInMs = req.user && req.user.email
+        ? 7 * 24 * 60 * 60 * 1000 // 7 days for authenticated users
+        : 23 * 60 * 60 * 1000;   // 23 hours for unauthenticated users (less than the token expiration time)
 
     // Validate input
     if (!text) {
@@ -26,8 +30,7 @@ const uploadText = async (req, res) => {
             email,
             text,
             uploadDate: new Date(),
-            // Set the expiration
-            expireAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // 7 days TTL
+            expireAt: new Date(Date.now() + expireInMs) // Dynamic TTL
         });
         console.log("successfully uploaded text")
         res.redirect('/upload?successMessage=Text uploaded successfully!');
@@ -47,6 +50,11 @@ const uploadFile = async (req, res) => {
     if (!req.file) {
         return res.status(400).send("No file uploaded");
     }
+
+    // Set expiration based on authentication status
+    const expireInMs = req.user && req.user.email
+        ? 7 * 24 * 60 * 60 * 1000 // 7 days for authenticated users
+        : 23 * 60 * 60 * 1000;   // 23 hours for unauthenticated users (less than the token expiration time)
 
     // Determine the category based on file MIME type
     const fileType = req.file.mimetype;
@@ -77,8 +85,7 @@ const uploadFile = async (req, res) => {
             metadata: {
                 email,
                 category,
-                // Set the expiration
-                expireAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // 7 days TTL
+                expireAt: new Date(Date.now() + expireInMs) // Dynamic TTL
             },
         });
 

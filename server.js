@@ -1,3 +1,4 @@
+// server.js
 const express = require('express');
 const expressLayouts = require('express-ejs-layouts');
 const env = require('dotenv').config();
@@ -17,7 +18,6 @@ const conditionalAuth = require('./middleware/authMiddleware');
 const cookieParser = require('cookie-parser');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const browserSync = require("browser-sync").create();
-
 
 
 const app = express();
@@ -120,28 +120,26 @@ app.post('/profile/delete', isAuthenticated, profileController.deleteAccount);
 app.post("/profile/upload", isAuthenticated, upload.single("profilePicture"), profileController.uploadProfilePicture);
 
 // Token routes
-app.get('/getPasscode', isAuthenticated, passcodeController.getPasscode);
 app.post('/generatePasscode', isAuthenticated, passcodeController.generatePasscode);
 app.post('/verifyPasscode', passcodeController.verifyPasscode);
 
 
 // Upload routes
-app.get('/upload', (req, res) => {
+app.get('/upload', conditionalAuth, (req, res) => {
     const successMessage = req.query.successMessage || null;
     const errorMessage = req.query.errorMessage || null;
 
-    if (req.isAuthenticated()) {
-        res.render('upload', { 
-            user: req.user, 
-            successMessage, 
-            errorMessage 
-        });
-    } else {
-        res.render('upload-guest', { 
-            successMessage,
-            errorMessage
-        });
-    }
+    res.render('upload', { 
+        user: req.user, 
+        successMessage, 
+        errorMessage 
+    });
+});
+
+app.get('/upload-guest', (req, res) => {
+    res.render('upload-guest', {
+        page: 'upload-guest'
+    });
 });
 
 
@@ -150,9 +148,6 @@ app.post('/upload/text', isAuthenticated, uploadController.uploadText);
 
 // Route to handle multiple file uploads
 app.post('/upload/file', isAuthenticated, upload.array('files'), uploadController.uploadFiles);
-
-app.get('/upload-guest', authenticateJWT, uploadController.uploadGuest);
-
 
 // Route to view the download page with uploaded texts and files
 app.get('/download', conditionalAuth, downloadController.renderDownloadPage);
@@ -165,8 +160,7 @@ app.post('/delete/text/:id', conditionalAuth, downloadController.deleteText);
 // Delete file route
 app.post('/delete/file/:id', conditionalAuth, downloadController.deleteFile);
 // Route to serve file/image thumbnails
-// app.get('/thumbnail/file/:id', conditionalAuth, downloadController.generateThumbnail);
-
+app.get('/thumbnail/:id', conditionalAuth, downloadController.getThumbnail);
 
 
 

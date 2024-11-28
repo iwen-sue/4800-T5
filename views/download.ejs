@@ -42,22 +42,27 @@
 
     <div class="content-section">
         <h2>Uploaded Files</h2>
-        <ul>
+        <ul class="files-list">
             <% if (files.length > 0) { %>
                 <% files.forEach(file => { %>
-                    <li>
-                        <!-- <img src="<%= file.thumbnailUrl %>" alt="Thumbnail" class="thumbnail" /> -->
-                        
-                        <a href="/preview/file/<%= file._id %>"><%= file.filename %></a>
-                        <small data-type="<%= file.metadata.category %>">
-                            Type: <%= file.metadata.category %>
-                        </small>
-                        <small>Uploaded on: <%= file.uploadDate.toDateString() %></small>
-                        <% if (file.metadata.expireAt) { %>
-                            <small>Expires on: <%= new Date(file.metadata.expireAt).toLocaleString() %></small>
-                        <% } %>
-
-                        <!-- Trash Icon for Deleting -->
+                    <li class="file-item">
+                        <div class="file-preview">
+                            <% if (file.contentType.startsWith('image/') || file.contentType === 'application/pdf') { %>
+                                <img src="/thumbnail/<%= file._id %>" alt="<%= file.filename %> thumbnail" class="file-thumbnail">
+                            <% } else { %>
+                                <img src="/images/file-icon.png" alt="Generic file icon" class="file-thumbnail">
+                            <% } %>
+                        </div>
+                        <div class="file-info">
+                            <a href="/preview/file/<%= file._id %>" class="file-link"><%= file.filename %></a>
+                            <small data-type="<%= file.metadata.category %>">
+                                Type: <%= file.metadata.category %>
+                            </small>
+                            <small>Uploaded on: <%= file.uploadDate.toDateString() %></small>
+                            <% if (file.metadata.expireAt) { %>
+                                <small>Expires on: <%= new Date(file.metadata.expireAt).toLocaleString() %></small>
+                            <% } %>
+                        </div>
                         <form action="/delete/file/<%= file._id %>" method="POST" class="delete-form">
                             <button type="submit" class="delete-icon-button">
                                 <i class="fa fa-trash delete-icon"></i>

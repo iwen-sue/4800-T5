@@ -4,7 +4,7 @@ const { ObjectId } = require('mongodb');
 
 const Canvas = require('canvas');
 const { createCanvas } = Canvas;
-const pdfjsLib = require('pdfjs-dist/legacy/build/pdf.mjs');
+// const pdfjsLib = require('pdfjs-dist/legacy/build/pdf.mjs');
 const sharp = require('sharp');
 const path = require('path');
 
@@ -165,6 +165,7 @@ const generateThumbnail = async (buffer, fileType) => {
     if (fileType === 'application/pdf') {
         try {
             const data = new Uint8Array(buffer);
+            const pdfjsLib = await import('pdfjs-dist/legacy/build/pdf.mjs');
             const pdfDocument = await pdfjsLib.getDocument({ data }).promise;
             const page = await pdfDocument.getPage(1);
             const viewport = page.getViewport({ scale: 1.0 });

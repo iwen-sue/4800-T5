@@ -14,20 +14,15 @@
 
 <div class="upload-container">
     <!-- Form to upload text -->
-    <form action="<%= isGuest ? '/upload-guest/text' : '/upload/text' %>" method="POST">
-        <textarea name="text" placeholder="Enter description" rows="5" required></textarea>
-        <button type="submit">Upload Text</button>
-    </form>
-
-    <!-- Drag-and-drop or file input upload area -->
-    <form action="<%= isGuest ? '/upload-guest/file' : '/upload/file' %>" method="POST" enctype="multipart/form-data" id="file-upload-form">
+    <form action="<%= isGuest ? '/upload-guest/combined' : '/upload/combined' %>" method="POST" enctype="multipart/form-data" id="combined-upload-form">
+        <textarea name="text" placeholder="Enter description (optional)" rows="5"></textarea>
         <div id="drop-zone">
             <p>Drag files here or click to upload</p>
             <input type="file" name="files" id="file-input" multiple hidden>
         </div>
         <div id="file-list"></div>
         <button type="button" id="select-file-button">Select Files</button> 
-        <button type="submit">Upload Files</button>
+        <button type="submit">Upload</button> 
     </form>
 </div>
 

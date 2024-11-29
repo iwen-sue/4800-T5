@@ -162,14 +162,9 @@ app.get('/upload-guest', (req, res) => {
 
 
 // Route for registered user uploading 
-app.post('/upload/text', isAuthenticated, uploadController.uploadText);
-app.post('/upload/file', isAuthenticated, upload.array('files'), uploadController.uploadFiles);
-
-// Route to handle guest uploads
-app.post('/upload-guest/text', uploadController.uploadText);
-app.post('/upload-guest/file', upload.array('files'), uploadController.uploadFiles);
-
-
+app.post('/upload/combined', isAuthenticated, upload.array('files'), uploadController.uploadCombined);
+// Combined upload route for guests
+app.post('/upload-guest/combined', upload.array('files'), uploadController.uploadCombined);
 
 // Route to view the download page with uploaded texts and files
 app.get('/download', conditionalAuth, downloadController.renderDownloadPage);

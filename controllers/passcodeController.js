@@ -1,21 +1,40 @@
 // controllers/passcodeController.js
 const { getDB } = require("../config/database");
 const jwt = require("jsonwebtoken");
+const sns = require("../config/sns");
+const generatePC = require("../util/generatePC");
+
+const generatePasscodeSMS = async (req, res) => {
+  const db = getDB();
+  const phone = req.body.phone;
+  const passcode = await generatePC();
+  const message = `Your passcode for CLIPPIO is ${passcode}.`;
+  const params = {
+    Message: message,
+    PhoneNumber: phone,
+  };
+
+  try {
+    await db.collection("passcodes").insertOne({
+      phone: phone,
+      passcode: passcode,
+      createdAt: new Date(),
+    });
+    await sns.publish(params).promise();
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ error: err.message });
+    return;
+  }
+
+  res.status(200).send({ passcode });
+};
 
 const generatePasscode = async (req, res) => {
   const user = req.user;
   const db = getDB();
-
-  // get random 6-digit passcode alphanumeric
-  const passcode = Math.random().toString(36).slice(2, 8).toUpperCase();
-  console.log("Generated passcode:", passcode);
-
-  // check if database already has the same passcode
-  const passcodeExists = await db.collection("passcodes").findOne({ passcode: passcode });
-  if (passcodeExists) {
-    generatePasscode(req, res);
-    return;
-  }
+  const passcode = await generatePC();
 
   try {
     await db.collection("passcodes").insertOne({
@@ -24,7 +43,7 @@ const generatePasscode = async (req, res) => {
       createdAt: new Date(),
     });
   } catch (err) {
-    res.status(500).send({ error: "You cannot generate another code while your recent code exists." });
+    res.status(500).send({ error: err.message });
     return;
   }
   res.status(200).send({ passcode });
@@ -41,10 +60,11 @@ const verifyPasscode = async (req, res) => {
             res.status(404).send({ error: "Passcode not found." });
             return;
         }
-        const email = passcodeExists.email;
+        const email = passcodeExists.email || null;
+        const phone = passcodeExists.phone || null;
 
         // Sign jwt token
-        const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '1h' }); // expires in 1h
+        const token = jwt.sign({ email, phone }, process.env.JWT_SECRET, { expiresIn: '1h' }); // expires in 1h
         res.cookie('token', token, {
             httpOnly: true,    // Prevents access by JavaScript
             secure: true,      // Use HTTPS in production
@@ -60,5 +80,6 @@ const verifyPasscode = async (req, res) => {
 
 module.exports = {
   generatePasscode,
+  generatePasscodeSMS,
   verifyPasscode,
 };

@@ -9,9 +9,11 @@ const uploadCombined = async (req, res) => {
     const db = getDB();
     const gfs = getGFS();
 
-    const { text } = req.body; // Retrieve text input
+    const { text, phoneNumber } = req.body; // Retrieve text and phone number
     const files = req.files; // Retrieve files
-    const emailOrPasscode = req.user && req.user.email ? req.user.email : "passcode";
+
+    const passcode = req.user ? null : "passcode" // temporary
+    const isGuest = !req.user;
 
     // Set expiration based on authentication status
     const expireInMs = req.user && req.user.email
@@ -22,7 +24,7 @@ const uploadCombined = async (req, res) => {
         // Process text upload if text is provided
         if (text && text.trim() !== "") {
             await db.collection('texts').insertOne({
-                email: emailOrPasscode,
+                ...(isGuest ? { phone: phoneNumber } : { email: req.user.email }),
                 text,
                 uploadDate: new Date(),
                 expireAt: new Date(Date.now() + expireInMs),
@@ -61,10 +63,11 @@ const uploadCombined = async (req, res) => {
                     const fileStream = gfs.openUploadStream(file.originalname, {
                         contentType: file.mimetype,
                         metadata: {
-                            email: emailOrPasscode,
+                            ...(isGuest ? { phone: phoneNumber } : { email: req.user.email }),
                             category,
                             expireAt: new Date(Date.now() + expireInMs),
-                        },
+                        }
+                        ,
                     });
 
                     fileStream.end(file.buffer);
@@ -78,8 +81,11 @@ const uploadCombined = async (req, res) => {
         }
 
         // Redirect based on user type
-        const redirectTo = req.user ? '/upload' : '/upload-guest';
-        res.redirect(`${redirectTo}?successMessage=Upload successful!`);
+        if (!req.user) {
+            res.redirect(`/upload-guest/success?passcode=${passcode}`);
+        } else {
+            res.redirect('/upload?successMessage=Upload successful!');
+        }
 
     } catch (error) {
         console.error("Error during combined upload:", error);

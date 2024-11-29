@@ -12,7 +12,6 @@ const uploadCombined = async (req, res) => {
     const { text, phoneNumber } = req.body; // Retrieve text and phone number
     const files = req.files; // Retrieve files
 
-    const passcode = req.user ? null : "passcode" // temporary
     const isGuest = !req.user;
 
     // Set expiration based on authentication status
@@ -81,11 +80,10 @@ const uploadCombined = async (req, res) => {
         }
 
         // Redirect based on user type
-        if (!req.user) {
-            res.redirect(`/upload-guest/success?passcode=${passcode}`);
-        } else {
-            res.redirect('/upload?successMessage=Upload successful!');
-        }
+        res.redirect(req.user ? 
+            '/upload?successMessage=Upload successful!' : 
+            '/upload-guest?successMessage=Upload successful! Check your phone for the access code.'
+        );
 
     } catch (error) {
         console.error("Error during combined upload:", error);

@@ -68,30 +68,42 @@ document.addEventListener('DOMContentLoaded', () => {
         phoneModal.style.display = 'flex';
     });
 
-    submitPhoneBtn.addEventListener('click', () => {
+    submitPhoneBtn.addEventListener('click', async () => {
         const phoneNumber = phoneInput.value.trim();
-
+        
         if (!isValidPhoneNumber(phoneNumber)) {
             phoneError.textContent = 'Please enter a valid phone number in the format +1XXXXXXXXXX';
             return;
         }
-
-        let formData = new FormData(uploadForm);
-        formData.append('phoneNumber', phoneNumber);
-
-        fetch(uploadForm.action, {
-            method: 'POST',
-            body: formData
-        })
-            .then(response => {
-                if (response.redirected) {
-                    window.location.href = response.url;
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                phoneError.textContent = 'Upload failed. Please try again.';
+    
+        try {
+            const smsResponse = await fetch('/generatePasscodeSMS', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ phone: phoneNumber })
             });
+    
+            if (!smsResponse.ok) {
+                throw new Error('Failed to send SMS');
+            }
+    
+            let formData = new FormData(uploadForm);
+            formData.append('phoneNumber', phoneNumber);
+    
+            const uploadResponse = await fetch(uploadForm.action, {
+                method: 'POST',
+                body: formData
+            });
+    
+            if (uploadResponse.redirected) {
+                window.location.href = uploadResponse.url;
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            phoneError.textContent = 'Upload failed. Please try again.';
+        }
     });
 
     cancelPhoneBtn.addEventListener('click', () => {

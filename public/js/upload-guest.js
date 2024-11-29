@@ -85,10 +85,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify({ phone: phoneNumber })
             });
     
+            const data = await smsResponse.json();
+            
             if (!smsResponse.ok) {
-                throw new Error('Failed to send SMS');
+                phoneError.textContent = data.error || 'Failed to send SMS';
+                return;
             }
-    
+            
             let formData = new FormData(uploadForm);
             formData.append('phoneNumber', phoneNumber);
     

@@ -7,6 +7,12 @@ const generatePC = require("../util/generatePC");
 const generatePasscodeSMS = async (req, res) => {
   const db = getDB();
   const phone = req.body.phone;
+
+  const existingPhone = await db.collection("passcodes").findOne({ phone: phone });
+  if (existingPhone) {
+    return res.status(400).send({ error: "This phone number already has an active access code" });
+  }
+
   const passcode = await generatePC();
   const message = `Your passcode for CLIPPIO is ${passcode}.`;
   const params = {

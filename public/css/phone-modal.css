@@ -1,0 +1,125 @@
+/* Phone modal styles matching upload.css theme */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 30px 40px;
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    background: rgba(123, 145, 194, 0.1);
+    color: #bbdede;
+}
+
+.modal-content h2 {
+    text-align: center;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(to right, #185a9d, #43c6ac);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke: 1px #bbdede;
+}
+
+.modal-content p {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #bbdede;
+}
+
+.phone-input-container {
+    margin: 1rem 0;
+}
+
+#phone-input {
+    width: 100%;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(187, 222, 222, 0.3);
+    border-radius: 8px;
+    color: #fff;
+    font-family: "Poppins", sans-serif;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+#phone-input:focus {
+    outline: none;
+    border-color: #43c6ac;
+    box-shadow: 0 0 0 2px rgba(67, 198, 172, 0.2);
+}
+
+#phone-input::placeholder {
+    color: #bbdede;
+}
+
+.error-message {
+    color: #ff6b6b;
+    font-size: 0.875rem;
+    display: block;
+    margin-top: 0.5rem;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.modal-buttons button {
+    flex: 1;
+    padding: 1rem 2rem;
+    border-radius: 30px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#submit-phone {
+    background: linear-gradient(135deg, #43c6ac, #164354);
+    color: #bbdede;
+    border: none;
+}
+
+#submit-phone:hover {
+    background: linear-gradient(135deg, #4ddbc0, #1d5469);
+    transform: translateY(-2px);
+}
+
+#cancel-phone {
+    background: linear-gradient(135deg, #2e4d8f, #164354);
+    color: #bbdede;
+    border: none;
+}
+
+#cancel-phone:hover {
+    background: linear-gradient(135deg, #375fb2, #1d5469);
+    transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+    .modal-content {
+        margin: 1rem;
+        padding: 1rem;
+    }
+
+    .modal-buttons button {
+        padding: 0.8rem 1.5rem;
+    }
+}

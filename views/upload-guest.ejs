@@ -1,0 +1,48 @@
+<%- contentFor('body') %>
+    <link rel="stylesheet" href="/css/upload.css">
+    <link rel="stylesheet" href="/css/phone-modal.css">
+    <h1 style="margin-top: 90px;">Send Content</h1>
+    <!-- Success and error messages -->
+    <div class="messages">
+        <% if (successMessage) { %>
+            <div class="alert success">
+                <%= successMessage %>
+            </div>
+            <% } %>
+                <% if (errorMessage) { %>
+                    <div class="alert error">
+                        <%= errorMessage %>
+                    </div>
+                    <% } %>
+    </div>
+    <div class="upload-container">
+
+        <form action="/upload-guest/combined" method="POST" enctype="multipart/form-data" id="combined-upload-form">
+            <textarea name="text" placeholder="Enter description (optional)" rows="5"></textarea>
+            <div id="drop-zone">
+                <p>Drag files here or click to upload</p>
+                <input type="file" name="files" id="file-input" multiple hidden>
+            </div>
+            <div id="file-list"></div>
+            <button type="button" id="select-file-button">Select Files</button>
+            <button type="submit">Upload & Generate Token</button>
+        </form>
+    </div>
+
+    <div id="phone-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h2>Enter Your Phone Number</h2>
+            <p>Please enter your phone number to receive your access code</p>
+            <div class="phone-input-container">
+                <input type="tel" id="phone-input" name="phoneNumber" placeholder="+1XXXXXXXXXX"
+                    pattern="\+[1-9]\d{1,14}" required>
+                <span id="phone-error" class="error-message"></span>
+            </div>
+            <div class="modal-buttons">
+                <button type="button" id="submit-phone">Continue</button>
+                <button type="button" id="cancel-phone">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/upload-guest.js"></script>

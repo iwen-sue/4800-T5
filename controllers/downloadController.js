@@ -107,8 +107,10 @@ const renderDownloadPage = async (req, res) => {
 
         if (req.user._id) {
             res.render('download', { texts, files, user: req.user });
+        } else if (req.user.phone) {
+            res.render('download', { texts, files, isGuest: true, });  // guest user token access
         } else {
-            res.render('download', { texts, files, isGuest: true, });
+            res.render('download', { texts, files });  // registered user token access
         }
 
     } catch (error) {

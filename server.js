@@ -134,22 +134,39 @@ app.get('/upload', conditionalAuth, (req, res) => {
     res.render('upload', { 
         user: req.user, 
         successMessage, 
-        errorMessage 
+        errorMessage, 
+        isGuest: false,
+        page: 'upload',
     });
 });
 
+
+// Guest upload route
 app.get('/upload-guest', (req, res) => {
+    const successMessage = req.query.successMessage || null;
+    const errorMessage = req.query.errorMessage || null;
+
+   res.render('upload', {
+        successMessage,
+        errorMessage,
+        isGuest: true, // Guest mode
+        page: 'upload-guest'
+       
+    });
+});
+
+
+/* app.get('/upload-guest', (req, res) => {
     res.render('upload-guest', {
         page: 'upload-guest'
     });
-});
+}); */
 
 
-// Route for uploading text
-app.post('/upload/text', isAuthenticated, uploadController.uploadText);
-
-// Route to handle file uploads
-app.post('/upload/file', isAuthenticated, uploadController.upload.single('file'), uploadController.uploadFile);
+// Route for registered user uploading 
+app.post('/upload/combined', isAuthenticated, upload.array('files'), uploadController.uploadCombined);
+// Combined upload route for guests
+app.post('/upload-guest/combined', upload.array('files'), uploadController.uploadCombined);
 
 // Route to view the download page with uploaded texts and files
 app.get('/download', conditionalAuth, downloadController.renderDownloadPage);
@@ -171,8 +188,6 @@ app.get('/preview/content/:id', conditionalAuth, previewController.servePreviewC
 
 // OCR route
 app.get('/ocr/:id', ocrController.processImageToText);
-
-
 
 
 app.listen(PORT, () => {

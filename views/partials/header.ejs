@@ -24,13 +24,8 @@
                 <a href="/logout" class="btn">Logout</a>
             </div>
             <div class="login-status">Logged in as <%= locals.user.email %></div>
+            
         <% } else if ( locals.isGuest === true) { %>
-            <div class="nav-links">
-                <a href="/login" class="btn">Login</a>
-            </div>
-            <div class="login-status">Not logged in</div>
-
-        <% } else if ( locals.page === 'download-guest') { %>
             <div class="nav-links">
                 <a href="/login" class="btn">Login</a>
             </div>

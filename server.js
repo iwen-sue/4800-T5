@@ -148,7 +148,6 @@ app.get('/upload-guest', (req, res) => {
         successMessage,
         errorMessage,
         isGuest: true, // Guest mode
-        page: 'upload-guest'
        
     });
 });

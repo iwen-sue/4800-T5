@@ -54,7 +54,9 @@
                             <% } %>
                         </div>
                         <div class="file-info">
-                            <a href="/preview/file/<%= file._id %>" class="file-link"><%= file.filename %></a>
+                            <!-- <a href="/preview/file/<%= file._id %>" class="file-link"><%= file.filename %></a> -->
+                            <a href="/preview/<%= file._id %>" class="file-link"><%= file.filename %></a>
+
                             <small data-type="<%= file.metadata.category %>">
                                 Type: <%= file.metadata.category %>
                             </small>

@@ -15,14 +15,9 @@ const extractTextFromImageAndPDF = async (req, res) => {
         stream.on('data', (chunk) => chunks.push(chunk));
         stream.on('end', async () => {
             const buffer = Buffer.concat(chunks);
-
-            console.log('File type-ocrController:', req.query.fileType);
             
             let base64File;
             const fileType = req.query.fileType || 'image'; // Pass the file type if available
-
-            console.log('File type received in ocrController:', fileType); // Add this log
-
 
             // Convert buffer to base64 for OCR API
             if (fileType === 'application/pdf') {
@@ -30,9 +25,6 @@ const extractTextFromImageAndPDF = async (req, res) => {
             } else {
                 base64File = `data:image/png;base64,${buffer.toString('base64')}`;
             }
-
-            console.log('Sending base64 file to OCR API:', base64File);
-            console.log('File type:', fileType);
 
             try {
                 // Call ocr.space API

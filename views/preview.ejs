@@ -37,7 +37,6 @@ document.getElementById('ocrButton').addEventListener('click', async () => {
     ocrResultDiv.textContent = 'Processing...';
 
     try {
-        // const response = await fetch(`/ocr/<%= fileId %>`); // Call the OCR route
         const response = await fetch(`/ocr/<%= fileId %>?fileType=<%= fileType %>`); // Pass the file type
 
         const result = await response.json();

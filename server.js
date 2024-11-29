@@ -144,7 +144,7 @@ app.get('/upload-guest', (req, res) => {
     const successMessage = req.query.successMessage || null;
     const errorMessage = req.query.errorMessage || null;
 
-   res.render('upload', {
+   res.render('upload-guest', {
         successMessage,
         errorMessage,
         isGuest: true, // Guest mode
@@ -153,6 +153,17 @@ app.get('/upload-guest', (req, res) => {
     });
 });
 
+app.get('/upload-guest/success', (req, res) => {
+    const passcode = req.query.passcode;
+    if (!passcode) {
+        res.redirect('/upload-guest?errorMessage=Something went wrong');
+        return;
+    }
+    res.render('upload-guest-success', {
+        passcode,
+        page: 'upload-guest-success'
+    });
+});
 
 /* app.get('/upload-guest', (req, res) => {
     res.render('upload-guest', {

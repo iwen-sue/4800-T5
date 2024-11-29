@@ -43,7 +43,7 @@ const downloadFile = async (req, res) => {
         gfs.openDownloadStream(new ObjectId(fileId)).pipe(res);
 
         console.log("Requested file ID:", fileId);
-        console.log("Files in DB:", await gfs.find().toArray());
+        // console.log("Files in DB:", await gfs.find().toArray());
 
     } catch (error) {
         console.error('Error downloading file:', error);
@@ -52,53 +52,53 @@ const downloadFile = async (req, res) => {
 };
 
 // Open a new page to preview the file content
-const previewFile = async (req, res) => {
-    const gfs = getGFS();
-    const fileId = req.params.id;
+// const previewFile = async (req, res) => {
+//     const gfs = getGFS();
+//     const fileId = req.params.id;
 
-    try {
-        // Find the file by ID
-        const file = await gfs.find({ _id: new ObjectId(fileId) }).toArray();
-        if (!file || file.length === 0) {
-            return res.status(404).send('File not found');
-        }
+//     try {
+//         // Find the file by ID
+//         const file = await gfs.find({ _id: new ObjectId(fileId) }).toArray();
+//         if (!file || file.length === 0) {
+//             return res.status(404).send('File not found');
+//         }
 
-        // Get file type
-        const fileType = file[0].contentType;
+//         // Get file type
+//         const fileType = file[0].contentType;
 
-        // Render text files directly
-        if (fileType.startsWith("text/")) {
-            let fileContent = '';
-            gfs.openDownloadStream(new ObjectId(fileId))
-                .on('data', (chunk) => {
-                    fileContent += chunk.toString();
-                })
-                .on('end', () => {
-                    res.render('preview', { content: fileContent, fileType });
-                });
+//         // Render text files directly
+//         if (fileType.startsWith("text/")) {
+//             let fileContent = '';
+//             gfs.openDownloadStream(new ObjectId(fileId))
+//                 .on('data', (chunk) => {
+//                     fileContent += chunk.toString();
+//                 })
+//                 .on('end', () => {
+//                     res.render('preview', { content: fileContent, fileType });
+//                 });
 
-            // Display image files inline
-        } else if (fileType.startsWith("image/")) {
-            res.set('Content-Type', fileType);
-            gfs.openDownloadStream(new ObjectId(fileId)).pipe(res);
+//             // Display image files inline
+//         } else if (fileType.startsWith("image/")) {
+//             res.set('Content-Type', fileType);
+//             gfs.openDownloadStream(new ObjectId(fileId)).pipe(res);
 
-            // For PDF files, display inline
-        } else if (fileType === "application/pdf") {
-            res.set('Content-Type', fileType);
-            res.set('Content-Disposition', 'inline');
-            gfs.openDownloadStream(new ObjectId(fileId)).pipe(res);
+//             // For PDF files, display inline
+//         } else if (fileType === "application/pdf") {
+//             res.set('Content-Type', fileType);
+//             res.set('Content-Disposition', 'inline');
+//             gfs.openDownloadStream(new ObjectId(fileId)).pipe(res);
 
-            // Unsupported types: download fallback
-        } else {
-            res.set('Content-Type', 'application/octet-stream');
-            res.set('Content-Disposition', `attachment; filename="${file[0].filename}"`);
-            gfs.openDownloadStream(new ObjectId(fileId)).pipe(res);
-        }
-    } catch (error) {
-        console.error('Error previewing file:', error);
-        res.status(500).send('Preview failed');
-    }
-};
+//             // Unsupported types: download fallback
+//         } else {
+//             res.set('Content-Type', 'application/octet-stream');
+//             res.set('Content-Disposition', `attachment; filename="${file[0].filename}"`);
+//             gfs.openDownloadStream(new ObjectId(fileId)).pipe(res);
+//         }
+//     } catch (error) {
+//         console.error('Error previewing file:', error);
+//         res.status(500).send('Preview failed');
+//     }
+// };
 
 const renderDownloadPage = async (req, res) => {
     try {
@@ -279,7 +279,7 @@ module.exports = {
     listTexts,
     listFiles,
     downloadFile,
-    previewFile,
+    // previewFile,
     renderDownloadPage,
     deleteText,
     deleteFile,

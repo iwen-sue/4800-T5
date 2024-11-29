@@ -1,11 +1,57 @@
 <%- contentFor('body') %>
+<link rel="stylesheet" href="/css/preview.css">
+<h1 style="margin-top: 90px;">File Preview</h1>
 
-<h1>File Preview</h1>
+<div class="preview-container">
+    <% if (fileType.startsWith('text/')) { %>
+        <!-- Text File Preview -->
+        <div class="text-preview">
+            <pre><%= content %></pre>
+        </div>
+    <% } else if (fileType.startsWith('image/')) { %>
+        <!-- Image File Preview -->
+        <img src="/preview/content/<%= fileId %>" alt="Image Preview" class="image-preview">
+    <% } else if (fileType === 'application/pdf') { %>
+        <!-- PDF File Preview -->
+        <iframe src="/preview/content/<%= fileId %>" class="pdf-preview" frameborder="0"></iframe>
+    <% } else { %>
+        <!-- Unsupported File Type -->
+        <p>File type not supported for preview.</p>
+    <% } %>
+</div>
 
-<% if (fileType.startsWith('text')) { %>
-    <pre style="white-space: pre-wrap; word-wrap: break-word;"><%= content %></pre>
-<% } else { %>
-    <p>This file type is displayed directly or not supported for inline preview.</p>
-<% } %>
+<!-- Download Button -->
+<div class="download-button-container">
+    <a href="/download/file/<%= fileId %>" class="download-button">Download File</a>
+</div>
 
-<a href="/download/file/<%= file._id %>">Download</a>
+<div class="ocr-container">
+    <button id="ocrButton" class="ocr-button">Extract Text</button>
+    <div id="ocrResult" class="ocr-result"></div>
+</div>
+
+<div id="ocrResult" class="ocr-result"></div>
+
+
+
+<script>
+    document.getElementById('ocrButton').addEventListener('click', async () => {
+        const ocrResultDiv = document.getElementById('ocrResult');
+        ocrResultDiv.textContent = 'Processing...';
+    
+        try {
+            const response = await fetch(`/ocr/<%= fileId %>`); // Call the OCR endpoint
+            const result = await response.json();
+    
+            if (result.success) {
+                ocrResultDiv.textContent = result.text; // Display the extracted text
+            } else {
+                ocrResultDiv.textContent = 'Failed to extract text.';
+            }
+        } catch (error) {
+            console.error('Error during OCR:', error);
+            ocrResultDiv.textContent = 'An error occurred while processing.';
+        }
+    });
+    </script>
+    

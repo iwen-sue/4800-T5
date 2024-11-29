@@ -13,6 +13,8 @@ const profileController = require('./controllers/profileController');
 const passcodeController = require('./controllers/passcodeController');
 const uploadController = require('./controllers/uploadController');
 const downloadController = require('./controllers/downloadController');
+const previewController = require('./controllers/previewController');
+const ocrController = require('./controllers/ocrController');
 const authenticateJWT = require('./middleware/authJWT');
 const conditionalAuth = require('./middleware/authMiddleware');
 const cookieParser = require('cookie-parser');
@@ -154,7 +156,7 @@ app.get('/download', conditionalAuth, downloadController.renderDownloadPage);
 // Route to handle file download by ID
 app.get('/download/file/:id', conditionalAuth, downloadController.downloadFile);
 // Route to preview file content by ID
-app.get('/preview/file/:id', conditionalAuth, downloadController.previewFile);
+// app.get('/preview/file/:id', conditionalAuth, downloadController.previewFile);
 // Delete text route
 app.post('/delete/text/:id', conditionalAuth, downloadController.deleteText);
 // Delete file route
@@ -162,6 +164,13 @@ app.post('/delete/file/:id', conditionalAuth, downloadController.deleteFile);
 // Route to serve file/image thumbnails
 app.get('/thumbnail/:id', conditionalAuth, downloadController.getThumbnail);
 
+// Route to render the preview page
+app.get('/preview/:id', conditionalAuth, previewController.renderPreviewPage);
+// Route to serve preview content for images or PDFs
+app.get('/preview/content/:id', conditionalAuth, previewController.servePreviewContent);
+
+// OCR route
+app.get('/ocr/:id', ocrController.processImageToText);
 
 
 

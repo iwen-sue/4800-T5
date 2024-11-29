@@ -127,44 +127,9 @@ app.post('/generatePasscodeSMS', passcodeController.generatePasscodeSMS);
 
 
 // Upload routes
-app.get('/upload', conditionalAuth, (req, res) => {
-    const successMessage = req.query.successMessage || null;
-    const errorMessage = req.query.errorMessage || null;
-
-    if (req.user._id) {
-        // signed in user direct access
-        res.render('upload', { 
-            user: req.user, 
-            successMessage, 
-            errorMessage, 
-            isGuest: false,
-        });
-    } else {
-        // registered user token access
-        res.render('upload', { 
-            successMessage, 
-            errorMessage, 
-            isGuest: false,
-        });
-    }
-});
-
-
+app.get('/upload', conditionalAuth, uploadController.renderUploadPage);
 // Guest upload route
-app.get('/upload-guest', (req, res) => {
-    const successMessage = req.query.successMessage || null;
-    const errorMessage = req.query.errorMessage || null;
-
-   res.render('upload', {
-        successMessage,
-        errorMessage,
-        isGuest: true, // Guest mode
-       
-    });
-});
-
-
-
+app.get('/upload-guest', uploadController.renderUploadGuestPage);
 // Route for registered user uploading 
 app.post('/upload/combined', conditionalAuth, upload.array('files'), uploadController.uploadCombined);
 // Combined upload route for guests

@@ -25,33 +25,34 @@
     <a href="/download/file/<%= fileId %>" class="download-button">Download File</a>
 </div>
 
+<!-- OCR Button and Result -->
 <div class="ocr-container">
     <button id="ocrButton" class="ocr-button">Extract Text</button>
     <div id="ocrResult" class="ocr-result"></div>
 </div>
 
-<div id="ocrResult" class="ocr-result"></div>
-
-
-
 <script>
-    document.getElementById('ocrButton').addEventListener('click', async () => {
-        const ocrResultDiv = document.getElementById('ocrResult');
-        ocrResultDiv.textContent = 'Processing...';
-    
-        try {
-            const response = await fetch(`/ocr/<%= fileId %>`); // Call the OCR endpoint
-            const result = await response.json();
-    
-            if (result.success) {
-                ocrResultDiv.textContent = result.text; // Display the extracted text
-            } else {
-                ocrResultDiv.textContent = 'Failed to extract text.';
-            }
-        } catch (error) {
-            console.error('Error during OCR:', error);
-            ocrResultDiv.textContent = 'An error occurred while processing.';
+document.getElementById('ocrButton').addEventListener('click', async () => {
+    const ocrResultDiv = document.getElementById('ocrResult');
+    ocrResultDiv.textContent = 'Processing...';
+
+    try {
+        // const response = await fetch(`/ocr/<%= fileId %>`); // Call the OCR route
+        const response = await fetch(`/ocr/<%= fileId %>?fileType=<%= fileType %>`); // Pass the file type
+
+        const result = await response.json();
+        console.log(result);
+
+        if (result.success) {
+            ocrResultDiv.textContent = result.text; // Display the extracted text
+        } else {
+            ocrResultDiv.textContent = 'Failed to extract text.';
         }
-    });
-    </script>
+    } catch (error) {
+        console.error('Error during OCR:', error);
+        ocrResultDiv.textContent = 'An error occurred while processing.';
+    }
+});
+</script>
+
     

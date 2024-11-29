@@ -16,6 +16,7 @@ const renderPreviewPage = async (req, res) => {
 
         // Determine file type
         const fileType = file[0].contentType;
+        console.log('File type-previewController:', fileType);
 
         const renderOptions = { fileType, fileId };
 

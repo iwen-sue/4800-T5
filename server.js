@@ -180,14 +180,12 @@ app.post('/delete/text/:id', conditionalAuth, downloadController.deleteText);
 app.post('/delete/file/:id', conditionalAuth, downloadController.deleteFile);
 // Route to serve file/image thumbnails
 app.get('/thumbnail/:id', conditionalAuth, downloadController.getThumbnail);
-
 // Route to render the preview page
 app.get('/preview/:id', conditionalAuth, previewController.renderPreviewPage);
 // Route to serve preview content for images or PDFs
 app.get('/preview/content/:id', conditionalAuth, previewController.servePreviewContent);
-
 // OCR route
-app.get('/ocr/:id', ocrController.processImageToText);
+app.get('/ocr/:id', conditionalAuth, ocrController.extractTextFromImageAndPDF);
 
 
 app.listen(PORT, () => {

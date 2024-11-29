@@ -132,22 +132,44 @@ app.get('/upload', conditionalAuth, (req, res) => {
     res.render('upload', { 
         user: req.user, 
         successMessage, 
-        errorMessage 
+        errorMessage, 
+        isGuest: false,
+        page: 'upload',
     });
 });
 
+
+// Guest upload route
 app.get('/upload-guest', (req, res) => {
+    const successMessage = req.query.successMessage || null;
+    const errorMessage = req.query.errorMessage || null;
+
+   res.render('upload', {
+        successMessage,
+        errorMessage,
+        isGuest: true, // Guest mode
+        page: 'upload-guest'
+       
+    });
+});
+
+
+/* app.get('/upload-guest', (req, res) => {
     res.render('upload-guest', {
         page: 'upload-guest'
     });
-});
+}); */
 
 
-// Route for uploading text
+// Route for registered user uploading 
 app.post('/upload/text', isAuthenticated, uploadController.uploadText);
-
-// Route to handle multiple file uploads
 app.post('/upload/file', isAuthenticated, upload.array('files'), uploadController.uploadFiles);
+
+// Route to handle guest uploads
+app.post('/upload-guest/text', uploadController.uploadText);
+app.post('/upload-guest/file', upload.array('files'), uploadController.uploadFiles);
+
+
 
 // Route to view the download page with uploaded texts and files
 app.get('/download', conditionalAuth, downloadController.renderDownloadPage);
@@ -161,8 +183,6 @@ app.post('/delete/text/:id', conditionalAuth, downloadController.deleteText);
 app.post('/delete/file/:id', conditionalAuth, downloadController.deleteFile);
 // Route to serve file/image thumbnails
 app.get('/thumbnail/:id', conditionalAuth, downloadController.getThumbnail);
-
-
 
 
 

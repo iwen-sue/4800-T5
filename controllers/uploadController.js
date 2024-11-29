@@ -6,38 +6,42 @@ const upload = require("../config/multer");
 
 // Function to upload text to the texts collection
 const uploadText = async (req, res) => {
+    console.log('Request User:', req.user); // Debugging
+
     const db = getDB();
-
-    // Check if user is authenticated
-    if (!req.user || !req.user.email) {
-        return res.status(401).send('You must be logged in to upload content.');
-    }
-
     const { text } = req.body;
-    const email = req.user.email;
-    // Set expiration based on authentication status
-    const expireInMs = req.user && req.user.email
-        ? 7 * 24 * 60 * 60 * 1000 // 7 days for authenticated users
-        : 23 * 60 * 60 * 1000;   // 23 hours for unauthenticated users (less than the token expiration time)
 
     // Validate input
     if (!text) {
         return res.status(400).send('Text content is required.');
     }
 
+    // Use email for authenticated users; use "passcode" for guests
+    const emailOrPasscode = req.user && req.user.email ? req.user.email : "passcode";
+
+
+    // Set expiration based on authentication status
+    const expireInMs = req.user && req.user.email
+        ? 7 * 24 * 60 * 60 * 1000 // 7 days for authenticated users
+        : 23 * 60 * 60 * 1000;   // 23 hours for unauthenticated users (less than the token expiration time)
+
+
     try {
         // Insert text into the texts collection
         await db.collection('texts').insertOne({
-            email,
+            email: emailOrPasscode,
             text,
             uploadDate: new Date(),
             expireAt: new Date(Date.now() + expireInMs) // Dynamic TTL
         });
         console.log("successfully uploaded text")
-        res.redirect('/upload?successMessage=Text uploaded successfully!');
+
+        const redirectTo = req.user ? '/upload' : '/upload-guest';
+        res.redirect(`${redirectTo}?successMessage=Text uploaded successfully!`);
+
     } catch (error) {
         console.error('Error uploading text:', error);
-        res.redirect('/upload?errorMessage=Failed to upload text.');
+        res.redirect(`${redirectTo}?errorMessage=Failed to upload text.!`);
     }
 };
 
@@ -46,24 +50,24 @@ const uploadText = async (req, res) => {
 const uploadFiles = async (req, res) => {
     const gfs = getGFS();
     const db = getDB();
-    const email = req.user.email; // Ensure the user is authenticated
-
-    console.log("Uploaded files:", req.files); // Debugging
 
     if (!req.files || req.files.length === 0) {
         return res.status(400).send("No files uploaded");
     }
+   
+    // Use email for authenticated users; use "passcode" for guests
+    const emailOrPasscode = req.user && req.user.email ? req.user.email : "passcode";
+
+    // Set expiration based on authentication status
+    const expireInMs = req.user && req.user.email
+    ? 7 * 24 * 60 * 60 * 1000 // 7 days for authenticated users
+    : 23 * 60 * 60 * 1000;   // 23 hours for unauthenticated users (less than the token expiration time)
+
 
     try {
         const uploadPromises = req.files.map((file) => {
             const fileType = file.mimetype;
-
-
-            // Set expiration based on authentication status
-            const expireInMs = req.user && req.user.email
-                ? 7 * 24 * 60 * 60 * 1000 // 7 days for authenticated users
-                : 23 * 60 * 60 * 1000;   // 23 hours for unauthenticated users (less than the token expiration time)
-
+            
     // Determine the category based on file MIME type
             let category;
             if (fileType.startsWith("image/")) {
@@ -91,17 +95,14 @@ const uploadFiles = async (req, res) => {
                 const fileStream = gfs.openUploadStream(file.originalname, {
                     contentType: file.mimetype,
                     metadata: {
-                        email,
+                        email: emailOrPasscode,
                         category,
                         expireAt: new Date(Date.now() + expireInMs) // Dynamic TTL
                     },
                 });
 
                 fileStream.end(file.buffer);
-                fileStream.on("finish", () => {
-                    console.log(`Uploaded file: ${file.originalname}`);
-                    resolve();
-                });
+                fileStream.on("finish", () => resolve());
                 fileStream.on("error", (err) => {
                     console.error(`Error uploading file: ${file.originalname}`, err);
                     reject(err);
@@ -112,21 +113,18 @@ const uploadFiles = async (req, res) => {
         // Wait for all files to be uploaded
         await Promise.all(uploadPromises);
 
-        res.redirect('/upload?successMessage=Files uploaded successfully!');
+        const redirectTo = req.user ? '/upload' : '/upload-guest';
+        res.redirect(`${redirectTo}?successMessage=Files uploaded successfully!`);
 
     } catch (error) {
-        console.error("Error uploading files to GridFS:", error);
-        res.status(500).send("Upload failed");
+        console.error('Error uploading text:', error);
+        res.redirect(`${redirectTo}?errorMessage=Failed to upload files.!`);
     }
 };
 
-const uploadGuest = async (req, res) => {
-    res.render("upload-guest.ejs");
-}
 
 module.exports = {
     upload,
     uploadFiles,
     uploadText,
-    uploadGuest
 };

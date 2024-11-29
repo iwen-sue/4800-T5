@@ -118,7 +118,7 @@ const renderUploadGuestPage = (req, res) => {
     const successMessage = req.query.successMessage || null;
     const errorMessage = req.query.errorMessage || null;
 
-   res.render('upload', {
+   res.render('upload-guest', {
         successMessage,
         errorMessage,
         isGuest: true, // Guest mode

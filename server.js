@@ -129,13 +129,22 @@ app.get('/upload', conditionalAuth, (req, res) => {
     const successMessage = req.query.successMessage || null;
     const errorMessage = req.query.errorMessage || null;
 
-    res.render('upload', { 
-        user: req.user, 
-        successMessage, 
-        errorMessage, 
-        isGuest: false,
-        page: 'upload',
-    });
+    if (req.user._id) {
+        // signed in user direct access
+        res.render('upload', { 
+            user: req.user, 
+            successMessage, 
+            errorMessage, 
+            isGuest: false,
+        });
+    } else {
+        // registered user token access
+        res.render('upload', { 
+            successMessage, 
+            errorMessage, 
+            isGuest: false,
+        });
+    }
 });
 
 
@@ -153,15 +162,9 @@ app.get('/upload-guest', (req, res) => {
 });
 
 
-/* app.get('/upload-guest', (req, res) => {
-    res.render('upload-guest', {
-        page: 'upload-guest'
-    });
-}); */
-
 
 // Route for registered user uploading 
-app.post('/upload/combined', isAuthenticated, upload.array('files'), uploadController.uploadCombined);
+app.post('/upload/combined', conditionalAuth, upload.array('files'), uploadController.uploadCombined);
 // Combined upload route for guests
 app.post('/upload-guest/combined', upload.array('files'), uploadController.uploadCombined);
 

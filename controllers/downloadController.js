@@ -102,16 +102,13 @@ const downloadFile = async (req, res) => {
 
 const renderDownloadPage = async (req, res) => {
     try {
-        if (!req.user || !req.user.email) {
-            return res.status(403).send('User not authenticated');
-        }
         const texts = await listTexts(req.user.email);
         const files = await listFiles(req.user.email);
 
         if (req.user._id) {
             res.render('download', { texts, files, user: req.user });
         } else {
-            res.render('download', { texts, files });
+            res.render('download', { texts, files, isGuest: true, });
         }
 
     } catch (error) {

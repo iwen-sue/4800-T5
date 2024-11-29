@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/iwen-sue/4800-T5#readme",
   "dependencies": {
+    "aws-sdk": "^2.1692.0",
     "bcrypt": "^5.1.1",
     "connect-mongodb-session": "^5.0.0",
     "cookie-parser": "^1.4.7",

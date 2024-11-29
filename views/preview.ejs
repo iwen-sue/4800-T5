@@ -1,11 +1,42 @@
 <%- contentFor('body') %>
+<link rel="stylesheet" href="/css/preview.css">
 
-<h1>File Preview</h1>
+<h1 style="margin-top: 90px;">File Preview</h1>
 
-<% if (fileType.startsWith('text')) { %>
-    <pre style="white-space: pre-wrap; word-wrap: break-word;"><%= content %></pre>
-<% } else { %>
-    <p>This file type is displayed directly or not supported for inline preview.</p>
-<% } %>
+<div class="preview-container">
+    <% if (fileType.startsWith('text/')) { %>
+        <!-- Text File Preview -->
+        <div class="text-preview">
+            <pre><%= content %></pre>
+        </div>
+    <% } else if (fileType.startsWith('image/')) { %>
+        <!-- Image File Preview -->
+        <img src="/preview/content/<%= fileId %>" alt="Image Preview" class="image-preview">
+    <% } else if (fileType === 'application/pdf') { %>
+        <!-- PDF File Preview -->
+        <iframe src="/preview/content/<%= fileId %>" class="pdf-preview" frameborder="0"></iframe>
+    <% } else { %>
+        <!-- Unsupported File Type -->
+        <p>File type not supported for preview.</p>
+    <% } %>
+</div>
 
-<a href="/download/file/<%= file._id %>">Download</a>
+<!-- Download Button -->
+<div class="download-button-container">
+    <a href="/download/file/<%= fileId %>" class="download-button">Download File</a>
+</div>
+
+
+<!-- OCR Button and Result -->
+<div class="ocr-container">
+    <button id="ocrButton" 
+            class="ocr-button" 
+            data-file-id="<%= fileId %>" 
+            data-file-type="<%= fileType %>">
+        Extract Text
+    </button>
+    <div id="ocrResult" class="ocr-result"></div>
+</div>
+
+<!-- Include the external JavaScript file -->
+<script src="/js/preview.js"></script>

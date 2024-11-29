@@ -13,7 +13,8 @@ const profileController = require('./controllers/profileController');
 const passcodeController = require('./controllers/passcodeController');
 const uploadController = require('./controllers/uploadController');
 const downloadController = require('./controllers/downloadController');
-const authenticateJWT = require('./middleware/authJWT');
+const previewController = require('./controllers/previewController');
+const ocrController = require('./controllers/ocrController');
 const conditionalAuth = require('./middleware/authMiddleware');
 const cookieParser = require('cookie-parser');
 const MongoDBStore = require('connect-mongodb-session')(session);
@@ -122,6 +123,7 @@ app.post("/profile/upload", isAuthenticated, upload.single("profilePicture"), pr
 // Token routes
 app.post('/generatePasscode', isAuthenticated, passcodeController.generatePasscode);
 app.post('/verifyPasscode', passcodeController.verifyPasscode);
+app.post('/generatePasscodeSMS', passcodeController.generatePasscodeSMS);
 
 
 // Upload routes
@@ -129,13 +131,22 @@ app.get('/upload', conditionalAuth, (req, res) => {
     const successMessage = req.query.successMessage || null;
     const errorMessage = req.query.errorMessage || null;
 
-    res.render('upload', { 
-        user: req.user, 
-        successMessage, 
-        errorMessage, 
-        isGuest: false,
-        page: 'upload',
-    });
+    if (req.user._id) {
+        // signed in user direct access
+        res.render('upload', { 
+            user: req.user, 
+            successMessage, 
+            errorMessage, 
+            isGuest: false,
+        });
+    } else {
+        // registered user token access
+        res.render('upload', { 
+            successMessage, 
+            errorMessage, 
+            isGuest: false,
+        });
+    }
 });
 
 
@@ -148,20 +159,14 @@ app.get('/upload-guest', (req, res) => {
         successMessage,
         errorMessage,
         isGuest: true, // Guest mode
-        page: 'upload-guest'
        
     });
 });
 
-/* app.get('/upload-guest', (req, res) => {
-    res.render('upload-guest', {
-        page: 'upload-guest'
-    });
-}); */
 
 
 // Route for registered user uploading 
-app.post('/upload/combined', isAuthenticated, upload.array('files'), uploadController.uploadCombined);
+app.post('/upload/combined', conditionalAuth, upload.array('files'), uploadController.uploadCombined);
 // Combined upload route for guests
 app.post('/upload-guest/combined', upload.array('files'), uploadController.uploadCombined);
 
@@ -170,14 +175,19 @@ app.get('/download', conditionalAuth, downloadController.renderDownloadPage);
 // Route to handle file download by ID
 app.get('/download/file/:id', conditionalAuth, downloadController.downloadFile);
 // Route to preview file content by ID
-app.get('/preview/file/:id', conditionalAuth, downloadController.previewFile);
+// app.get('/preview/file/:id', conditionalAuth, downloadController.previewFile);
 // Delete text route
 app.post('/delete/text/:id', conditionalAuth, downloadController.deleteText);
 // Delete file route
 app.post('/delete/file/:id', conditionalAuth, downloadController.deleteFile);
 // Route to serve file/image thumbnails
 app.get('/thumbnail/:id', conditionalAuth, downloadController.getThumbnail);
-
+// Route to render the preview page
+app.get('/preview/:id', conditionalAuth, previewController.renderPreviewPage);
+// Route to serve preview content for images or PDFs
+app.get('/preview/content/:id', conditionalAuth, previewController.servePreviewContent);
+// OCR route
+app.get('/ocr/:id', conditionalAuth, ocrController.extractTextFromImageAndPDF);
 
 
 app.listen(PORT, () => {

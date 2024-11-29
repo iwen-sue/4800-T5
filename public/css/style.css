@@ -100,6 +100,12 @@
       -webkit-text-stroke: 1px #bbdede;
     }
 
+    .content p {
+      font-size: 22px;
+      color: #bbdede;
+      margin-top: 10px;
+    }
+
     .content form {
       width: 90%;
       max-width: 600px;

@@ -92,7 +92,43 @@ const uploadCombined = async (req, res) => {
     }
 };
 
+const renderUploadPage = (req, res) => {
+    const successMessage = req.query.successMessage || null;
+    const errorMessage = req.query.errorMessage || null;
+
+    if (req.user._id) {
+        // signed in user direct access
+        res.render('upload', { 
+            user: req.user, 
+            successMessage, 
+            errorMessage, 
+            isGuest: false,
+        });
+    } else {
+        // registered user token access
+        res.render('upload', { 
+            successMessage, 
+            errorMessage, 
+            isGuest: false,
+        });
+    }
+};
+
+const renderUploadGuestPage = (req, res) => {
+    const successMessage = req.query.successMessage || null;
+    const errorMessage = req.query.errorMessage || null;
+
+   res.render('upload', {
+        successMessage,
+        errorMessage,
+        isGuest: true, // Guest mode
+       
+    });
+};
+
 module.exports = {
     upload,
     uploadCombined,
+    renderUploadPage,
+    renderUploadGuestPage
 };

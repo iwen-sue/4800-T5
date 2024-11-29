@@ -13,7 +13,6 @@ const profileController = require('./controllers/profileController');
 const passcodeController = require('./controllers/passcodeController');
 const uploadController = require('./controllers/uploadController');
 const downloadController = require('./controllers/downloadController');
-const authenticateJWT = require('./middleware/authJWT');
 const conditionalAuth = require('./middleware/authMiddleware');
 const cookieParser = require('cookie-parser');
 const MongoDBStore = require('connect-mongodb-session')(session);
@@ -122,6 +121,7 @@ app.post("/profile/upload", isAuthenticated, upload.single("profilePicture"), pr
 // Token routes
 app.post('/generatePasscode', isAuthenticated, passcodeController.generatePasscode);
 app.post('/verifyPasscode', passcodeController.verifyPasscode);
+app.post('/generatePasscodeSMS', passcodeController.generatePasscodeSMS);
 
 
 // Upload routes

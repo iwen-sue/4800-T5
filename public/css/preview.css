@@ -1,3 +1,20 @@
+body {
+    font-family: "Poppins", sans-serif;
+    background-image: url(/images/profile.png);
+    background-size: cover;
+    background-position: center;
+    line-height: 1.6;
+    min-height: 100vh;
+    margin: 0;
+    color: #bbdede;
+}
+
+
+.download-button-container {
+    text-align: center;
+    margin: 2rem auto;
+    max-width: 800px;
+}
 
 .download-button {
     display: inline-block;
@@ -18,7 +35,12 @@
 }
 
 
-/* OCR Button */
+.ocr-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    text-align: center;
+}
+
 .ocr-button {
     padding: 12px 24px;
         background: linear-gradient(135deg, #2e4d8f, #164354);

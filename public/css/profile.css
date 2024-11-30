@@ -11,7 +11,8 @@ body {
     background: transparent;
     margin: 0 auto;
     margin-top: 100px;
-    padding: 30px;
+    margin-bottom: 5%;
+    padding: 30px 50px ;
     backdrop-filter: blur(20px);
     border: 2px solid rgba(255, 255, 255, 0.2);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
@@ -39,20 +40,18 @@ h1 {
 
 }
 
-.upload-btn {
-    /* margin: auto;
-    width: 50%; */
-    display: inline-block;
-    background-color: #2e4d8f;
-    color: #bbdede;
-    padding: 8px 15px;
-    border-radius: 3px;
+.change-image {
+    margin-bottom: 20px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    /* transition: background-color 0.3s; */
 }
 
-.upload-btn:hover {
-    background-color: #2980b9;
+.upload-btn {
+    margin-top: 20px;
+    width: 100%;
 }
 
 input[type="file"] {
@@ -89,13 +88,35 @@ input[type="password"] {
     border-radius: 3px;
 }
 
+input[type="password"] {
+    background-color: rgba(255, 255, 255, 0);
+}
+
+input[type="password"]:focus {
+    outline: none;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+button:disabled {
+    color: #bbdede;
+    background-color: rgba(239, 239, 239, 0.3);
+    cursor: not-allowed;
+}
+
+button:disabled:hover {
+    color: #bbdede;
+    background-color: rgba(239, 239, 239, 0.3);
+    cursor: not-allowed;
+}
+
 button {
     /* margin:auto;
     width: 50%; */
+    width: 100%;
     font-size: 16px;
     font-weight: 600;
-    background-color: #69e0c8;
-    color: #191654;
+    background-color: #66b5a5;
+    color: #deeaea;
     padding: 10px 15px;
     border: none;
     border-radius: 5px;
@@ -104,24 +125,18 @@ button {
 }
 
 button:hover {
-    background-color: #34bd99;
-}
-
-#editButton {
-    background-color: #2e4d8f;
-    color: #bbdede;
-}
-
-#editButton:hover {
-    background-color: #2980b9;
+    background-color: #71c4b4;
 }
 
 #cancelButton {
-    background-color: #e74c3c;
+    /* background-color: #e74c3c; */
+    color: #bbdede;
+    background-color: rgba(239, 239, 239, 0.3);
 }
 
 #cancelButton:hover {
-    background-color: #c0392b;
+    color: #e0f5f5;
+    background-color: rgba(239, 239, 239, 0.4);
 }
 
 .linked-accounts,
@@ -148,12 +163,21 @@ button:hover {
 }
 
 .delete-account button {
-    background-color: #e74c3c;
+    background-color: transparent;
+    border: #c0392b 2px solid;
+    color: #c0392b;
 }
 
 .delete-account button:hover {
     background-color: #c0392b;
+    color: #deeaea;
 }
+
+hr {
+    margin: 50px 0;
+    border: 0;
+    border-top: 0.5px solid rgba(239, 239, 239, 0.3);
+  }
 
 @media (max-width: 600px) {
     .wrapper {

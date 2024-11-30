@@ -5,15 +5,16 @@
 
     <!-- Profile Picture Section -->
     <div class="profile-picture">
-        <% if (user.profile_img) { %>
-            <img src="data:image/jpeg;base64,<%= user.profile_img %>" alt="Profile Picture">
-        <% } else { %>
-            <img src="./images/icon.png" alt="Default Profile Picture">
-        <% } %>
-        <form action="/profile/upload" method="POST" enctype="multipart/form-data" style="margin-top: 20px;">
-            <label for="profilePicture" class="upload-btn">Change Profile Picture:</label>
+        <form action="/profile/upload" method="POST" enctype="multipart/form-data" style="margin-top: 20px; align-items: center;">
+            <label for="profilePicture" class="change-image">
+                <% if (user.profile_img) { %>
+                    <img src="data:image/jpeg;base64,<%= user.profile_img %>" alt="Profile Picture">
+                <% } else { %>
+                    <img src="./images/person.png" alt="Default Profile Picture">
+                <% } %>
+            </label>
             <input type="file" id="profilePicture" name="profilePicture" accept="image/*">
-            <button type="submit">Upload</button>
+            <button type="submit" class="upload-btn" disabled>Upload</button>
         </form>
     </div>
 
@@ -29,9 +30,11 @@
             </div>
             <div>
                             <!-- Edit, Submit, and Cancel Buttons -->
-            <button type="button" id="editButton" onclick="enableEditing()">Edit</button>
-            <button type="submit" id="submitButton" style="display: none;">Submit</button>
-            <button type="button" id="cancelButton" style="display: none;" onclick="cancelEditing()">Cancel</button>
+                <br>
+                <button type="button" id="editButton" onclick="enableEditing()">Edit Info</button>
+                <button type="submit" id="submitButton" style="display: none;">Submit</button>
+                <br><br>
+                <button type="button" id="cancelButton" style="display: none;" onclick="cancelEditing()">Cancel</button>
             </div>
         </form>
     </div>
@@ -49,22 +52,28 @@
                 <input type="password" id="confirmPassword" name="confirmPassword" required>
             </div>
 
+            <br>
             <div>
                 <button type="submit">Update Password</button>
             </div>
         </form>
     </div>
 
+    <!-- add a line -->
+    <hr>
+
     <!-- Linked Accounts Section -->
     <div class="linked-accounts">
         <h3>Linked Accounts</h3>
         <% if (user.authType==='google' ) { %>
-            <p>Google Account Linked</p>
+            <p>- Google Account Linked -</p>
+            <br>
             <form action="/profile/unlink-google" method="POST">
                 <button type="submit">Unlink Google</button>
             </form>
             <% } else { %>
                 <p>Google Account Not Linked</p>
+                <br>
                 <form action="/auth/google" method="GET" onsubmit="return confirmGoogleLink()">
                     <button type="submit">Link Google Account</button>
                 </form>
@@ -73,7 +82,7 @@
 
     <!-- Generate Passcode Section -->
     <div class="generate-passcode">
-        <h3>Generate Passcode</h3>
+        <h3>Passcode</h3>
         <div class="passcode">
             <% if (passcode) { %>
                 Your passcode is: <%= passcode %>
@@ -153,4 +162,24 @@
     if (urlParams.get('error') === 'missing-password') {
         alert('Please set a password before unlinking your Google account.');
     }
+
+    // show image upload preview
+    const profilePicture = document.getElementById('profilePicture');
+    const changeImage = document.querySelector('.change-image img');
+    const uploadBtn = document.querySelector('.upload-btn');
+
+    profilePicture.addEventListener('change', function() {
+        const file = this.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+
+            reader.addEventListener('load', function() {
+                changeImage.src = reader.result;
+            });
+
+            reader.readAsDataURL(file);
+            uploadBtn.disabled = false;
+        }
+    });
 </script>

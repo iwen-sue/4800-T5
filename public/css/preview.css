@@ -10,6 +10,66 @@ body {
 }
 
 
+h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    background: linear-gradient(to right, #185a9d, #43c6ac);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke: 1px #bbdede;
+}
+
+
+/* Container styling */
+.preview-container {
+    max-width: 800px;
+    margin: 0 auto 2rem;
+    padding: 30px;
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    background: rgba(123, 145, 194, 0.1);
+}
+
+
+/* Text preview styling */
+.text-preview {
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    overflow-x: auto;
+}
+
+.text-preview pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    color: #bbdede;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+
+/* Image preview styling */
+.image-preview {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    display: block;
+    margin: 0 auto;
+}
+
+
+/* PDF preview styling */
+.pdf-preview {
+    width: 100%;
+    height: 800px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+
 .download-button-container {
     text-align: center;
     margin: 2rem auto;
@@ -52,8 +112,23 @@ body {
         transition: all 0.3s ease;
 }
 
-
 .ocr-button:hover {
     background: linear-gradient(135deg, #375fb2, #1d5469);
     transform: translateY(-2px);
+}
+
+
+/* OCR result styling */
+.ocr-result {
+    margin-top: 20px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: #bbdede;
+    min-height: 100px;
+}
+
+.ocr-result.active {
+    display: block;
+    animation: fadeIn 0.3s ease-out;
 }

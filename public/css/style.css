@@ -194,6 +194,7 @@
       .hamburger {
         display: block;
         z-index: 1001;
+        cursor: pointer;
       }
   
       /* Rotate hamburger menu lines when active */

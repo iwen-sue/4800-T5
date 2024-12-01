@@ -24,12 +24,14 @@ h1 {
 /* Container styling */
 .content-container {
     max-width: 800px;
+    width: 90%;
     margin: 0 auto;
-    padding: 30px 40px;
+    padding: 20px;
     backdrop-filter: blur(20px);
     border: 2px solid rgba(255, 255, 255, 0.2);
     border-radius: 10px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
     }
 
 /* Section styling */
@@ -47,6 +49,7 @@ h2 {
     color: #bbdede;
     border-bottom: 2px solid rgba(67, 198, 172, 0.3);
     padding-bottom: 0.5rem;
+    word-wrap: break-word;
 }
 
 /* List styling */
@@ -63,6 +66,7 @@ li {
     border-radius: 8px;
     border: 1px solid rgba(187, 222, 222, 0.1);
     transition: all 0.3s ease;
+    word-wrap: break-word;
 }
 
 li:hover {
@@ -122,35 +126,31 @@ small[data-type] {
 /* Text block styling */
 .text-block-container {
     position: relative;
+    padding: 10px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
     width: 100%;
-    max-height: 150px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    background-color: #cfd0cfb1;
-    padding: 0px 10px 10px 10px;
-    overflow-y: auto;
-    font-size: 14px;
-    line-height: 1.5;
-    display: flex;
-    flex-direction: column; 
+    box-sizing: border-box;
+    margin-bottom: 10px;
 }
 
 .text-block {
     width: 100%;
+    word-wrap: break-word;
     white-space: pre-wrap;
-    overflow-wrap: break-word;
-    font-family: inherit;
-    color: #333;
+    color: #2e4d8f;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-right: 30px;
 }
 
 /* copy icon */
 .copy-icon {
-    position: sticky;
-    right: 10px;
+    position: absolute;
     top: 10px;
+    right: 10px;
+    color: #c2efef;
     cursor: pointer;
-    color: #555;
-    margin-left: auto;
 }
 
 .copy-icon:hover {
@@ -169,7 +169,7 @@ small[data-type] {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 6px;
-    background-color: #cfd0cfb1;
+    background-color: #b6beb6b1;
     overflow-y: auto;
     max-height: 150px;
 }
@@ -200,32 +200,37 @@ small[data-type] {
 
 .file-item {
     display: flex;
-    align-items: center;
-    padding: 1rem;
-    border-bottom: 1px solid #eee;
+    align-items: flex-start;
+    gap: 15px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    margin-bottom: 15px;
+    position: relative;
 }
 
 .file-preview {
-    margin-right: 1rem;
+    flex-shrink: 0;
 }
 
 .file-thumbnail {
     width: 100px;
     height: 100px;
-    object-fit: contain;
-    border: 1px solid #ddd;
+    object-fit: cover;
     border-radius: 4px;
-    background-color: #f8f9fa;
 }
 
 .file-info {
     flex-grow: 1;
+    min-width: 0;
+    font-size: 1.2em;
 }
 
 .file-link {
     display: block;
-    font-weight: 500;
-    margin-bottom: 0.25rem;
+    color: #43c6ac;
+    word-wrap: break-word;
+    margin-bottom: 5px;
 }
 
 .delete-form {
@@ -233,25 +238,68 @@ small[data-type] {
 }
 
 
+/* Delete button styling */
+.delete-icon-button {
+    background: none;
+    border: none;
+    padding: 5px;
+    color: rgba(255, 87, 87, 0.7);
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+}
 
 
 /* Responsive design */
 @media (max-width: 768px) {
     .content-container {
-        margin: 1rem;
-        padding: 1rem;
+        width: calc(100% - 30px);
+        padding: 15px;
+        margin: 15px auto;
     }
 
     h1 {
-        font-size: 2rem;
+        font-size: 1.8rem;
+        margin: 20px 0;
+        padding: 0 10px;
+    }
+
+    .content-section {
+        padding: 15px;
+        margin-bottom: 15px;
     }
 
     h2 {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
     }
 
-    li {
-        padding: 1rem;
+    .file-thumbnail {
+        width: 50px;
+        height: 50px;
+    }
+
+    .text-block {
+        font-size: 0.85rem;
+    }
+
+    .file-item {
+        flex-direction: column;
+    }
+
+    .file-info {
+        width: 100%;
+    }
+
+    .file-link {
+        font-size: 0.9rem;
+        padding-right: 30px;
+    }
+
+    small {
+        font-size: 0.8rem;
+        display: block;
+        margin-top: 3px;
     }
 }
 

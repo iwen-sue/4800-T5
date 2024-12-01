@@ -132,3 +132,54 @@ h1 {
     display: block;
     animation: fadeIn 0.3s ease-out;
 }
+
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .preview-container {
+        margin: 1rem;
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    .text-preview {
+        padding: 15px;
+        font-size: 0.9rem;
+    }
+
+    .pdf-preview {
+        height: 500px;
+    }
+
+    .download-button,
+    .ocr-button {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Error message for unsupported files */
+.preview-container p {
+    text-align: center;
+    font-style: italic;
+    padding: 2rem;
+    background: rgba(255, 87, 87, 0.1);
+    border-radius: 8px;
+    margin: 0;
+}

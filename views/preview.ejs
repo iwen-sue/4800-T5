@@ -23,14 +23,14 @@
 
 <!-- Download Button -->
 <div class="download-button-container">
-    <a href="/download/file/<%= fileId %>" class="download-button">Download File</a>
+    <a href="/download/file/<%= fileId %>" class="download-button preview-button">Download File</a>
 </div>
 
 
 <!-- OCR Button and Result -->
 <div class="ocr-container">
     <button id="ocrButton" 
-            class="ocr-button" 
+            class="ocr-button preview-button"
             data-file-id="<%= fileId %>" 
             data-file-type="<%= fileType %>">
         Extract Text

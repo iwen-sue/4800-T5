@@ -1,5 +1,4 @@
 /* button.css */
-  
   .btn {
     background: linear-gradient(#43c6ac, #164354);
     color: #bbdede;
@@ -25,3 +24,19 @@
     height: 65px;
     border-radius: 31px;
 } */
+
+
+/* Style for the remove button */
+.remove-button {
+  color: white; /* White text */
+  border: none; /* No border */
+  border-radius: 50%; /* Circular button */
+  width: 30px; /* Fixed width */
+  height: 30px; /* Fixed height */
+  display: inline-flex; /* Center content */
+  justify-content: center;
+  align-items: center;
+  font-size: 16px; /* Adjust font size */
+  cursor: pointer; /* Pointer cursor on hover */
+  margin-left: 10px; /* Space between button and file name */
+}

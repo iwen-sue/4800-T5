@@ -9,7 +9,31 @@ document.addEventListener('DOMContentLoaded', () => {
     const submitPhoneBtn = document.getElementById('submit-phone');
     const cancelPhoneBtn = document.getElementById('cancel-phone');
     const phoneError = document.getElementById('phone-error');
+    const textArea = uploadForm.querySelector('textarea');
+    const MAX_FILES = 5;
+    const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50 MB
+    
     let selectedFiles = [];
+    
+    // File validation function
+    function validateFiles(files) {
+        const errorMessages = [];
+
+        // Check number of files
+        if (selectedFiles.length + files.length > MAX_FILES) {
+            errorMessages.push(`You can upload a maximum of ${MAX_FILES} files.`);
+        }
+
+        // Check individual file sizes
+        files.forEach(file => {
+            if (file.size > MAX_FILE_SIZE) {
+                errorMessages.push(`${file.name} exceeds the 50 MB file size limit.`);
+            }
+        });
+
+        return errorMessages;
+    }
+
 
     selectFileButton.addEventListener('click', () => {
         fileInput.click();
@@ -17,6 +41,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     fileInput.addEventListener('change', () => {
         const files = Array.from(fileInput.files);
+        const validationErrors = validateFiles(files);
+
+        if (validationErrors.length > 0) {
+            alert(validationErrors.join('\n'));
+            e.target.value = ''; // Clear the file input
+            return;
+        }
+
         selectedFiles = [...selectedFiles, ...files];
         updateFileList(selectedFiles);
     });
@@ -34,6 +66,13 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         dropZone.classList.remove('dragover');
         const files = Array.from(e.dataTransfer.files);
+        const validationErrors = validateFiles(files);
+
+        if (validationErrors.length > 0) {
+            alert(validationErrors.join('\n'));
+            return;
+        }
+
         if (files.length > 0) {
             selectedFiles = [...selectedFiles, ...files];
             updateFileList(selectedFiles);
@@ -51,9 +90,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateFileList(files) {
         fileList.innerHTML = '';
-        files.forEach(file => {
+        files.forEach((file, index) => {
             const listItem = document.createElement('p');
             listItem.textContent = file.name;
+              
+            // Add remove button
+            const removeButton = document.createElement('button');
+            removeButton.textContent = '✕';
+            removeButton.type = 'button';
+            removeButton.classList.add('remove-button'); 
+            removeButton.addEventListener('click', () => {
+                selectedFiles.splice(index, 1);
+                updateFileList(selectedFiles);
+                updateFileInput(selectedFiles);
+            });
+
+            listItem.appendChild(removeButton);
             fileList.appendChild(listItem);
         });
     }
@@ -64,6 +116,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     uploadForm.addEventListener('submit', (e) => {
+        const textValue = textArea.value.trim(); 
+
+        // Prevent submission if both text and files are empty
+        if (selectedFiles.length === 0 && textValue === '') {
+            e.preventDefault();
+            alert('Please provide a description or upload at least one file before submitting.');
+            return;
+        }
+
         e.preventDefault();
         phoneModal.style.display = 'flex';
     });

@@ -2,7 +2,8 @@ const multer = require('multer');
 const storage = multer.memoryStorage();
 const { getDB, getGFS } = require('../config/database');
 const upload = require("../config/multer");
-
+const MAX_FILES = 5;
+const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50 MB
 
 // Function to upload both text and file
 const uploadCombined = async (req, res) => {
@@ -13,6 +14,16 @@ const uploadCombined = async (req, res) => {
     const files = req.files; // Retrieve files
 
     const isGuest = !req.user;
+
+     // Server-side validation
+     if (files && files.length > MAX_FILES) {
+        return res.redirect(`${isGuest ? '/upload-guest' : '/upload'}?errorMessage=Maximum ${MAX_FILES} files allowed.`);
+    }
+
+      // Check individual file sizes
+    if (files && files.some(file => file.size > MAX_FILE_SIZE)) {
+        return res.redirect(`${isGuest ? '/upload-guest' : '/upload'}?errorMessage=File size cannot exceed 50 MB.`);
+    }
 
     // Set expiration based on authentication status
     const expireInMs = req.user && req.user.email

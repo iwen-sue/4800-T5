@@ -19,7 +19,6 @@ const conditionalAuth = require('./middleware/authMiddleware');
 const cookieParser = require('cookie-parser');
 const MongoDBStore = require('connect-mongodb-session')(session);
 
-
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -40,8 +39,9 @@ const isAuthenticated = (req, res, next) => {
 };
 
 if (process.env.NODE_ENV === 'development') {
+    console.log('Development mode');
     const browserSync = require("browser-sync").create();
-
+    
     // Browser-Sync configuration
     browserSync.init({
         proxy: `http://localhost:${PORT}`,
@@ -49,6 +49,7 @@ if (process.env.NODE_ENV === 'development') {
         port: 4000,
         open: false,
     });
+    // Browser-Sync configuration
     const dbStore = new MongoDBStore({
         uri: 'mongodb://127.0.0.1:27017/connect_mongodb_session_test',
         collection: 'mySessions'

@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
   "repository": {
     "type": "git",
@@ -18,15 +19,16 @@
   },
   "homepage": "https://github.com/iwen-sue/4800-T5#readme",
   "engines": {
-    "node": "21.x"
+    "node": "22.x"
   },
   "dependencies": {
     "aws-sdk": "^2.1692.0",
     "bcrypt": "^5.1.1",
+    "browser-sync": "^3.0.3",
     "canvas": "^3.0.0-rc2",
     "connect-mongodb-session": "^5.0.0",
     "cookie-parser": "^1.4.7",
-    "dotenv": "^16.4.5",
+    "dotenv": "^16.4.6",
     "ejs": "^3.1.10",
     "express": "^4.21.1",
     "express-ejs-layouts": "^2.5.1",
@@ -42,8 +44,5 @@
     "pdfjs-dist": "^4.8.69",
     "sharp": "^0.33.5",
     "validator": "^13.12.0"
-  },
-  "devDependencies": {
-    "browser-sync": "^3.0.3"
   }
 }

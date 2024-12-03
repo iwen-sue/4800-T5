@@ -195,6 +195,43 @@ hr {
 }
 
 
+/* Edit icon styling */
+.change-image {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.edit-icon {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    /* background-color: rgba(0, 0, 0, 0.6); */
+    background-color: transparent; /* Transparent background */
+    border-radius: 50%;
+    padding: 5px;
+    display: none;
+    color: #fff;
+    font-size: 26px;
+    text-shadow: 0 0 3px rgba(0, 0, 0, 0.8); /* Adds shadow for better visibility */
+}
+
+.change-image:hover .edit-icon {
+    display: block;
+}
+
+/* Profile picture hover effect */
+.change-image:hover img {
+    opacity: 0.8;
+    transition: opacity 0.3s ease-in-out;
+}
+
+
+
+
+
+
+
 @media (max-width: 600px) {
     .wrapper {
         padding: 10px;

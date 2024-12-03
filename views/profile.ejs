@@ -1,193 +1,211 @@
 <%- contentFor('body') %>
-<link rel="stylesheet" href="/css/profile.css">
-<div class="wrapper">
-    <h1>Profile</h1>
+    <link rel="stylesheet" href="/css/profile.css">
+    <div class="wrapper">
+        <h1>Profile</h1>
 
-    <!-- Profile Picture Section -->
-    <div class="profile-picture">
-        <form action="/profile/upload" method="POST" enctype="multipart/form-data" style="margin-top: 20px; align-items: center;">
-            <label for="profilePicture" class="change-image">
-                <% if (user.profile_img) { %>
-                    <img src="data:image/jpeg;base64,<%= user.profile_img %>" alt="Profile Picture">
+        <div class="profile-picture">
+            <form action="/profile/upload" method="POST" enctype="multipart/form-data"
+                style="margin-top: 20px; align-items: center;">
+                <label for="profilePicture" class="change-image">
+                    <% if (user.profile_img) { %>
+                        <img src="data:image/jpeg;base64,<%= user.profile_img %>" alt="Profile Picture">
+                        <% } else { %>
+                            <img src="./images/person.png" alt="Default Profile Picture">
+                            <% } %>
+                                <!-- Edit Icon -->
+                                <div class="edit-icon">
+                                    <i class="fa fa-edit"></i>
+                                </div>
+                </label>
+                <input type="file" id="profilePicture" name="profilePicture" accept="image/*">
+                <button type="submit" class="upload-btn" disabled>Upload</button>
+
+            </form>
+        </div>
+
+
+
+        <!-- User Info Section -->
+        <div class="user-info">
+            <form id="profileForm" action="/profile/update-info" method="POST">
+                <div>
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" value="<%= user.name %>" disabled class="editable-field">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" value="<%= user.email %>" disabled
+                        class="editable-field">
+                </div>
+                <div id="infoError" class="error-container"></div>
+                <div>
+                    <!-- Edit, Submit, and Cancel Buttons -->
+                    <br>
+                    <button type="button" id="editButton" onclick="enableEditing()">Edit Info</button>
+                    <button type="submit" id="submitButton" style="display: none;">Submit</button>
+                    <br><br>
+                    <button type="button" id="cancelButton" style="display: none;"
+                        onclick="cancelEditing()">Cancel</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="user-password">
+            <!-- Password Update Section -->
+            <form id="passwordForm" action="/profile/update-password" method="POST"
+                onsubmit="return validatePassword()">
+                <div>
+                    <label for="password">New Password:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+
+                <div>
+                    <label for="confirmPassword">Confirm New Password:</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                </div>
+                <div id="passwordError" class="error-container"></div>
+                <br>
+                <div>
+                    <button type="submit">Update Password</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- add a line -->
+        <hr>
+
+        <!-- Linked Accounts Section -->
+        <div class="linked-accounts">
+            <h3>Linked Accounts</h3>
+            <% if (user.authType==='google' ) { %>
+                <p>- Google Account Linked -</p>
+                <br>
+                <form action="/profile/unlink-google" method="POST">
+                    <button type="submit">Unlink Google</button>
+                </form>
                 <% } else { %>
-                    <img src="./images/person.png" alt="Default Profile Picture">
-                <% } %>
-            </label>
-            <input type="file" id="profilePicture" name="profilePicture" accept="image/*">
-            <button type="submit" class="upload-btn" disabled>Upload</button>
-        </form>
-    </div>
-
-
-    <!-- User Info Section -->
-    <div class="user-info">
-        <form id="profileForm" action="/profile/update-info" method="POST">
-            <div>
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" value="<%= user.name %>" disabled class="editable-field">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" value="<%= user.email %>" disabled class="editable-field">
-            </div>
-            <div id="infoError" class="error-container"></div>
-            <div>
-                            <!-- Edit, Submit, and Cancel Buttons -->
-                <br>
-                <button type="button" id="editButton" onclick="enableEditing()">Edit Info</button>
-                <button type="submit" id="submitButton" style="display: none;">Submit</button>
-                <br><br>
-                <button type="button" id="cancelButton" style="display: none;" onclick="cancelEditing()">Cancel</button>
-            </div>
-        </form>
-    </div>
-
-    <div class="user-password">
-                <!-- Password Update Section -->
-        <form id="passwordForm" action="/profile/update-password" method="POST" onsubmit="return validatePassword()">
-            <div>
-                <label for="password">New Password:</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-
-            <div>
-                <label for="confirmPassword">Confirm New Password:</label>
-                <input type="password" id="confirmPassword" name="confirmPassword" required>
-            </div>
-            <div id="passwordError" class="error-container"></div>
-            <br>
-            <div>
-                <button type="submit">Update Password</button>
-            </div>
-        </form>
-    </div>
-
-    <!-- add a line -->
-    <hr>
-
-    <!-- Linked Accounts Section -->
-    <div class="linked-accounts">
-        <h3>Linked Accounts</h3>
-        <% if (user.authType==='google' ) { %>
-            <p>- Google Account Linked -</p>
-            <br>
-            <form action="/profile/unlink-google" method="POST">
-                <button type="submit">Unlink Google</button>
-            </form>
-            <% } else { %>
-                <p>Google Account Not Linked</p>
-                <br>
-                <form action="/auth/google" method="GET" onsubmit="return confirmGoogleLink()">
-                    <button type="submit">Link Google Account</button>
-                </form>
-                <% } %>
-    </div>
-
-    <!-- Generate Passcode Section -->
-    <div class="generate-passcode">
-        <h3>Passcode</h3>
-        <div class="passcode">
-            <% if (passcode) { %>
-                Your passcode is: <%= passcode %>
-            <% } else { %>
-                <form action="/generatePasscode" method="POST">
-                    <button type="submit">generate passcode</button>
-                </form>
-            <% } %>
+                    <p>Google Account Not Linked</p>
+                    <br>
+                    <form action="/auth/google" method="GET" onsubmit="return confirmGoogleLink()">
+                        <button type="submit">Link Google Account</button>
+                    </form>
+                    <% } %>
         </div>
-        
-    </div>
+
+        <!-- Generate Passcode Section -->
+        <div class="generate-passcode">
+            <h3>Passcode</h3>
+            <div class="passcode">
+                <% if (passcode) { %>
+                    Your passcode is: <%= passcode %>
+                        <% } else { %>
+                            <form action="/generatePasscode" method="POST">
+                                <button type="submit">generate passcode</button>
+                            </form>
+                            <% } %>
+            </div>
+
+        </div>
 
 
-    <div class="logout-delete">
+        <div class="logout-delete">
 
-        <!-- Delete Account Section -->
-        <div class="delete-account">
-            <form action="/profile/delete" method="POST">
-                <button type="submit"
-                    onclick="return confirm('Are you sure you want to delete your account? This action cannot be undone.')">Delete
-                    Account</button>
-            </form>
+            <!-- Delete Account Section -->
+            <div class="delete-account">
+                <form action="/profile/delete" method="POST">
+                    <button type="submit"
+                        onclick="return confirm('Are you sure you want to delete your account? This action cannot be undone.')">Delete
+                        Account</button>
+                </form>
+            </div>
         </div>
     </div>
-</div>
 
-<script src="/js/getPasscode.js"></script>
+    <script src="/js/getPasscode.js"></script>
 
-<script>
-    function confirmGoogleLink() {
-        return confirm("Linking to Google will replace your current account information with your Google account details. Do you want to proceed?");
-    }
-
-    function enableEditing() {
-        // Enable the fields for editing
-        document.getElementById('name').disabled = false;
-        document.getElementById('email').disabled = false;
-
-        // Show Submit and Cancel buttons, hide Edit button
-        document.getElementById('submitButton').style.display = 'inline';
-        document.getElementById('cancelButton').style.display = 'inline';
-        document.getElementById('editButton').style.display = 'none';
-    }
-
-    function cancelEditing() {
-        // Reset the fields to initial values and disable them
-        document.getElementById('name').value = '<%= user.name %>';
-        document.getElementById('email').value = '<%= user.email %>';
-        document.getElementById('name').disabled = true;
-        document.getElementById('email').disabled = true;
-
-        // Show Edit button, hide Submit and Cancel buttons
-        document.getElementById('submitButton').style.display = 'none';
-        document.getElementById('cancelButton').style.display = 'none';
-        document.getElementById('editButton').style.display = 'inline';
-    }
-
-    function showError(containerId, message) {
-        const errorContainer = document.getElementById(containerId);
-        errorContainer.textContent = message;
-        errorContainer.classList.add('show');
-        
-    }
-
-    function validatePassword() {
-        const password = document.getElementById('password').value;
-        const confirmPassword = document.getElementById('confirmPassword').value;
-
-        if (password !== confirmPassword) {
-            showError('passwordError', 'Passwords do not match');
-            return false; // Prevent form submission
+    <script>
+        function confirmGoogleLink() {
+            return confirm("Linking to Google will replace your current account information with your Google account details. Do you want to proceed?");
         }
 
-        if (password.length < 8) {
-            showError('passwordError', 'Password must be at least 8 characters long');
-            return false;
+        function enableEditing() {
+            // Enable the fields for editing
+            document.getElementById('name').disabled = false;
+            document.getElementById('email').disabled = false;
+
+            // Show Submit and Cancel buttons, hide Edit button
+            document.getElementById('submitButton').style.display = 'inline';
+            document.getElementById('cancelButton').style.display = 'inline';
+            document.getElementById('editButton').style.display = 'none';
         }
 
-        return true; // Allow form submission
-    }
+        function cancelEditing() {
+            // Reset the fields to initial values and disable them
+            document.getElementById('name').value = '<%= user.name %>';
+            document.getElementById('email').value = '<%= user.email %>';
+            document.getElementById('name').disabled = true;
+            document.getElementById('email').disabled = true;
 
-    // Check for the error query parameter and show an alert if it exists
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('error') === 'missing-password') {
-        showError('passwordError', 'Please set a password before unlinking your Google account');
-    }
-
-    // show image upload preview
-    const profilePicture = document.getElementById('profilePicture');
-    const changeImage = document.querySelector('.change-image img');
-    const uploadBtn = document.querySelector('.upload-btn');
-
-    profilePicture.addEventListener('change', function() {
-        const file = this.files[0];
-
-        if (file) {
-            const reader = new FileReader();
-
-            reader.addEventListener('load', function() {
-                changeImage.src = reader.result;
-            });
-
-            reader.readAsDataURL(file);
-            uploadBtn.disabled = false;
+            // Show Edit button, hide Submit and Cancel buttons
+            document.getElementById('submitButton').style.display = 'none';
+            document.getElementById('cancelButton').style.display = 'none';
+            document.getElementById('editButton').style.display = 'inline';
         }
-    });
-</script>
+
+        function showError(containerId, message) {
+            const errorContainer = document.getElementById(containerId);
+            errorContainer.textContent = message;
+            errorContainer.classList.add('show');
+
+        }
+
+        function validatePassword() {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (password !== confirmPassword) {
+                showError('passwordError', 'Passwords do not match');
+                return false; // Prevent form submission
+            }
+
+            if (password.length < 8) {
+                showError('passwordError', 'Password must be at least 8 characters long');
+                return false;
+            }
+
+            return true; // Allow form submission
+        }
+
+        // Check for the error query parameter and show an alert if it exists
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('error') === 'missing-password') {
+            showError('passwordError', 'Please set a password before unlinking your Google account');
+        }
+
+        // show image upload preview
+        const profilePicture = document.getElementById('profilePicture');
+        const changeImage = document.querySelector('.change-image img');
+        const uploadBtn = document.querySelector('.upload-btn');
+
+        profilePicture.addEventListener('change', function () {
+            const file = this.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+
+                reader.addEventListener('load', function () {
+                    changeImage.src = reader.result;
+                });
+
+                reader.readAsDataURL(file);
+                uploadBtn.disabled = false;
+                uploadBtn.style.visibility = 'visible'; // Show the button
+            } else {
+                uploadBtn.disabled = true;
+                uploadBtn.style.visibility = 'hidden'; // Hide the button but keep layout space
+            }
+        });
+
+        // Initially hide the upload button
+        uploadBtn.style.visibility = 'hidden';
+
+
+    </script>

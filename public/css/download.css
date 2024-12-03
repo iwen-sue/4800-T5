@@ -262,15 +262,13 @@ small[data-type] {
 }
 
 .search-bar {
-    width: 80%;
+    width: 50%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 1rem;
     box-sizing: border-box;
 }
-
-
 
 /* Responsive design */
 @media (max-width: 768px) {

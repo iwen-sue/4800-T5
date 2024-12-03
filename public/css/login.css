@@ -112,6 +112,21 @@ body {
     margin-right: 10px;
 }
 
+.error-container {
+    border-radius: 8px;
+    padding: 10px;
+    margin: 10px 0;
+    color: #ff6b6b;
+    font-size: 14px;
+    text-align: center;
+    display: none;
+}
+
+.error-container.show {
+    display: block;
+    animation: fadeIn 0.3s ease-out;
+}
+
 
 @media (max-width: 768px) {
     .wrapper {
@@ -160,5 +175,17 @@ body {
     .wrapper {
         margin: 10px auto;
         padding: 15px;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }

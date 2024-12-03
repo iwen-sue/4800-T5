@@ -10,12 +10,13 @@ const path = require('path');
 
 
 // Function to get the list of texts for the user
-const listTexts = async (email) => {
+const listTexts = async ({ key, value }) => {
     const db = getDB();
 
     try {
-        // Find texts uploaded by the user
-        const texts = await db.collection('texts').find({ email }).toArray();
+        // Create dynamic query object
+        const query = { [key]: value };
+        const texts = await db.collection('texts').find(query).toArray();
         return texts;
     } catch (error) {
         console.error('Error fetching texts:', error);
@@ -51,67 +52,35 @@ const downloadFile = async (req, res) => {
     }
 };
 
-// Open a new page to preview the file content
-// const previewFile = async (req, res) => {
-//     const gfs = getGFS();
-//     const fileId = req.params.id;
-
-//     try {
-//         // Find the file by ID
-//         const file = await gfs.find({ _id: new ObjectId(fileId) }).toArray();
-//         if (!file || file.length === 0) {
-//             return res.status(404).send('File not found');
-//         }
-
-//         // Get file type
-//         const fileType = file[0].contentType;
-
-//         // Render text files directly
-//         if (fileType.startsWith("text/")) {
-//             let fileContent = '';
-//             gfs.openDownloadStream(new ObjectId(fileId))
-//                 .on('data', (chunk) => {
-//                     fileContent += chunk.toString();
-//                 })
-//                 .on('end', () => {
-//                     res.render('preview', { content: fileContent, fileType });
-//                 });
-
-//             // Display image files inline
-//         } else if (fileType.startsWith("image/")) {
-//             res.set('Content-Type', fileType);
-//             gfs.openDownloadStream(new ObjectId(fileId)).pipe(res);
-
-//             // For PDF files, display inline
-//         } else if (fileType === "application/pdf") {
-//             res.set('Content-Type', fileType);
-//             res.set('Content-Disposition', 'inline');
-//             gfs.openDownloadStream(new ObjectId(fileId)).pipe(res);
-
-//             // Unsupported types: download fallback
-//         } else {
-//             res.set('Content-Type', 'application/octet-stream');
-//             res.set('Content-Disposition', `attachment; filename="${file[0].filename}"`);
-//             gfs.openDownloadStream(new ObjectId(fileId)).pipe(res);
-//         }
-//     } catch (error) {
-//         console.error('Error previewing file:', error);
-//         res.status(500).send('Preview failed');
-//     }
-// };
+// Helper function to determine search criteria
+const getSearchCriteria = (user) => {
+    if (user._id) {
+        return { key: 'email', value: user.email };
+    } else if (user.phone) {
+        return { key: 'phone', value: user.phone };
+    }
+    return { key: 'email', value: user.email };
+};
 
 const renderDownloadPage = async (req, res) => {
     try {
-        const texts = await listTexts(req.user.email);
-        const files = await listFiles(req.user.email);
+        console.log("User info on download page:", req.user);
 
-        if (req.user._id) {
-            res.render('download', { texts, files, user: req.user });
-        } else if (req.user.phone) {
-            res.render('download', { texts, files, isGuest: true, });  // guest user token access
-        } else {
-            res.render('download', { texts, files });  // registered user token access
-        }
+        // Determine search key and value based on user type
+        const searchCriteria = getSearchCriteria(req.user);
+        
+        const texts = await listTexts(searchCriteria);
+        const files = await listFiles(searchCriteria);
+
+        // Prepare render options
+        const renderOptions = {
+            texts,
+            files,
+            ...(req.user._id ? { user: req.user } : {}),
+            ...(req.user.phone ? { isGuest: true } : {})
+        };
+
+        res.render('download', renderOptions);
 
     } catch (error) {
         console.error('Error loading content:', error);
@@ -194,14 +163,16 @@ const generateThumbnail = async (buffer, fileType) => {
 
 
 // Modify the existing listFiles function to include thumbnail URLs
-const listFiles = async (email) => {
+const listFiles = async ({ key, value }) => {
     const gfs = getGFS();
     try {
-        const files = await gfs.find({ "metadata.email": email }).toArray();
+        // Create dynamic query object for GridFS metadata
+        const query = { [`metadata.${key}`]: value };
+        const files = await gfs.find(query).toArray();
+        
         return files.map(file => ({
             ...file,
             thumbnailUrl: file.metadata.hasThumbnail ? `/thumbnail/${file._id}` : null
-            // thumbnailUrl: `/thumbnail/${file._id}`
         }));
     } catch (error) {
         console.error('Error fetching files:', error);

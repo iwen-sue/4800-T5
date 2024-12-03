@@ -11,6 +11,7 @@ const login = (req, res) => {
     res.render('login.ejs', {
         page: 'login',
         error: req.query.error,
+        navStyle: 'nav-no-blur'
     });
 };
 
@@ -47,6 +48,7 @@ const register = (req, res) => {
     res.render('register.ejs', {
         page: 'register',
         error: req.query.error,
+        navStyle: 'nav-no-blur'
     });
 };
 

@@ -43,6 +43,10 @@
       backdrop-filter: blur(100px);
     }
 
+    .nav-no-blur {
+      backdrop-filter: none;
+    }
+
     .nav-links {
       display: flex;
       align-items: center;

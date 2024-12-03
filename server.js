@@ -21,7 +21,7 @@ const MongoDBStore = require('connect-mongodb-session')(session);
 
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(express.json());
@@ -41,7 +41,7 @@ const isAuthenticated = (req, res, next) => {
 
 if (process.env.NODE_ENV === 'development') {
     const browserSync = require("browser-sync").create();
-    
+
     // Browser-Sync configuration
     browserSync.init({
         proxy: `http://localhost:${PORT}`,

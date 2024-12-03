@@ -119,15 +119,40 @@ h1 {
 }
 
 /* OCR result styling */
-.ocr-result {
-    margin-top: 20px;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.1);
+
+.ocr-result-container {
+    position: relative;
+    padding: 10px;
     border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.ocr-result {
+    width: 100%;
+    word-wrap: break-word;
+    white-space: pre-wrap;
     color: #bbdede;
-    min-height: 100px;
-    /* display: none; */
-    /* Initially hidden */
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+/* Copy icon for OCR result */
+.copy-icon {
+    position: sticky;
+    top: 10px;
+    right: 10px;
+    color: #c2efef;
+    cursor: pointer;
+    margin-left: auto;
+}
+
+.copy-icon:hover {
+    color: #007bff;
 }
 
 .ocr-result.active {

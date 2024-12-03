@@ -46,7 +46,7 @@ const uploadCombined = async (req, res) => {
     // Set expiration based on authentication status
     const expireInMs = req.user && req.user.email
         ? 7 * 24 * 60 * 60 * 1000 // 7 days for authenticated users
-        : 23 * 60 * 60 * 1000;   // 23 hours for guest users
+        : 24 * 60 * 60 * 1000 - 60 * 1000;   // 23h 59m for guest users
 
     try {
         // Process text upload if text is provided

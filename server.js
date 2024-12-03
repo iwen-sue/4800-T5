@@ -64,8 +64,8 @@ if (process.env.NODE_ENV === 'development') {
         store: dbStore,
         cookie: {
             httpOnly: true,
-            secure: false, // Set to true if using HTTPS
-            maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
+            secure: true, // Set to true if using HTTPS
+            sameSite: 'Strict', 
         }
     }));
 }
@@ -77,8 +77,8 @@ app.use(session({
     saveUninitialized: true,
     cookie: {
         httpOnly: true,
-        secure: false, // Set to true if using HTTPS
-        maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
+        secure: true, // Set to true if using HTTPS
+        sameSite: 'Strict',
     }
 }));
 

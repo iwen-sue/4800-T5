@@ -42,3 +42,22 @@ function autoResizeTextareas() {
 // Call the function on page load
 document.addEventListener('DOMContentLoaded', autoResizeTextareas);
 
+
+document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('searchInput');
+    const searchableItems = document.querySelectorAll('.searchable-item');
+
+    searchInput.addEventListener('input', () => {
+        const filter = searchInput.value.toLowerCase();
+
+        searchableItems.forEach(item => {
+            const textContent = item.textContent.toLowerCase();
+            if (textContent.includes(filter)) {
+                item.style.display = ''; // Show item
+            } else {
+                item.style.display = 'none'; // Hide item
+            }
+        });
+    });
+});
+

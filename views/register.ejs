@@ -18,8 +18,7 @@
             <input type="password" id="confirmPassword" name="confirmPassword" required>
         </div>
         
-        <div id="error-message" class="error-message"></div>
-        <br>
+<div class="error-container" id="errorContainer"></div>
         
         <button type="submit" class="btn">Register</button>
 
@@ -36,21 +35,25 @@
 </div>
 
 <script>
-    function validateForm() {
+function validateForm() {
     const password = document.getElementById('password').value;
     const confirmPassword = document.getElementById('confirmPassword').value;
-    const errorMessage = document.getElementById('error-message');
+    const errorContainer = document.getElementById('errorContainer');
     
     if (password.length < 8) {
-        errorMessage.textContent = 'Password must be at least 8 characters long';
+        showError('Password must be at least 8 characters long');
         return false;
     }
-    
     if (password !== confirmPassword) {
-        errorMessage.textContent = 'Passwords do not match';
+        showError('Passwords do not match');
         return false;
     }
-    
     return true;
+}
+
+function showError(message) {
+    const errorContainer = document.getElementById('errorContainer');
+    errorContainer.textContent = message;
+    errorContainer.classList.add('show');
 }
 </script>

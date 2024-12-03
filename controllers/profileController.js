@@ -33,30 +33,42 @@ const updateInfo = async (req, res) => {
 };
 
 const updatePassword = async (req, res) => {
-  try {
-    const db = getDB();
-    const { password, confirmPassword } = req.body;
+    try {
+        const db = getDB();
+        const { password, confirmPassword } = req.body;
+        const pc = await db.collection("passcodes").findOne({ email: req.user.email });
+        const passcode = pc ? pc.passcode : null;
 
-    if (password !== confirmPassword) {
-      return res.status(400).send("Passwords do not match");
+        if (password !== confirmPassword) {
+            return res.render("profile.ejs", {
+                user: req.user,
+                passcode,
+                error: "Passwords do not match"
+            });
+        }
+
+        if (password.length < 8) {
+            return res.render("profile.ejs", {
+                user: req.user,
+                passcode,
+                error: "Password must be at least 8 characters long"
+            });
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+        await db.collection("users").updateOne(
+            { _id: req.user._id },
+            { $set: { password: hashedPassword } }
+        );
+        
+        res.redirect("/profile");
+    } catch (error) {
+        console.error(error);
+        res.render("profile.ejs", {
+            user: req.user,
+            error: "Error updating password"
+        });
     }
-
-    if (password.length < 8) {
-      return res
-        .status(400)
-        .send("Password must be at least 8 characters long");
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-    await db
-      .collection("users")
-      .updateOne({ _id: req.user._id }, { $set: { password: hashedPassword } });
-
-    res.redirect("/profile");
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Error updating password");
-  }
 };
 
 const unlinkGoogle = async (req, res) => {

@@ -14,8 +14,25 @@
         <div></div>
     </div>
     <div class="nav-links">
-        <a href="/upload-guest" class="nav-right"><img src="/images/upload.png" alt="Upload"></a>
-        <a href="/download" class="nav-right"><img src="/images/download.png" alt="Download"></a>
+        <!-- Notice: The false value is not equal to null value here, they have different purposes -->
+        <% if (locals.isGuest === false) { %>
+            <a href="/upload" class="nav-right">
+                <img src="/images/upload.png" alt="Upload">
+                <p>Upload</p>
+            </a>
+        <% } else if (locals.isGuest === true) { %>
+            <!-- Not display upload button for people who already registered with phone-->
+        <% } else { %>
+            <!-- no isGuest field -->
+            <a href="/upload-guest" class="nav-right">
+                <img src="/images/upload.png" alt="Upload">
+                <p>Upload</p>
+            </a>
+        <% } %>
+        <a href="/download" class="nav-right">
+            <img src="/images/download.png" alt="Download">
+            <p>Download</p>
+        </a>
         <a href="/login" class="btn">Login</a>
     </div>
 </nav>

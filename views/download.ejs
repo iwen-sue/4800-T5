@@ -2,14 +2,27 @@
 <link rel="stylesheet" href="/css/download.css">
 <h1 style="margin-top: 90px;">My Uploaded Content</h1>
 
+<!-- Search Bar -->
+<!-- <div class="search-container">
+    <input type="text" id="searchInput" class="search-bar" placeholder="Search for uploaded texts or files...">
+</div> -->
+<!-- Search Bar -->
+<div class="search-container">
+    <div class="search-bar-wrapper">
+        <i class="fa fa-search search-icon"></i>
+        <input type="text" id="searchInput" class="search-bar" placeholder="Search for uploaded texts or files...">
+    </div>
+</div>
+
+
 <div class="content-container">
 
     <div class="content-section">
         <h2>Uploaded Texts</h2>
-        <ul>
+        <ul id="textsList">
             <% if (texts.length > 0) { %>
                 <% texts.forEach(text => { %>
-                    <li>
+                    <li class="searchable-item">
                         <div class="copy-container">
 
                             <!-- Text Block -->
@@ -42,10 +55,10 @@
 
     <div class="content-section">
         <h2>Uploaded Files</h2>
-        <ul class="files-list">
+        <ul id="filesList" class="files-list">
             <% if (files.length > 0) { %>
                 <% files.forEach(file => { %>
-                    <li class="file-item">
+                    <li class="file-item searchable-item">
                         <div class="file-preview">
                             <% if (file.contentType.startsWith('image/') || file.contentType === 'application/pdf') { %>
                                 <img src="/thumbnail/<%= file._id %>" alt="<%= file.filename %> thumbnail" class="file-thumbnail">
@@ -54,7 +67,6 @@
                             <% } %>
                         </div>
                         <div class="file-info">
-                            <!-- <a href="/preview/file/<%= file._id %>" class="file-link"><%= file.filename %></a> -->
                             <a href="/preview/<%= file._id %>" class="file-link"><%= file.filename %></a>
 
                             <small data-type="<%= file.metadata.category %>">
@@ -81,6 +93,4 @@
 </div>
 
 <script src="/js/download.js"></script>
-    
-
-
+<!-- <script src="/js/search.js"></script> -->

@@ -162,7 +162,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     
             if (uploadResponse.redirected) {
-                window.location.href = uploadResponse.url;
+                // window.location.href = uploadResponse.url;
+                window.location.href = '/'
             }
         } catch (error) {
             console.error('Error:', error);

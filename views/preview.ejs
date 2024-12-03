@@ -28,7 +28,7 @@
 
 
 <!-- OCR Button and Result -->
-<div class="ocr-container">
+<!-- <div class="ocr-container">
     <button id="ocrButton" 
             class="ocr-button preview-button"
             data-file-id="<%= fileId %>" 
@@ -36,7 +36,21 @@
         Extract Text
     </button>
     <div id="ocrResult" class="ocr-result"></div>
+</div> -->
+<!-- OCR Button and Result -->
+<div class="ocr-container">
+    <button id="ocrButton" 
+            class="ocr-button preview-button"
+            data-file-id="<%= fileId %>" 
+            data-file-type="<%= fileType %>">
+        Extract Text
+    </button>
+    <div id="ocrResultContainer" class="ocr-result-container">
+        <i class="fa fa-copy copy-icon" data-copy=""></i>
+        <div id="ocrResult" class="ocr-result"></div>
+    </div>
 </div>
+
 
 <!-- Include the external JavaScript file -->
 <script src="/js/preview.js"></script>

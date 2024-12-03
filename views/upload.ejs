@@ -14,7 +14,7 @@
 
 <div class="upload-container">
     <!-- Form to upload text -->
-    <form action="<%= isGuest ? '/upload-guest/combined' : '/upload/combined' %>" method="POST" enctype="multipart/form-data" id="combined-upload-form">
+    <form action="/upload/combined" method="POST" enctype="multipart/form-data" id="combined-upload-form">
         <textarea name="text" placeholder="Enter description (optional)" rows="5"></textarea>
         <div id="drop-zone">
             <p>Drag files here or click to upload</p>

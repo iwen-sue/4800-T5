@@ -12,7 +12,6 @@ const uploadCombined = async (req, res) => {
 
     const { text, phoneNumber } = req.body; // Retrieve text and phone number
     const files = req.files; // Retrieve files
-
     const isGuest = !req.user;
 
     try {
@@ -33,7 +32,7 @@ const uploadCombined = async (req, res) => {
         return res.redirect(`${isGuest ? '/upload-guest' : '/upload'}?errorMessage=Error generating or verifying passcode.`);
     }
 
-    
+
      // Server-side validation
      if (files && files.length > MAX_FILES) {
         return res.redirect(`${isGuest ? '/upload-guest' : '/upload'}?errorMessage=Maximum ${MAX_FILES} files allowed.`);

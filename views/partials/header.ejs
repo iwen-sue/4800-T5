@@ -18,9 +18,18 @@
 
         <% if (locals.user) { %>
             <div class="nav-links">
-                <a href="/profile" class="nav-right"><img src="/images/person.png" alt="Profile"></a>
-                <a href="/upload" class="nav-right"><img src="/images/upload.png" alt="Upload"></a>
-                <a href="/download" class="nav-right"><img src="/images/download.png" alt="Download"></a>
+                <a href="/profile" class="nav-right">
+                    <img src="/images/person.png" alt="Profile">
+                    <p>Profile</p>
+                </a>
+                <a href="/upload" class="nav-right">
+                    <img src="/images/upload.png" alt="Upload">
+                    <p>Upload</p>
+                </a>
+                <a href="/download" class="nav-right">
+                    <img src="/images/download.png" alt="Download">
+                    <p>Download</p>
+                </a>
                 <a href="/logout" class="btn">Logout</a>
             </div>
             <div class="login-status">Logged in as <%= locals.user.email %></div>
@@ -33,8 +42,14 @@
             
         <% } else if (locals.page !== 'login' && locals.page !== 'register') { %>
             <div class="nav-links">
-                <a href="/upload" class="nav-right"><img src="/images/upload.png" alt="Upload"></a>
-                <a href="/download" class="nav-right"><img src="/images/download.png" alt="Download"></a>
+                <a href="/upload" class="nav-right">
+                    <img src="/images/upload.png" alt="Upload">
+                    <p>Upload</p>
+                </a>
+                <a href="/download" class="nav-right">
+                    <img src="/images/download.png" alt="Download">
+                    <p>Download</p>
+                </a>
                 <a href="/login" class="btn">Login</a>
             </div>
             <div class="login-status">Not logged in</div>

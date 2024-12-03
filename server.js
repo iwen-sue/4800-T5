@@ -98,15 +98,50 @@ connectDB().then(() => {
 
 // Routes
 app.get('/', (req, res) => {
+    // redirect to download page if user is signed in
     if (req.isAuthenticated()) {
         res.redirect('/download');
         return;
     }
+
+    // check if token is present in cookies, for jwt access
+    const token = req.cookies.token;
+    if (token) {
+        jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+            if (err) return;
+            req.user = decoded;
+        });
+    }
+
+    if (req.user) {
+        
+        if (req.user.email) {
+            // registered user token access
+            res.render("index", {
+                isLandingPage: true,
+                hideFooter: true,
+                isGuest: false,
+            });
+            return;
+        } else {
+           // guest token access
+           res.render("index", {
+               isLandingPage: true,
+               hideFooter: true,
+               isGuest: true,
+           });
+           return;
+       }
+    }
+
+    // render landing page for unauthenticated users
     res.render("index", {
         isLandingPage: true,
         hideFooter: true,
     });
+
 });
+
 // Auth routes
 app.get('/login', authController.login);
 app.post('/login', authController.loginPost);

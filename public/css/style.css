@@ -50,16 +50,26 @@
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 20px;
+      gap: 30px;
     }
+
+    .nav-links p {
+      font-size: 1rem;
+      margin-bottom: 0px;
+    }
+
     .nav-right {
       display: flex;
       align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      color: #bbdede;
     }
 
     .nav-right img {
-      width: 50px;
-      height: 50px;
+      height: 30px;
+      /* maintain aspect ratio */
+      width: auto;
       cursor: pointer;
       padding-left: -20px;
     }
@@ -174,7 +184,7 @@
         /* Smaller font size for mobile */
         line-height: 1.4;
       }
-  
+
       .nav-links {
         display: none;
         /* Hide navigation links by default */
@@ -188,6 +198,7 @@
         padding: 10px;
         border-radius: 10px 0 0 10px;
         z-index: 1000;
+        align-items: flex-start;
       }
   
       .nav-links.active {
@@ -218,8 +229,7 @@
         width: 80%;
         text-align: center;
         padding: 8px 16px;
-
-          font-size: 14px;
+        font-size: 14px;
       }
   
       nav .btn {

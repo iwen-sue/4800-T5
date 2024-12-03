@@ -104,7 +104,7 @@ app.get('/', (req, res) => {
         return;
     }
 
-    // check if token is present in cookies, for jwt access
+    // check if token is present in cookies, for jwt access re-entering the landing page
     const token = req.cookies.token;
     if (token) {
         jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
@@ -114,7 +114,6 @@ app.get('/', (req, res) => {
     }
 
     if (req.user) {
-        
         if (req.user.email) {
             // registered user token access
             res.render("index", {

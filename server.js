@@ -33,6 +33,7 @@ app.set('layout', 'layouts/main');
 
 const isAuthenticated = (req, res, next) => {
     if (req.isAuthenticated()) {
+        console.log('Authentication status:', req.isAuthenticated());
         return next();
     }
     res.redirect('/login');
@@ -139,7 +140,7 @@ app.post("/profile/upload", isAuthenticated, upload.single("profilePicture"), pr
 app.post('/generatePasscode', isAuthenticated, passcodeController.generatePasscode);
 app.post('/verifyPasscode', passcodeController.verifyPasscode);
 app.post('/generatePasscodeSMS', passcodeController.generatePasscodeSMS);
-
+app.get('/checkPasscode', isAuthenticated, passcodeController.checkPasscode);
 
 // Upload routes
 app.get('/upload', conditionalAuth, uploadController.renderUploadPage);

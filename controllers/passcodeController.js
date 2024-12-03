@@ -48,6 +48,8 @@ const generatePasscode = async (req, res) => {
       passcode: passcode,
       createdAt: new Date(),
     });
+    
+    
   } catch (err) {
     res.status(500).send({ error: err.message });
     return;
@@ -84,8 +86,31 @@ const verifyPasscode = async (req, res) => {
 };
 
 
+const checkPasscode = async (req, res) => {
+  try {
+      const db = getDB();
+      const existingPasscode = await db.collection('passcodes').findOne({
+          email: req.user.email, // Check by user email
+      });
+
+      if (existingPasscode) {
+          return res.json({
+              passcode: existingPasscode.passcode,
+          });
+      }
+
+      // No passcode exists
+      return res.json({ passcode: null });
+  } catch (error) {
+      console.error('Error checking passcode:', error);
+      res.status(500).json({ error: 'Could not check passcode' });
+  }
+};
+
+
 module.exports = {
   generatePasscode,
   generatePasscodeSMS,
   verifyPasscode,
+  checkPasscode,
 };

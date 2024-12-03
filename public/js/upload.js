@@ -116,13 +116,58 @@ document.addEventListener('DOMContentLoaded', () => {
         
     }
 
-     // Prevent form submission if no text or file is provided
-     form.addEventListener('submit', (e) => {
-        const textValue = textArea.value.trim(); // Get trimmed text value
-        if (selectedFiles.length === 0 && textValue === '') {
-            e.preventDefault(); // Prevent form submission
-            alert('Please provide a description or upload at least one file before submitting.');
+    // Check or generate passcode
+    async function checkAndGeneratePasscode() {
+        try {
+            const response = await fetch('/checkPasscode', { method: 'GET', headers: { 'Content-Type': 'application/json' } });
+            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+            const data = await response.json();
+            if (data.passcode) {
+                alert(`You already have a passcode: ${data.passcode}`);
+                return data.passcode;
+            } else {
+                const generateResponse = await fetch('/generatePasscode', { method: 'POST', headers: { 'Content-Type': 'application/json' } });
+                if (!generateResponse.ok) throw new Error(`HTTP error! Status: ${generateResponse.status}`);
+                const generateData = await generateResponse.json();
+                alert(`New passcode generated: ${generateData.passcode}`);
+                return generateData.passcode;
+            }
+        } catch (error) {
+            console.error('Error during passcode handling:', error);
+            alert('Could not generate or retrieve passcode. Please try again.');
+            return null;
         }
+    }
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const textValue = textArea.value.trim();
+
+        if (selectedFiles.length === 0 && textValue === '') {
+            e.preventDefault();
+            alert('Please provide a description or upload at least one file before submitting.');
+            return; 
+        }
+
+        try {
+            // Ensure passcode exists before proceeding
+            const passcode = await checkAndGeneratePasscode();
+            if (!passcode) return;
+
+            // Submit the form after passcode verification
+            const formData = new FormData(form);
+            const uploadResponse = await fetch(form.action, { method: 'POST', body: formData });
+            if (uploadResponse.redirected) {
+                window.location.href = uploadResponse.url; // Redirect based on server response
+            } else {
+                alert('Upload failed. Please try again.');
+            }
+        } catch (error) {
+            console.error('Submission error:', error);
+            alert('Upload failed. Please try again.');
+        }
+
+
     });
 
 });

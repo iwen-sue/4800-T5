@@ -15,6 +15,25 @@ const uploadCombined = async (req, res) => {
 
     const isGuest = !req.user;
 
+    try {
+        const existingPasscode = await db.collection('passcodes').findOne({
+            ...(isGuest ? { phone: phoneNumber } : { email: req.user.email }),
+        });
+
+        if (!existingPasscode) {
+            const passcode = generatePasscode(); // Assuming this function generates a passcode
+            await db.collection('passcodes').insertOne({
+                ...(isGuest ? { phone: phoneNumber } : { email: req.user.email }),
+                passcode,
+                createdAt: new Date(),
+            });
+        }
+    } catch (error) {
+        console.error('Error handling passcode:', error);
+        return res.redirect(`${isGuest ? '/upload-guest' : '/upload'}?errorMessage=Error generating or verifying passcode.`);
+    }
+
+    
      // Server-side validation
      if (files && files.length > MAX_FILES) {
         return res.redirect(`${isGuest ? '/upload-guest' : '/upload'}?errorMessage=Maximum ${MAX_FILES} files allowed.`);

@@ -18,19 +18,10 @@ const ocrController = require('./controllers/ocrController');
 const conditionalAuth = require('./middleware/authMiddleware');
 const cookieParser = require('cookie-parser');
 const MongoDBStore = require('connect-mongodb-session')(session);
-// const browserSync = require("browser-sync").create();
 
 
 const app = express();
 const PORT = 3000;
-
-// Browser-Sync configuration
-// browserSync.init({
-//     proxy: `http://localhost:${PORT}`,
-//     files: ["views/**/*.ejs", "public/**/*.{css,js}"],
-//     port: 4000,
-//     open: false,
-// });
 
 // Middleware
 app.use(express.json());
@@ -48,17 +39,40 @@ const isAuthenticated = (req, res, next) => {
     res.redirect('/login');
 };
 
-const dbStore = new MongoDBStore({
-    uri: 'mongodb://127.0.0.1:27017/connect_mongodb_session_test',
-    collection: 'mySessions'
-});
+if (process.env.NODE_ENV === 'development') {
+    const browserSync = require("browser-sync").create();
+    
+    // Browser-Sync configuration
+    browserSync.init({
+        proxy: `http://localhost:${PORT}`,
+        files: ["views/**/*.ejs", "public/**/*.{css,js}"],
+        port: 4000,
+        open: false,
+    });
+    const dbStore = new MongoDBStore({
+        uri: 'mongodb://127.0.0.1:27017/connect_mongodb_session_test',
+        collection: 'mySessions'
+    });
+
+    // Session configuration
+    app.use(session({
+        secret: process.env.SESSION_SECRET,
+        resave: false,
+        saveUninitialized: true,
+        store: dbStore,
+        cookie: {
+            httpOnly: true,
+            secure: false, // Set to true if using HTTPS
+            maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
+        }
+    }));
+}
 
 // Session configuration
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
-    store: dbStore,
     cookie: {
         httpOnly: true,
         secure: false, // Set to true if using HTTPS

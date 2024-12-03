@@ -177,7 +177,23 @@ hr {
     margin: 50px 0;
     border: 0;
     border-top: 0.5px solid rgba(239, 239, 239, 0.3);
-  }
+    }
+
+.error-container {
+    border-radius: 8px;
+    padding-top: 10px;
+    padding-bottom: 0;
+    color: #ff6b6b;
+    font-size: 16px;
+    text-align: center;
+    display: none;
+}
+
+.error-container.show {
+    display: block;
+    animation: fadeIn 0.3s ease-out;
+}
+
 
 @media (max-width: 600px) {
     .wrapper {
@@ -192,5 +208,18 @@ hr {
 
     button {
         font-size: 14px;
+    }
+}
+
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }

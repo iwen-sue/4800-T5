@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/iwen-sue/4800-T5#readme",
   "engines": {
-    "node": "16.x"
+    "node": "21.x"
   },
   "dependencies": {
     "aws-sdk": "^2.1692.0",

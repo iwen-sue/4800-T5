@@ -18,19 +18,19 @@ const ocrController = require('./controllers/ocrController');
 const conditionalAuth = require('./middleware/authMiddleware');
 const cookieParser = require('cookie-parser');
 const MongoDBStore = require('connect-mongodb-session')(session);
-const browserSync = require("browser-sync").create();
+// const browserSync = require("browser-sync").create();
 
 
 const app = express();
 const PORT = 3000;
 
 // Browser-Sync configuration
-browserSync.init({
-    proxy: `http://localhost:${PORT}`, // Proxy server
-    files: ["views/**/*.ejs", "public/**/*.{css,js}"],
-    port: 4000, // See the live changes on port 4000
-    open: false, // Prevent browser auto-opening
-});
+// browserSync.init({
+//     proxy: `http://localhost:${PORT}`,
+//     files: ["views/**/*.ejs", "public/**/*.{css,js}"],
+//     port: 4000,
+//     open: false,
+// });
 
 // Middleware
 app.use(express.json());

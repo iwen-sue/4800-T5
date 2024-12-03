@@ -27,6 +27,7 @@ const loginPost = (req, res, next) => {
             return res.render("login", {
                 page: "login",
                 error: "Invalid email or password",
+                navStyle: 'nav-no-blur'
             });
         }
     req.logIn(user, (err) => {
@@ -34,6 +35,7 @@ const loginPost = (req, res, next) => {
             return res.render('login', {
             page: 'login',
             error: 'An error occurred during login',
+            navStyle: 'nav-no-blur'
             });
         }
         return res.redirect('/download');
@@ -62,6 +64,7 @@ const registerPost = async (req, res) => {
         return res.render('register', {
             page: 'register',
             error: 'All fields are required',
+            navStyle: 'nav-no-blur'
         });
     }
 
@@ -69,6 +72,7 @@ const registerPost = async (req, res) => {
         return res.render('register', {
             page: 'register',
             error: 'Invalid email format',
+            navStyle: 'nav-no-blur'
         });
         }
 
@@ -76,6 +80,7 @@ const registerPost = async (req, res) => {
         return res.render('register', {
             page: 'register',
             error: 'Passwords do not match',
+            navStyle: 'nav-no-blur'
         });
     }
 
@@ -83,6 +88,7 @@ const registerPost = async (req, res) => {
         return res.render('egister', {
             page: 'register',
             error: 'Password must be at least 8 characters long',
+            navStyle: 'nav-no-blur'
         });
     }
 
@@ -94,6 +100,7 @@ const registerPost = async (req, res) => {
         return res.render("register", {
             page: "register",
             error: "Email already registered",
+            navStyle: 'nav-no-blur'
         });
         }
 
@@ -112,6 +119,7 @@ const registerPost = async (req, res) => {
     res.render("register", {
         page: "register",
         error: "An error occurred during registration",
+        navStyle: 'nav-no-blur'
         });
     }
 };

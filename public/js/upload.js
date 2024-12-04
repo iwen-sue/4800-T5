@@ -50,7 +50,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const validationErrors = validateFiles(files);
 
         if (validationErrors.length > 0) {
-            alert(validationErrors.join('\n'));
+            Swal.fire({
+                icon: 'error',
+                title: 'File Validation Error',
+                html: validationErrors.join('<br>')
+            });
             return;
         }
 
@@ -72,7 +76,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const validationErrors = validateFiles(files);
         
         if (validationErrors.length > 0) {
-            alert(validationErrors.join('\n'));
+            Swal.fire({
+                icon: 'error',
+                title: 'File Validation Error',
+                html: validationErrors.join('<br>')
+            });
             e.target.value = ''; // Clear the file input
             return;
         }
@@ -123,18 +131,30 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
             const data = await response.json();
             if (data.passcode) {
-                alert(`You already have a passcode: ${data.passcode}`);
+                await Swal.fire({
+                    icon: 'info',
+                    title: 'Passcode Found',
+                    text: `You already have a passcode: ${data.passcode}`
+                });
                 return data.passcode;
             } else {
                 const generateResponse = await fetch('/generatePasscode', { method: 'POST', headers: { 'Content-Type': 'application/json' } });
                 if (!generateResponse.ok) throw new Error(`HTTP error! Status: ${generateResponse.status}`);
                 const generateData = await generateResponse.json();
-                alert(`New passcode generated: ${generateData.passcode}`);
+                await Swal.fire({
+                    icon: 'success',
+                    title: 'Passcode Generated',
+                    text: `New passcode generated: ${generateData.passcode}`
+                });
                 return generateData.passcode;
             }
         } catch (error) {
             console.error('Error during passcode handling:', error);
-            alert('Could not generate or retrieve passcode. Please try again.');
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Could not generate or retrieve passcode. Please try again.'
+            });
             return null;
         }
     }
@@ -144,8 +164,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const textValue = textArea.value.trim();
 
         if (selectedFiles.length === 0 && textValue === '') {
-            e.preventDefault();
-            alert('Please provide a description or upload at least one file before submitting.');
+            await Swal.fire({
+                icon: 'warning',
+                title: 'Empty Submission',
+                text: 'Please provide a description or upload at least one file before submitting.'
+            });
             return; 
         }
 
@@ -160,11 +183,19 @@ document.addEventListener('DOMContentLoaded', () => {
             if (uploadResponse.redirected) {
                 window.location.href = uploadResponse.url; // Redirect based on server response
             } else {
-                alert('Upload failed. Please try again.');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Upload Failed',
+                    text: 'Upload failed. Please try again.'
+                });
             }
         } catch (error) {
             console.error('Submission error:', error);
-            alert('Upload failed. Please try again.');
+            Swal.fire({
+                icon: 'error',
+                title: 'Upload Error',
+                text: 'Upload failed. Please try again.'
+            });
         }
 
 

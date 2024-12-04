@@ -21,18 +21,39 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (response.ok) {
                     console.log('Success:', result.message);
                     isValid = true;
+
+                    await Swal.fire({
+                        icon: 'success',
+                        title: 'Token Verified',
+                        text: result.message,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+
                     setTimeout(() => {
-                        window.location.href = result.redirectUrl;  // pretend loading...
-                    }, 500)
+                        window.location.href = result.redirectUrl;
+                    }, 500);
                 } else {
                     console.error('Error:', result.error);
+
+                    await Swal.fire({
+                        icon: 'error',
+                        title: 'Verification Failed',
+                        text: result.error || 'Invalid Token. Please try again.',
+                    });
+
                     isValid = false;
                 }
             } catch (error) {
                 console.error('Error:', error);
-                alert('An unexpected error occurred. Please try again later.');
+
+                await Swal.fire({
+                    icon: 'error',
+                    title: 'Unexpected Error',
+                    text: 'An unexpected error occurred. Please try again later.',
+                });
             }
-            
+
             if (isValid) {
                 otpContainer.classList.remove('error');
                 otpContainer.classList.add('success');

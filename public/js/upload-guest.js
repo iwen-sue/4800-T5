@@ -39,12 +39,16 @@ document.addEventListener('DOMContentLoaded', () => {
         fileInput.click();
     });
 
-    fileInput.addEventListener('change', () => {
+    fileInput.addEventListener('change', (e) => {
         const files = Array.from(fileInput.files);
         const validationErrors = validateFiles(files);
 
         if (validationErrors.length > 0) {
-            alert(validationErrors.join('\n'));
+            Swal.fire({
+                icon: 'error',
+                title: 'File Validation Error',
+                html: validationErrors.join('<br>')
+            });
             e.target.value = ''; // Clear the file input
             return;
         }
@@ -69,7 +73,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const validationErrors = validateFiles(files);
 
         if (validationErrors.length > 0) {
-            alert(validationErrors.join('\n'));
+            Swal.fire({
+                icon: 'error',
+                title: 'File Validation Error',
+                html: validationErrors.join('<br>')
+            });
             return;
         }
 
@@ -121,7 +129,11 @@ document.addEventListener('DOMContentLoaded', () => {
         // Prevent submission if both text and files are empty
         if (selectedFiles.length === 0 && textValue === '') {
             e.preventDefault();
-            alert('Please provide a description or upload at least one file before submitting.');
+            Swal.fire({
+                icon: 'warning',
+                title: 'Empty Submission',
+                text: 'Please provide a description or upload at least one file before submitting.'
+            });
             return;
         }
 
@@ -149,7 +161,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await smsResponse.json();
             
             if (!smsResponse.ok) {
-                phoneError.textContent = data.error || 'Failed to send SMS';
+                Swal.fire({
+                    icon: 'error',
+                    title: 'SMS Error',
+                    text: data.error || 'Failed to send SMS'
+                });
                 return;
             }
             
@@ -162,12 +178,22 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     
             if (uploadResponse.redirected) {
-                // window.location.href = uploadResponse.url;
-                window.location.href = '/'
+                window.location.href = uploadResponse.url;
+                // window.location.href = '/'
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Upload Failed',
+                    text: 'Could not complete the upload. Please try again.'
+                });
             }
         } catch (error) {
             console.error('Error:', error);
-            phoneError.textContent = 'Upload failed. Please try again.';
+            Swal.fire({
+                icon: 'error',
+                title: 'Submission Error',
+                text: 'Upload failed. Please try again.'
+            });
         }
     });
 

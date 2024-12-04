@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             title: 'Token Verified',
                             text: result.message,
                             showConfirmButton: false,
-                            timer: 1500
+                            timer: 2500
                         });
                         statusMessage.textContent = '';
                         window.location.href = result.redirectUrl;

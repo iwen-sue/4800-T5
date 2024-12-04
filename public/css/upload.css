@@ -14,10 +14,10 @@ h1 {
     text-align: center;
     font-size: 2.5rem;
     margin-bottom: 2rem;
-    background: linear-gradient(to right, #185a9d, #43c6ac);
+    background: #bbdede;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    -webkit-text-stroke: 1px #bbdede;
+    /* -webkit-text-stroke: 1px #bbdede; */
 }
 
 .upload-container {

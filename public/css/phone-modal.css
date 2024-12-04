@@ -32,7 +32,6 @@
     background: linear-gradient(to right, #185a9d, #43c6ac);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    -webkit-text-stroke: 1px #bbdede;
 }
 
 .modal-content p {

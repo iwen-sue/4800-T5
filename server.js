@@ -64,8 +64,8 @@ if (process.env.NODE_ENV === 'development') {
         store: dbStore,
         cookie: {
             httpOnly: true,
-            secure: true, // Set to true if using HTTPS
-            sameSite: 'Strict', 
+            secure: false, // Set to true if using HTTPS
+            // sameSite: 'Strict', 
         }
     }));
 }
@@ -78,7 +78,7 @@ app.use(session({
     cookie: {
         httpOnly: true,
         secure: true, // Set to true if using HTTPS
-        sameSite: 'Strict',
+        // sameSite: 'Strict',
     }
 }));
 

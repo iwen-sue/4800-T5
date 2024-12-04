@@ -177,7 +177,7 @@ app.post("/profile/upload", isAuthenticated, upload.single("profilePicture"), pr
 app.post('/generatePasscode', isAuthenticated, passcodeController.generatePasscode);
 app.post('/verifyPasscode', passcodeController.verifyPasscode);
 app.post('/generatePasscodeSMS', passcodeController.generatePasscodeSMS);
-app.get('/checkPasscode', isAuthenticated, passcodeController.checkPasscode);
+app.get('/checkPasscode', conditionalAuth, passcodeController.checkPasscode);
 
 // Upload routes
 app.get('/upload', conditionalAuth, uploadController.renderUploadPage);

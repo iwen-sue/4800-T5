@@ -23,15 +23,14 @@ h1 {
 .upload-container {
     max-width: 800px;
     margin: 0 auto;
-    padding: 30px 40px;
     backdrop-filter: blur(20px);
     border: 2px solid rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
+    border-radius: 12px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
 
 form {
-    margin-bottom: 2rem;
+    margin: 5px;
     padding: 1.5rem;
     background: rgba(123, 145, 194, 0.1);
     border-radius: 10px;
@@ -115,7 +114,11 @@ button:hover {
 @media (max-width: 768px) {
     .upload-container {
         margin: 1rem;
-        padding: 1rem;
+        padding: 0;
+    }
+
+    form {
+        margin: 0;
     }
 
     h1 {

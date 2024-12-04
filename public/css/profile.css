@@ -29,7 +29,6 @@ h1 {
 .profile-picture {
     padding: 0px 20px;
     text-align: center;
-    margin-bottom: 30px;
 }
 
 .profile-picture img {
@@ -235,6 +234,8 @@ hr {
 @media (max-width: 600px) {
     .wrapper {
         padding: 10px;
+        border: none;
+        box-shadow: none;
     }
 
     input[type="text"],

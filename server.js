@@ -66,7 +66,7 @@ if (process.env.NODE_ENV === 'development') {
         cookie: {
             httpOnly: true,
             secure: false, // Set to true if using HTTPS
-            maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
+            // maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
             // sameSite: 'Strict', 
         }
     }));
@@ -80,7 +80,7 @@ app.use(session({
     cookie: {
         httpOnly: true,
         secure: false, // Set to true if using HTTPS
-        maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
+        // maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
         // sameSite: 'Strict',
     }
 }));

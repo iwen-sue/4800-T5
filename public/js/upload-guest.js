@@ -203,8 +203,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     
             if (uploadResponse.redirected) {
-                window.location.href = uploadResponse.url;
-                // window.location.href = '/'
+                // window.location.href = uploadResponse.url;
+                window.location.href = '/'
             } else {
                 Swal.fire({
                     icon: 'error',

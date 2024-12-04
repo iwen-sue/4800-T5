@@ -1,20 +1,12 @@
 <%- contentFor('body') %>
-    <link rel="stylesheet" href="/css/upload.css">
-    <link rel="stylesheet" href="/css/phone-modal.css">
-    <h1 style="margin-top: 100px;">Send Content</h1>
-    <!-- Success and error messages -->
-    <div class="messages">
-        <% if (successMessage) { %>
-            <div class="alert success">
-                <%= successMessage %>
-            </div>
-            <% } %>
-                <% if (errorMessage) { %>
-                    <div class="alert error">
-                        <%= errorMessage %>
-                    </div>
-                    <% } %>
-    </div>
+<link rel="stylesheet" href="/css/upload.css">
+<link rel="stylesheet" href="/css/phone-modal.css">
+<h1 style="margin-top: 100px;">Send Content</h1>
+<!-- Wrapper with data attributes for messages -->
+<div id="messages-container"
+    data-success-message="<%= successMessage || '' %>"
+    data-error-message="<%= errorMessage || '' %>">
+</div>
     <div class="upload-container">
 
         <form action="/upload-guest/combined" method="POST" enctype="multipart/form-data" id="combined-upload-form">

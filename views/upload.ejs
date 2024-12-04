@@ -2,14 +2,10 @@
 <link rel="stylesheet" href="/css/upload.css">
 <h1 style="margin-top: 100px;">Send Content</h1>
 
-<!-- Success and error messages -->
-<div class="messages">
-    <% if (successMessage) { %>
-        <div class="alert success"><%= successMessage %></div>
-    <% } %>
-    <% if (errorMessage) { %>
-        <div class="alert error"><%= errorMessage %></div>
-    <% } %>
+<!-- Wrapper with data attributes for messages -->
+<div id="messages-container"
+    data-success-message="<%= successMessage || '' %>"
+    data-error-message="<%= errorMessage || '' %>">
 </div>
 
 <div class="upload-container">

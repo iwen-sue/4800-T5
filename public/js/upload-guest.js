@@ -1,4 +1,29 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const messagesContainer = document.getElementById('messages-container');
+    const successMessage = messagesContainer.dataset.successMessage;
+    const errorMessage = messagesContainer.dataset.errorMessage;
+
+    // Display SweetAlert2 dialogs for success or error messages
+    if (successMessage) {
+        Swal.fire({
+            // position: 'top-end',
+            icon: 'success',
+            title: successMessage,
+            showConfirmButton: false,
+            timer: 2500
+        });
+    }
+
+    if (errorMessage) {
+        Swal.fire({
+            // position: 'top-end',
+            icon: 'error',
+            title: errorMessage,
+            showConfirmButton: false,
+            timer: 2500
+        });
+    }
+
     const dropZone = document.getElementById('drop-zone');
     const fileInput = document.getElementById('file-input');
     const selectFileButton = document.getElementById('select-file-button');

@@ -1,0 +1,87 @@
+/* alert.css */
+
+/* Global styling */
+/* Modal background */
+.swal2-popup {
+    background: linear-gradient(145deg, #202c47, #243855); /* Gradient background */
+    border-radius: 15px; /* Rounded corners */
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3); /* Shadow */
+    padding: 20px; /* Spacing */
+    color: #e0e6ed; /* Light text color */
+}
+
+/* Title styling */
+.swal2-title {
+    font-family: 'Poppins', sans-serif; /* Modern font */
+    font-size: 1.8rem; /* Larger font size */
+    font-weight: 600; /* Bold */
+    color: #9cc6ff; /* Gradient-like blue text */
+    text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); /* Subtle shadow */
+}
+
+/* Content (subtitle) styling */
+.swal2-html-container {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    color: #b3c2d1; /* Light gray text */
+    margin-bottom: 20px;
+}
+
+/* Input field styling */
+.swal2-input {
+    background-color: #1c2b41; /* Dark background */
+    color: #ffffff; /* White text */
+    border: 1px solid #3b4b65; /* Subtle border */
+    border-radius: 8px; /* Rounded corners */
+    padding: 10px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+}
+
+/* Buttons container */
+.swal2-actions {
+    justify-content: space-around; /* Spaced buttons */
+    margin-top: 20px;
+}
+
+/* Confirm button (e.g., Continue) */
+.swal2-confirm {
+    background: linear-gradient(145deg, #32d3a7, #3fbca6); /* Green gradient */
+    color: white !important;
+    border-radius: 8px;
+    font-size: 1rem;
+    padding: 10px 20px;
+    font-family: 'Poppins', sans-serif;
+    transition: background-color 0.3s ease;
+}
+
+/* Confirm button hover effect */
+.swal2-confirm:hover {
+    background: linear-gradient(145deg, #2fc39e, #37a991);
+}
+
+/* Cancel button */
+.swal2-cancel {
+    background: linear-gradient(145deg, #3c78e5, #3267c1); /* Blue gradient */
+    color: white !important;
+    border-radius: 8px;
+    font-size: 1rem;
+    padding: 10px 20px;
+    font-family: 'Poppins', sans-serif;
+    transition: background-color 0.3s ease;
+}
+
+/* Cancel button hover effect */
+.swal2-cancel:hover {
+    background: linear-gradient(145deg, #3467d5, #2b58b5);
+}
+
+/* Button focus outline */
+.swal2-styled:focus {
+    box-shadow: 0 0 8px rgba(50, 203, 173, 0.8); /* Subtle focus effect */
+}
+
+
+
+
+/*Upload Page*/

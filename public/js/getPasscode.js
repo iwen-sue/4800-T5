@@ -31,14 +31,31 @@ if (generatePasscodeForm) {
 
             // Handle server response
             if (data.error) {
-                alert(`Error: ${data.error}`);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: `Error: ${data.error}`,
+                });
             } else {
-                alert(`Passcode generated: ${data.passcode}`);
-                passcode.textContent = `Your passcode is: ${data.passcode}`;
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Passcode Generated',
+                    text: `Your passcode is: ${data.passcode}`,
+                });
+                passcode.innerHTML = `<p>Your passcode is: ${data.passcode}</p>`;
             }
         } catch (error) {
             console.error('Error during passcode generation:', error);
-            alert('An unexpected error occurred. Please try again.');
+            Swal.fire({
+                icon: 'error',
+                title: 'Unexpected Error',
+                text: 'An unexpected error occurred. Please try again.',
+            });
+        } finally {
+            // Make the button visible again if needed
+            submitButton.style.display = 'block';
         }
     });
+} else {
+    console.error("Generate passcode form not found in DOM.");
 }

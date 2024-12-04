@@ -80,6 +80,7 @@ app.use(session({
     cookie: {
         httpOnly: true,
         secure: true, // Set to true if using HTTPS
+        maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
         // sameSite: 'Strict',
     }
 }));

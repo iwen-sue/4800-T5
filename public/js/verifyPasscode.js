@@ -22,15 +22,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     console.log('Success:', result.message);
                     isValid = true;
 
-                    await Swal.fire({
-                        icon: 'success',
-                        title: 'Token Verified',
-                        text: result.message,
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-
-                    setTimeout(() => {
+                    setTimeout(async () => {
+                        await Swal.fire({
+                            icon: 'success',
+                            title: 'Token Verified',
+                            text: result.message,
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        statusMessage.textContent = '';
                         window.location.href = result.redirectUrl;
                     }, 500);
                 } else {
@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (isValid) {
                 otpContainer.classList.remove('error');
                 otpContainer.classList.add('success');
-                statusMessage.textContent = 'Token Verified';
+                statusMessage.textContent = 'Verifying...';
                 statusMessage.classList.add('success-message');
                 statusMessage.classList.remove('error-message');
             } else {

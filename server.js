@@ -17,6 +17,7 @@ const previewController = require('./controllers/previewController');
 const ocrController = require('./controllers/ocrController');
 const conditionalAuth = require('./middleware/authMiddleware');
 const cookieParser = require('cookie-parser');
+const { MaxKey } = require('mongodb');
 const MongoDBStore = require('connect-mongodb-session')(session);
 
 const app = express();
@@ -65,6 +66,7 @@ if (process.env.NODE_ENV === 'development') {
         cookie: {
             httpOnly: true,
             secure: false, // Set to true if using HTTPS
+            maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
             // sameSite: 'Strict', 
         }
     }));
